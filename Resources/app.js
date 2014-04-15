@@ -1,277 +1,78 @@
-/**
- * In this example, we'll use the Barcode module to display some information about
- * the scanned barcode.
- */
-var Barcode = require('ti.barcode');
-Barcode.allowRotation = true;
-Barcode.displayedMessage = '';
-Barcode.useLED = false;
+var win = Ti.UI.createWindow({backgroundColor: 'white'});
 
-var window = Ti.UI.createWindow({
-    backgroundColor: 'white'
-});
-var scrollView = Ti.UI.createScrollView({
-    contentWidth: 'auto',
-    contentHeight: 'auto',
-    top: 0,
-    showVerticalScrollIndicator: true,
-    layout: 'vertical'
+var plainTemplate = {
+    childTemplates: [
+        {
+            type: 'Ti.UI.Label', // Use a label
+            bindId: 'rowtitle',  // Bind ID for this label
+            properties: {        // Sets the Label.left property
+                left: '10dp',
+                top: '20dp'
+            }
+        },
+        {
+            type: 'Ti.UI.ImageView',  // Use an image view
+            bindId: 'pic',            // Bind ID for this image view
+            properties: {             // Sets the ImageView.image property
+            	image: 'KS_nav_ui.png',
+            	top: '20dp'
+            }
+        },                    
+        {
+            type: 'Ti.UI.Button',   // Use a button
+            bindId: 'button',       // Bind ID for this button
+            properties: {           // Sets several button properties
+                width: '80dp',
+                height: '30dp',                        	
+                right: '10dp',
+                top: '20dp',
+                title: 'press me'
+            },
+            events: { click : report }  // Binds a callback to the button's click event
+        }
+    ]
+};
+
+function report(e) {
+	Ti.API.info(e.type);
+}
+
+var listView = Ti.UI.createListView({
+    // Maps the plainTemplate object to the 'plain' style name
+    templates: { 'plain': plainTemplate },
+    // Use the plain template, that is, the plainTemplate object defined earlier
+    // for all data list items in this list view
+    defaultItemTemplate: 'plain'               
 });
 
-/**
- * Create a chrome for the barcode scanner.
- */
-var overlay = Ti.UI.createView({
-    backgroundColor: 'transparent',
-    top: 0, right: 0, bottom: 0, left: 0
-});
-var switchButton = Ti.UI.createButton({
-    title: Barcode.useFrontCamera ? 'Back Camera' : 'Front Camera',
-    textAlign: 'center',
-    color: '#000', backgroundColor: '#fff', style: 0,
-    font: { fontWeight: 'bold', fontSize: 16 },
-    borderColor: '#000', borderRadius: 10, borderWidth: 1,
-    opacity: 0.5,
-    width: 220, height: 30,
-    bottom: 10
-});
-switchButton.addEventListener('click', function () {
-    Barcode.useFrontCamera = !Barcode.useFrontCamera;
-    switchButton.title = Barcode.useFrontCamera ? 'Back Camera' : 'Front Camera';
-});
-overlay.add(switchButton);
-
-var toggleLEDButton = Ti.UI.createButton({
-    title: Barcode.useLED ? 'LED is On' : 'LED is Off',
-    textAlign: 'center',
-    color: '#000', backgroundColor: '#fff', style: 0,
-    font: { fontWeight: 'bold', fontSize: 16 },
-    borderColor: '#000', borderRadius: 10, borderWidth: 1,
-    opacity: 0.5,
-    width: 220, height: 30,
-    bottom: 40
-});
-toggleLEDButton.addEventListener('click', function () {
-    Barcode.useLED = !Barcode.useLED;
-    toggleLEDButton.title = Barcode.useLED ? 'LED is On' : 'LED is Off';
-});
-overlay.add(toggleLEDButton);
-
-var cancelButton = Ti.UI.createButton({
-    title: 'Cancel', textAlign: 'center',
-    color: '#000', backgroundColor: '#fff', style: 0,
-    font: { fontWeight: 'bold', fontSize: 16 },
-    borderColor: '#000', borderRadius: 10, borderWidth: 1,
-    opacity: 0.5,
-    width: 220, height: 30,
-    top: 20
-});
-cancelButton.addEventListener('click', function () {
-    Barcode.cancel();
-});
-overlay.add(cancelButton);
-
-/**
- * Create a button that will trigger the barcode scanner.
- */
-var scanCode = Ti.UI.createButton({
-    title: 'Scan Code',
-    width: 200,
-    height: 60,
-    top: 20
-});
-scanCode.addEventListener('click', function () {
-    reset();
-    // Note: while the simulator will NOT show a camera stream in the simulator, you may still call "Barcode.capture"
-    // to test your barcode scanning overlay.
-    Barcode.capture({
-        animate: true,
-        overlay: overlay,
-        showCancel: false,
-        showRectangle: false,
-        keepOpen: true/*,
-        acceptedFormats: [
-            Barcode.FORMAT_QR_CODE
-        ]*/
-    });
-});
-scrollView.add(scanCode);
-
-/**
- * Create a button that will show the gallery picker.
- */
-var scanImage = Ti.UI.createButton({
-    title: 'Scan Image from Gallery',
-    width: 200, height: 60, top: 20
-});
-scanImage.addEventListener('click', function () {
-    reset();
-    Ti.Media.openPhotoGallery({
-        success: function (evt) {
-            Barcode.parse({
-                image: evt.media/*,
-                acceptedFormats: [
-                    Barcode.FORMAT_QR_CODE
-                ]*/
-            });
+var data = [];
+for (var i = 0; i < 10; i++) {
+    data.push({
+        // Maps to the rowtitle component in the template
+        // Sets the text property of the Label component
+        rowtitle : { text: 'Row ' + (i + 1) },
+        // Sets the regular list data properties
+        properties : {
+            itemId: 'row' + (i + 1),
+            accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
         }
     });
-});
-scrollView.add(scanImage);
-
-/**
- * Now listen for various events from the Barcode module. This is the module's way of communicating with us.
- */
-var scannedBarcodes = {}, scannedBarcodesCount = 0;
-function reset() {
-    scannedBarcodes = {};
-    scannedBarcodesCount = 0;
-    cancelButton.title = 'Cancel';
-
-    scanResult.text = ' ';
-    scanContentType.text = ' ';
-    scanParsed.text = ' ';
-}
-Barcode.addEventListener('error', function (e) {
-    scanContentType.text = ' ';
-    scanParsed.text = ' ';
-    scanResult.text = e.message;
-});
-Barcode.addEventListener('cancel', function (e) {
-    Ti.API.info('Cancel received');
-});
-Barcode.addEventListener('success', function (e) {
-    Ti.API.info('Success called with barcode: ' + e.result);
-    if (!scannedBarcodes['' + e.result]) {
-        scannedBarcodes[e.result] = true;
-        scannedBarcodesCount += 1;
-        cancelButton.title = 'Finished (' + scannedBarcodesCount + ' Scanned)';
-
-        scanResult.text += e.result + ' ';
-        scanContentType.text += parseContentType(e.contentType) + ' ';
-        scanParsed.text += parseResult(e) + ' ';
-    }
-});
-
-/**
- * Finally, we'll add a couple labels to the window. When the user scans a barcode, we'll stick information about it in
- * to these labels.
- */
-scrollView.add(Ti.UI.createLabel({
-    text: 'You may need to rotate the device',
-    top: 10,
-    height: Ti.UI.SIZE || 'auto', width: Ti.UI.SIZE || 'auto'
-}));
-
-scrollView.add(Ti.UI.createLabel({
-    text: 'Result: ', textAlign: 'left',
-    top: 10, left: 10,
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-}));
-var scanResult = Ti.UI.createLabel({
-    text: ' ', textAlign: 'left',
-    top: 10, left: 10,
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-});
-scrollView.add(scanResult);
-
-scrollView.add(Ti.UI.createLabel({
-    text: 'Content Type: ',
-    top: 10, left: 10,
-    textAlign: 'left',
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-}));
-var scanContentType = Ti.UI.createLabel({
-    text: ' ', textAlign: 'left',
-    top: 10, left: 10,
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-});
-scrollView.add(scanContentType);
-
-scrollView.add(Ti.UI.createLabel({
-    text: 'Parsed: ', textAlign: 'left',
-    top: 10, left: 10,
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-}));
-var scanParsed = Ti.UI.createLabel({
-    text: ' ', textAlign: 'left',
-    top: 10, left: 10,
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-});
-scrollView.add(scanParsed);
-
-function parseContentType(contentType) {
-    switch (contentType) {
-        case Barcode.URL:
-            return 'URL';
-        case Barcode.SMS:
-            return 'SMS';
-        case Barcode.TELEPHONE:
-            return 'TELEPHONE';
-        case Barcode.TEXT:
-            return 'TEXT';
-        case Barcode.CALENDAR:
-            return 'CALENDAR';
-        case Barcode.GEOLOCATION:
-            return 'GEOLOCATION';
-        case Barcode.EMAIL:
-            return 'EMAIL';
-        case Barcode.CONTACT:
-            return 'CONTACT';
-        case Barcode.BOOKMARK:
-            return 'BOOKMARK';
-        case Barcode.WIFI:
-            return 'WIFI';
-        default:
-            return 'UNKNOWN';
-    }
 }
 
-function parseResult(event) {
-    var msg = '';
-    switch (event.contentType) {
-        case Barcode.URL:
-            msg = 'URL = ' + event.result;
-            break;
-        case Barcode.SMS:
-            msg = 'SMS = ' + JSON.stringify(event.data);
-            break;
-        case Barcode.TELEPHONE:
-            msg = 'Telephone = ' + event.data.phonenumber;
-            break;
-        case Barcode.TEXT:
-            msg = 'Text = ' + event.result;
-            break;
-        case Barcode.CALENDAR:
-            msg = 'Calendar = ' + JSON.stringify(event.data);
-            break;
-        case Barcode.GEOLOCATION:
-            msg = 'Latitude = ' + event.data.latitude + '\nLongitude = ' + event.data.longitude;
-            break;
-        case Barcode.EMAIL:
-            msg = 'Email = ' + event.data.email + '\nSubject = ' + event.data.subject + '\nMessage = ' + event.data.message;
-            break;
-        case Barcode.CONTACT:
-            msg = 'Contact = ' + JSON.stringify(event.data);
-            break;
-        case Barcode.BOOKMARK:
-            msg = 'Bookmark = ' + JSON.stringify(event.data);
-            break;
-        case Barcode.WIFI:
-            return 'WIFI = ' + JSON.stringify(event.data);
-        default:
-            msg = 'unknown content type';
-            break;
-    }
-    return msg;
-}
-
-window.add(scrollView);
-window.open();
-
+var section = Ti.UI.createListSection({items: data});
+listView.sections = [section];
+listView.addEventListener('itemclick', function(e){
+    // Only respond to clicks on the label (rowtitle) or image (pic)
+    if (e.bindId == 'rowtitle' || e.bindId == 'pic') {
+        var item = e.section.getItemAt(e.itemIndex);
+        if (item.properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_NONE) {
+            item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK;
+        }
+        else {
+            item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_NONE;
+        }
+        e.section.updateItemAt(e.itemIndex, item);
+    }      
+});
+win.add(listView);
+win.open();
