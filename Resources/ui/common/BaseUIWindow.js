@@ -1,15 +1,19 @@
 /**
- * Barcode module displays some information about
+ * In this example, we'll use the Barcode module to display some information about
  * the scanned barcode.
  */
+function BaseUIWindow(title) {
+	var self = Ti.UI.createWindow({
+		title:'QR Scan',
+		backgroundColor:'white'
+	});
+	
 var Barcode = require('ti.barcode');
 Barcode.allowRotation = true;
 Barcode.displayedMessage = '';
-Barcode.useLED = false;
+Barcode.useLED = true;
 
-var window = Ti.UI.createWindow({
-    backgroundColor: 'white'
-});
+
 var scrollView = Ti.UI.createScrollView({
     contentWidth: 'auto',
     contentHeight: 'auto',
@@ -25,7 +29,6 @@ var overlay = Ti.UI.createView({
     backgroundColor: 'transparent',
     top: 0, right: 0, bottom: 0, left: 0
 });
-
 var switchButton = Ti.UI.createButton({
     title: Barcode.useFrontCamera ? 'Back Camera' : 'Front Camera',
     textAlign: 'center',
@@ -76,11 +79,9 @@ overlay.add(cancelButton);
  * Create a button that will trigger the barcode scanner.
  */
 var scanCode = Ti.UI.createButton({
-    title: 'Scan Code', textAlign : 'center',
-    borderRadius: 5, borderWidth: 1,
-    opacity: 0.5,
+    title: 'Scan Code',
     width: 200,
-    height: 50,
+    height: 60,
     top: 20
 });
 scanCode.addEventListener('click', function () {
@@ -91,8 +92,8 @@ scanCode.addEventListener('click', function () {
         animate: true,
         overlay: overlay,
         showCancel: false,
-        showRectangle: true,
-        keepOpen: false/*,
+        showRectangle: false,
+        keepOpen: true/*,
         acceptedFormats: [
             Barcode.FORMAT_QR_CODE
         ]*/
@@ -105,11 +106,7 @@ scrollView.add(scanCode);
  */
 var scanImage = Ti.UI.createButton({
     title: 'Scan Image from Gallery',
-    borderRadius: 5, borderWidth: 1,
-    opacity: 0.5,
-    width: 200,
-    height: 50,
-    top: 20
+    width: 200, height: 60, top: 20
 });
 scanImage.addEventListener('click', function () {
     reset();
@@ -279,3 +276,74 @@ function parseResult(event) {
     return msg;
 }
 
+// // add table view to the window
+	// self.add(tableview);
+// 	
+	// self.addEventListener('focus', function()
+	// {
+		// Ti.API.info('FOCUS RECEIVED IN base_ui');
+		// Ti.App.fireEvent('nav_back');
+// 		
+		// if (!(Ti.Platform.osname === 'mobileweb' || Ti.Platform.osname === 'tizen')) {
+			// Ti.API.info(Ti.dumpCoverage());
+		// }
+	// });
+	// //
+	// //  ADD EVENT LISTENERS FOR CUSTOM EVENTS
+	// //
+	// var win = Titanium.UI.createWindow({
+		// height:30,
+		// width:250,
+		// bottom:110,
+		// borderRadius:10
+	// });
+// 	
+	// var view = Titanium.UI.createView({
+		// backgroundColor:'#000',
+		// opacity:0.7,
+		// height:30,
+		// width:250,
+		// borderRadius:10
+	// });
+// 	
+	// var label = Titanium.UI.createLabel({
+		// color:'#fff',
+		// font:{fontSize:13},
+		// textAlign:'center',
+		// width:'auto',
+		// height:'auto'
+	// });
+	// win.add(view);
+	// win.add(label);
+// 	
+	// Titanium.App.addEventListener('event_one', function(e)
+	// {
+		// label.text = 'base_ui.js: event one, array length = ' + e.data.length;
+		// win.open();
+		// setTimeout(function()
+		// {
+			// win.close({opacity:0,duration:500});
+		// },1000);
+	// });
+// 	
+	// Titanium.App.addEventListener('event_two', function(e)
+	// {
+		// label.text = 'base_ui.js: event two, name = ' + e.name;
+		// win.open();
+		// setTimeout(function()
+		// {
+			// win.close({opacity:0,duration:500});
+		// },1000);
+// 	
+	// });
+// 
+// 	
+self.add(scrollView);
+ return self;
+ };
+
+module.exports = BaseUIWindow;
+
+// 
+//window.add(scrollView);
+// window.open();
