@@ -8,19 +8,10 @@ function ControlsWindow(title) {
 	var data = [
 		{title:'QR Scan', hasChild:true, test:'ui/common/BaseUIWindow'},
 		{title:'POI around', hasChild:true, test:'ui/common/controls/switch'},
-		{title:'Go to POI', hasChild:true, test:'ui/common/controls/activity_indicator'},
-		{title: 'Help', hasChild:true, test:'ui/common/controls/textarea'},
-		{title:'Download Data', hasChild:true, test:'ui/common/controls/progress_bar'}
+		{title:'Go to POI', hasChild:true, test:'ui/common/controls/searchbar'},
+		{title: 'Help', hasChild:true, test:'ui/common/controls/help'},
+		{title:'Download Data', hasChild:true, test:'ui/common/controls/downloaddata'}
 	];
-	
-
-	// add iphone specific tests
-	if (Titanium.Platform.name == 'iPhone OS') {
-		data.push({title:'Button Bar', hasChild:true, test:'ui/handheld/ios/controls/buttonbar'});
-		data.push({title:'Tabbed Bar', hasChild:true, test:'ui/handheld/ios/controls/tabbedbar'});
-		data.push({title:'System Buttons', hasChild:true, test:'ui/handheld/ios/controls/system_buttons'});
-		data.push({title:'Toolbar', hasChild:true, test:'ui/handheld/ios/controls/toolbar'});
-	};
 	
 	
 	// create table view

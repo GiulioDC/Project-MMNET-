@@ -275,69 +275,7 @@ function parseResult(event) {
     }
     return msg;
 }
-
-// // add table view to the window
-	// self.add(tableview);
-// 	
-	// self.addEventListener('focus', function()
-	// {
-		// Ti.API.info('FOCUS RECEIVED IN base_ui');
-		// Ti.App.fireEvent('nav_back');
-// 		
-		// if (!(Ti.Platform.osname === 'mobileweb' || Ti.Platform.osname === 'tizen')) {
-			// Ti.API.info(Ti.dumpCoverage());
-		// }
-	// });
-	// //
-	// //  ADD EVENT LISTENERS FOR CUSTOM EVENTS
-	// //
-	// var win = Titanium.UI.createWindow({
-		// height:30,
-		// width:250,
-		// bottom:110,
-		// borderRadius:10
-	// });
-// 	
-	// var view = Titanium.UI.createView({
-		// backgroundColor:'#000',
-		// opacity:0.7,
-		// height:30,
-		// width:250,
-		// borderRadius:10
-	// });
-// 	
-	// var label = Titanium.UI.createLabel({
-		// color:'#fff',
-		// font:{fontSize:13},
-		// textAlign:'center',
-		// width:'auto',
-		// height:'auto'
-	// });
-	// win.add(view);
-	// win.add(label);
-// 	
-	// Titanium.App.addEventListener('event_one', function(e)
-	// {
-		// label.text = 'base_ui.js: event one, array length = ' + e.data.length;
-		// win.open();
-		// setTimeout(function()
-		// {
-			// win.close({opacity:0,duration:500});
-		// },1000);
-	// });
-// 	
-	// Titanium.App.addEventListener('event_two', function(e)
-	// {
-		// label.text = 'base_ui.js: event two, name = ' + e.name;
-		// win.open();
-		// setTimeout(function()
-		// {
-			// win.close({opacity:0,duration:500});
-		// },1000);
-// 	
-	// });
-// 
-// 	
+ 	
 self.add(scrollView);
  return self;
  };
