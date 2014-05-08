@@ -6,7 +6,7 @@ function ControlsWindow(title) {
 	
 	// create table view data object
 	var data = [
-		{title:'QR Scan', hasChild:true, test:'ui/common/BaseUIWindow'},
+		{title:'QR Scan', hasChild:true, test:'ui/common/ScannerWindow'},
 		{title:'POI around', hasChild:true, test:'ui/common/controls/switch'},
 		{title:'Go to POI', hasChild:true, test:'ui/common/controls/searchbar'},
 		{title: 'Help', hasChild:true, test:'ui/common/controls/help'},

@@ -6,8 +6,11 @@ function map(_args) {
 
 var url = "http://www.gstorm.eu/dc.txt";
 
-var table = Ti.UI.createTableView();
-var tableData = [];
+var tabledata = [];
+var tableview = Titanium.UI.createTableView({
+		data:tabledata
+	});
+	
 var json, i, row, nameLabel, nickLabel;
 var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
 var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIRight, POIBehind, POIForward;
@@ -54,10 +57,10 @@ var xhr = Ti.Network.createHTTPClient({
 
 	    row.add(nameLabel);
 	    row.add(nickLabel);
-	    tableData.push(row);
+	    tabledata.push(row);
         }
 		
-	table.setData(tableData);
+	tableview.setData(tabledata);
     },
     onerror: function(e) {
 	Ti.API.debug("STATUS: " + this.status);
@@ -71,7 +74,7 @@ var xhr = Ti.Network.createHTTPClient({
 
 xhr.open("GET", url);
 xhr.send();
-win.add(table);
+win.add(tableview);
 
 	return win;
 };

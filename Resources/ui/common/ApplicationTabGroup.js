@@ -13,7 +13,7 @@ function ApplicationTabGroup() {
 	
 	var scannerTab = Ti.UI.createTab({
 		title: L('QR Scan'),
-		icon: '/images/tabs/KS_nav_ui.png',
+		icon: '/images/tableview/phone_camera.png',
 		window: scannerWin
 	});
 	scannerWin.containingTab = scannerTab;
