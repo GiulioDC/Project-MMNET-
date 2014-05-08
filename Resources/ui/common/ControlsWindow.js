@@ -10,12 +10,12 @@ function ControlsWindow(title) {
 		{title:'POI around', hasChild:true, test:'ui/common/controls/switch'},
 		{title:'Go to POI', hasChild:true, test:'ui/common/controls/searchbar'},
 		{title: 'Help', hasChild:true, test:'ui/common/controls/help'},
-		{title:'Download Data', hasChild:true, test:'ui/common/controls/downloaddata'}
+		{title:'Map', hasChild:true, test:'ui/common/controls/map'}
 	];
 	
 	
 	// create table view
-	for (var i = 0; i < data.length; i++ ) { data[i].color = '#000'; data[i].font = {fontWeight:'bold'} };
+//	for (var i = 0; i < data.length; i++ ) { data[i].color = '#000'; data[i].font = {fontWeight:'bold'} };
 	var tableview = Titanium.UI.createTableView({
 		data:data
 	});

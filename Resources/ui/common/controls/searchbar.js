@@ -12,8 +12,6 @@ function searchbar(_args) {
 	
 	win.add(search);
 	
-	// dynamically set value
-	search.value = 'foo';
 	
 	//
 	// FOCUS

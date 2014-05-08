@@ -15,24 +15,24 @@
 	var theTabGroup = new ApplicationTabGroup();
 	theTabGroup.open({transition: Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT});
 	
-	var MessageWindow = require('ui/common/MessageWindow'),
-		messageWin = new MessageWindow();
+	//var MessageWindow = require('ui/common/MessageWindow'),
+		//messageWin = new MessageWindow();
 		
-	Titanium.App.addEventListener('event_one', function(e) {
-		messageWin.setLabel('app.js: event one, array length = ' + e.data.length);
-		messageWin.open();
-		setTimeout(function() {
-			messageWin.close({opacity:0,duration:500});
-		},1000);
-	});
+	// Titanium.App.addEventListener('event_one', function(e) {
+		// messageWin.setLabel('app.js: event one, array length = ' + e.data.length);
+		// messageWin.open();
+		// setTimeout(function() {
+			// messageWin.close({opacity:0,duration:500});
+		// },1000);
+	// });
 	
-	Titanium.App.addEventListener('event_two', function(e) {
-		messageWin.setLabel('app.js: event two, name = ' + e.name);
-		messageWin.open();
-		setTimeout(function() {
-			messageWin.close({opacity:0,duration:500});
-		},1000);	
-	});
+	// Titanium.App.addEventListener('event_two', function(e) {
+		// messageWin.setLabel('app.js: event two, name = ' + e.name);
+		// messageWin.open();
+		// setTimeout(function() {
+			// messageWin.close({opacity:0,duration:500});
+		// },1000);	
+	// });
 	
 		
 })();
