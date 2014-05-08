@@ -31,7 +31,7 @@ var xhr = Ti.Network.createHTTPClient({
 	        height:'60dp'
 	    });
 	    nameLabel = Ti.UI.createLabel({
-	        text:'Name: ' + building.BuildingName,
+	        text: building.BuildingName,
 	        font:{
 	            fontSize:'24dp',
 		    	fontWeight:'bold'

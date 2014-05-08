@@ -10,7 +10,7 @@ function ControlsWindow(title) {
 		{title:'POI around', hasChild:true, test:'ui/common/controls/gotopoi'},
 		{title:'Go to POI', hasChild:true, test:'ui/common/controls/gotopoi'},
 		{title:'Map', hasChild:true, test:'ui/common/controls/map'},
-		{title:'Downlaod', hasChild:true, test:'ui/common/controls/download'},
+		{title:'Download', hasChild:true, test:'ui/common/controls/download'},
 		{title: 'Help', hasChild:true, test:'ui/common/controls/help'}
 	];
 	
