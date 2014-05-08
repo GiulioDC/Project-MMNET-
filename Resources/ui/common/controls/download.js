@@ -92,8 +92,6 @@ function getdata(){
 			// Set file timestamp in the correct unix format
 		
 			var timestamp_file = file.createTimestamp().getTime() / 1000.0;
-
-                        ///////////// BETWEEN HERE //////////////
 			
 			// Get the content of the file
 			
@@ -107,7 +105,6 @@ function getdata(){
 			
 			for (var file_count = 0; file_count < file_parse.length; file_count++) { };
 
-                        ///////////// AND HERE //////////////
 			
 			// If the file is newer than the JSON object and that the item count is the same
 		
@@ -136,8 +133,8 @@ function getdata(){
 				// Log to console
 	
 				Titanium.API.info('Loaded! Status: ' + this.status);
-    				Titanium.API.info('Response Header: ' + this.getResponseHeader('Content-Type'));
-    				Titanium.API.info('Response Text: ' + this.responseText);
+    			Titanium.API.info('Response Header: ' + this.getResponseHeader('Content-Type'));
+    			Titanium.API.info('Response Text: ' + this.responseText);
     	
  					// Fill the content of that file
 
@@ -206,8 +203,7 @@ function getdata(){
 	// Return the file content
 	
 	return Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, filename);
-	
-};
+	};
 	
 var json, i, row, nameLabel, nickLabel;
 var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
@@ -215,10 +211,20 @@ var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIR
 // 
 // var xhr = Ti.Network.createHTTPClient({
     // onload: function() {
-	// //Ti.API.debug(this.responseText);
-	// // alert(this.responseText);
-// 		
-getdata();
+	// Ti.API.debug(this.responseText);
+	// alert(this.responseText);
+	
+json = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "data.txt");
+ 
+var readText = json.read();
+ 
+// Ti.API.info("readtext = " +readText.text);
+
+//json = JSON.parse(this.responseText);
+json = JSON.parse(readText);
+
+alert(console.log(json));
+alert(console.log(readText));
 	
 	for (i = 0; i < json.HowManyBuildings; i++) {
 	    var building = json.Buildings[i];
