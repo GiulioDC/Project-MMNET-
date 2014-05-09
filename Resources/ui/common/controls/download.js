@@ -11,43 +11,43 @@ var tableview = Titanium.UI.createTableView({
 		data:tabledata
 	});
 	
-var DataManager = {
-    send: function(toWhere, data, callback, context)
-    {
-        // Fail
-            if (!toWhere) {
-            return false;
-        }
-        
-        // Defaults
-        data     = data     || {}; // The data to send to the server
-        callback = callback || function(_r) { return _r; }; // The callback. If none is supplied, will just return the result
-        context  = context  || null; // The object that 'this' will refer to in the callback
-        
-        if (Ti.Network.online) {
-            var XHR = Ti.Network.createHTTPClient({
-                onload: function() {
-                    var result = JSON.parse(this.responseText);
-                    return callback.apply(context, [result]);
-                },
-                onerror: function() {
-                    var result = JSON.parse(this.responseText);
-                    alert('There was an error with the connection. Please try again later.');
-                
-                    return result;
-                }
-            });
-        
-            XHR.setTimeout(15000); // 15s is my timeout. Use your own here
-            
-            XHR.open('POST', url + toWhere, false);
-            XHR.send(data);
-        } else {
-            // Handle offline here
-            alert('You are offline');
-        }
-    }
-};
+// var DataManager = {
+    // send: function(toWhere, data, callback, context)
+    // {
+        // // Fail
+            // if (!toWhere) {
+            // return false;
+        // }
+//         
+        // // Defaults
+        // data     = data     || {}; // The data to send to the server
+        // callback = callback || function(_r) { return _r; }; // The callback. If none is supplied, will just return the result
+        // context  = context  || null; // The object that 'this' will refer to in the callback
+//         
+        // if (Ti.Network.online) {
+            // var XHR = Ti.Network.createHTTPClient({
+                // onload: function() {
+                    // var result = JSON.parse(this.responseText);
+                    // return callback.apply(context, [result]);
+                // },
+                // onerror: function() {
+                    // var result = JSON.parse(this.responseText);
+                    // alert('There was an error with the connection. Please try again later.');
+//                 
+                    // return result;
+                // }
+            // });
+//         
+            // XHR.setTimeout(15000); // 15s is my timeout. Use your own here
+//             
+            // XHR.open('POST', url + toWhere, false);
+            // XHR.send(data);
+        // } else {
+            // // Handle offline here
+            // alert('You are offline');
+        // }
+    // }
+// };
 //Using this object in the global scope, you can just type:
 //DataManager.send('user/new', { myVar: 'some value' }, this.processXHR(), this);
 	
@@ -208,23 +208,21 @@ function getdata(){
 var json, i, row, nameLabel, nickLabel;
 var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
 var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIRight, POIBehind, POIForward;
-// 
-// var xhr = Ti.Network.createHTTPClient({
-    // onload: function() {
-	// Ti.API.debug(this.responseText);
-	// alert(this.responseText);
 	
-json = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "data.txt");
+var temp = getdata();	
+alert(console.log("TEMP: " + temp)); //[object TiFilesystemFile]
+
+//var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "data.txt");
  
-var readText = json.read();
+//var readText = f.read();
+var readText = temp.read();
  
 // Ti.API.info("readtext = " +readText.text);
 
-//json = JSON.parse(this.responseText);
 json = JSON.parse(readText);
-
-alert(console.log(json));
-alert(console.log(readText));
+//alert(console.log("F: " +f)); //[object TiFilesystemFile]
+alert(console.log("JSON ALERT " + json)); // [object Object]
+alert(console.log("READTEXT ALERT " + readText)); //{"DataType":"...
 	
 	for (i = 0; i < json.HowManyBuildings; i++) {
 	    var building = json.Buildings[i];
