@@ -131,11 +131,11 @@ function reset() {
 
     scanResult.text = ' ';
     scanContentType.text = ' ';
-    scanParsed.text = ' ';
+    //scanParsed.text = ' ';
 }
 Barcode.addEventListener('error', function (e) {
     scanContentType.text = ' ';
-    scanParsed.text = ' ';
+    //scanParsed.text = ' ';
     scanResult.text = e.message;
 });
 Barcode.addEventListener('cancel', function (e) {
@@ -150,7 +150,7 @@ Barcode.addEventListener('success', function (e) {
 
         scanResult.text += e.result + ' ';
         scanContentType.text += parseContentType(e.contentType) + ' ';
-        scanParsed.text += parseResult(e) + ' ';
+        //scanParsed.text += parseResult(e) + ' ';
     }
 });
 
@@ -159,7 +159,7 @@ Barcode.addEventListener('success', function (e) {
  * to these labels.
  */
 scrollView.add(Ti.UI.createLabel({
-    text: 'You may need to rotate the device',
+    text: 'Click on the result for viewing info',
     top: 10,
     height: Ti.UI.SIZE || 'auto', width: Ti.UI.SIZE || 'auto'
 }));
@@ -176,6 +176,19 @@ var scanResult = Ti.UI.createLabel({
     color: 'black',
     height: Ti.UI.SIZE || 'auto'
 });
+scanResult.addEventListener('click', function()
+	{
+		// set properties on the window object, then open.  we will print them out in the new window
+		var W2 = require('ui/common/controls/parseresult'),
+			w2 = new W2();
+		w2.title = 'Places';			
+		w2.myFunc = function()
+		{
+			return scanResult.text;
+		};
+		tab.open(w2,{animated:true});	
+	});
+	
 scrollView.add(scanResult);
 
 scrollView.add(Ti.UI.createLabel({
@@ -193,39 +206,20 @@ var scanContentType = Ti.UI.createLabel({
 });
 scrollView.add(scanContentType);
 
-scrollView.add(Ti.UI.createLabel({
-    text: 'Parsed: ', textAlign: 'left',
-    top: 10, left: 10,
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-}));
-var scanParsed = Titanium.UI.createLabel({
-    text: ' ', textAlign: 'left',
-    top: 10, left: 10,
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-});
+// scrollView.add(Ti.UI.createLabel({
+    // text: 'Parsed: ', textAlign: 'left',
+    // top: 10, left: 10,
+    // color: 'black',
+    // height: Ti.UI.SIZE || 'auto'
+// }));
+// var scanParsed = Titanium.UI.createLabel({
+    // text: ' ', textAlign: 'left',
+    // top: 10, left: 10,
+    // color: 'black',
+    // height: Ti.UI.SIZE || 'auto'
+// });
+	// scrollView.add(scanParsed);
 
-
-   scanParsed.addEventListener('click', function()
-	{
-		// set properties on the window object, then open.  we will print them out in the new window
-		var W2 = require('ui/common/controls/custom_properties_2'),
-			w2 = new W2();
-		w2.title = 'Custom Prop Test';			
-		w2.stringProp1 = 'Foo';
-		w2.stringProp2 = 'Bar';
-		w2.numProp1 = 1;
-		w2.numProp2 = 2;
-		w2.objProp1 = {name:'Jane', age:30};
-		w2.myFunc = function()
-		{
-			return 'myFunc was called';
-		};
-		tab.open(w2,{animated:true});	
-	});
-	//self.add(scanParsed);
-	scrollView.add(scanParsed);
 
 function parseContentType(contentType) {
     switch (contentType) {
@@ -254,45 +248,45 @@ function parseContentType(contentType) {
     }
 }
 
-function parseResult(event) {
-    var msg = '';
-    switch (event.contentType) {
-        case Barcode.URL:
-            msg = 'URL = ' + event.result;
-            break;
-        case Barcode.SMS:
-            msg = 'SMS = ' + JSON.stringify(event.data);
-            break;
-        case Barcode.TELEPHONE:
-            msg = 'Telephone = ' + event.data.phonenumber;
-            break;
-        case Barcode.TEXT:
-        	msg = 'Text = ' + event.result;
-            break;
-        case Barcode.CALENDAR:
-            msg = 'Calendar = ' + JSON.stringify(event.data);
-            break;
-        case Barcode.GEOLOCATION:
-            msg = 'Latitude = ' + event.data.latitude + '\nLongitude = ' + event.data.longitude;
-            break;
-        case Barcode.EMAIL:
-            msg = 'Email = ' + event.data.email + '\nSubject = ' + event.data.subject + '\nMessage = ' + event.data.message;
-            break;
-        case Barcode.CONTACT:
-            msg = 'Contact = ' + JSON.stringify(event.data);
-            break;
-        case Barcode.BOOKMARK:
-            msg = 'Bookmark = ' + JSON.stringify(event.data);
-            break;
-        case Barcode.WIFI:
-            return 'WIFI = ' + JSON.stringify(event.data);
-        default:
-            msg = 'unknown content type';
-            break;
-    }
-    return msg;
-   
-}
+// function parseResult(event) {
+    // var msg = '';
+    // switch (event.contentType) {
+        // case Barcode.URL:
+            // msg = 'URL = ' + event.result;
+            // break;
+        // case Barcode.SMS:
+            // msg = 'SMS = ' + JSON.stringify(event.data);
+            // break;
+        // case Barcode.TELEPHONE:
+            // msg = 'Telephone = ' + event.data.phonenumber;
+            // break;
+        // case Barcode.TEXT:
+        	// msg = 'Text = ' + event.result;
+            // break;
+        // case Barcode.CALENDAR:
+            // msg = 'Calendar = ' + JSON.stringify(event.data);
+            // break;
+        // case Barcode.GEOLOCATION:
+            // msg = 'Latitude = ' + event.data.latitude + '\nLongitude = ' + event.data.longitude;
+            // break;
+        // case Barcode.EMAIL:
+            // msg = 'Email = ' + event.data.email + '\nSubject = ' + event.data.subject + '\nMessage = ' + event.data.message;
+            // break;
+        // case Barcode.CONTACT:
+            // msg = 'Contact = ' + JSON.stringify(event.data);
+            // break;
+        // case Barcode.BOOKMARK:
+            // msg = 'Bookmark = ' + JSON.stringify(event.data);
+            // break;
+        // case Barcode.WIFI:
+            // return 'WIFI = ' + JSON.stringify(event.data);
+        // default:
+            // msg = 'unknown content type';
+            // break;
+    // }
+    // return msg;
+//    
+// }
 
 
  	

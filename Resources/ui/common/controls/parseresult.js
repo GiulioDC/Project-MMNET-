@@ -1,4 +1,4 @@
-function custom_props2() {
+function parseresult() {
 	var win = Titanium.UI.createWindow({
 		backgroundColor:'white'
 	});
@@ -12,7 +12,7 @@ function custom_props2() {
 			width:300,
 			color:'#777',
 			font:{fontSize:16},
-			text:'func: ' + win.myFunc() + '\nstring (1): ' + win.stringProp1 + '\nstring (2): ' + win.stringProp2 + '\nnum (1):' + win.numProp1 + '\nnum (2):' + win.numProp2 + '\nobj (name):' + win.objProp1.name + '\nobj (age):' + win.objProp1.age
+			text:'Place code: ' + win.myFunc()
 		});
 		win.add(l);
 	});
@@ -21,5 +21,5 @@ function custom_props2() {
 	return win;
 };
 
-module.exports = custom_props2;
+module.exports = parseresult;
 
