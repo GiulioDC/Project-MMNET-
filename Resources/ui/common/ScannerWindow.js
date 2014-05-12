@@ -181,7 +181,7 @@ scanResult.addEventListener('click', function()
 		// set properties on the window object, then open.  we will print them out in the new window
 		var W2 = require('ui/common/controls/parseresult'),
 			w2 = new W2();
-		w2.title = 'Places';			
+			w2.title = 'Places';			
 		w2.myFunc = function()
 		{
 			return scanResult.text;

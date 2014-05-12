@@ -12,7 +12,6 @@ function gotopoi(_args) {
 	});
 	
 	win.add(search);
-
 	
 	//
 	// SEARCH BAR EVENTS

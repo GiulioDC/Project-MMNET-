@@ -11,46 +11,6 @@ var tableview = Titanium.UI.createTableView({
 		data:tabledata
 	});
 	
-// var DataManager = {
-    // send: function(toWhere, data, callback, context)
-    // {
-        // // Fail
-            // if (!toWhere) {
-            // return false;
-        // }
-//         
-        // // Defaults
-        // data     = data     || {}; // The data to send to the server
-        // callback = callback || function(_r) { return _r; }; // The callback. If none is supplied, will just return the result
-        // context  = context  || null; // The object that 'this' will refer to in the callback
-//         
-        // if (Ti.Network.online) {
-            // var XHR = Ti.Network.createHTTPClient({
-                // onload: function() {
-                    // var result = JSON.parse(this.responseText);
-                    // return callback.apply(context, [result]);
-                // },
-                // onerror: function() {
-                    // var result = JSON.parse(this.responseText);
-                    // alert('There was an error with the connection. Please try again later.');
-//                 
-                    // return result;
-                // }
-            // });
-//         
-            // XHR.setTimeout(15000); // 15s is my timeout. Use your own here
-//             
-            // XHR.open('POST', url + toWhere, false);
-            // XHR.send(data);
-        // } else {
-            // // Handle offline here
-            // alert('You are offline');
-        // }
-    // }
-// };
-//Using this object in the global scope, you can just type:
-//DataManager.send('user/new', { myVar: 'some value' }, this.processXHR(), this);
-	
 function getdata(){
 
 	// Set the filename
