@@ -32,7 +32,7 @@ function ApplicationTabGroup() {
 	self.setActiveTab(1);
 	
 	
-	// Tabgroup events and message window
+	// // Tabgroup events and message window
 	// messageWin = Titanium.UI.createWindow({
 		// height:30,
 		// width:250,
@@ -74,15 +74,15 @@ function ApplicationTabGroup() {
 	// });
 	// messageWin.add(messageView);
 	// messageWin.add(messageLabel);
-	
-	self.addEventListener('close', function(e) {
-		if (e.source == self){
-			if (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
-				self.open();
-			}
-		}
-	});
-	
+// 	
+	// self.addEventListener('close', function(e) {
+		// if (e.source == self){
+			// if (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
+				// self.open();
+			// }
+		// }
+	// });
+// 	
 	// self.addEventListener('open',function(e) {
 		// if (e.source == self){
 			// Titanium.UI.setBackgroundColor('#fff');
@@ -94,7 +94,7 @@ function ApplicationTabGroup() {
 			// },1000);
 		// }
 	// });
-	
+// 	
 	// self.addEventListener('focus', function(e) {
 		// // On iOS, the "More..." tab is actually a tab container, not a tab. When it is clicked, e.tab is undefined.
 		// if (!e.tab) {
@@ -102,7 +102,7 @@ function ApplicationTabGroup() {
 		// }
 // 
 		// // iOS fires with source tabGroup. Android with source tab
-		// if ((e.source == baseUITab) || (e.source == controlsTab) || (e.source == self)) {
+		// if ((e.source == scannerWin) || (e.source == controlsTab) || (e.source == self)) {
 // 
 			// messageLabel.text = 'tab changed to ' + e.index + ' old index ' + e.previousIndex;
 			// messageWin.open();
@@ -121,10 +121,10 @@ function ApplicationTabGroup() {
 		// }
 // 
 	// }); 
-	
-	self.addEventListener('blur', function(e) {
-		Titanium.API.info('tab blur - new index ' + e.index + ' old index ' + e.previousIndex);
-	});
+// 	
+	// self.addEventListener('blur', function(e) {
+		// Titanium.API.info('tab blur - new index ' + e.index + ' old index ' + e.previousIndex);
+	// });
 	self.model = Ti.Platform.model;
 	
 	return self;

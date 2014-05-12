@@ -7,7 +7,7 @@ function ControlsWindow(title) {
 	// create table view data object
 	var data = [
 		{title:'QR Scan', hasChild:true, test:'ui/common/ScannerWindow'},
-		{title:'POI around', hasChild:true, test:'ui/common/controls/gotopoi'},
+		{title:'POI around', hasChild:false, /*test:'ui/common/controls/gotopoi'*/},
 		{title:'Go to POI', hasChild:true, test:'ui/common/controls/gotopoi'},
 		{title:'Map', hasChild:true, test:'ui/common/controls/map'},
 		{title:'Download', hasChild:true, test:'ui/common/controls/download'},
@@ -16,7 +16,7 @@ function ControlsWindow(title) {
 	
 	
 	// create table view
-//	for (var i = 0; i < data.length; i++ ) { data[i].color = '#000'; data[i].font = {fontWeight:'bold'} };
+	for (var i = 0; i < data.length; i++ ) { data[i].color = '#000' ; data[i].font = {fontWeight:'bold'} ; };
 	var tableview = Titanium.UI.createTableView({
 		data:data
 	});

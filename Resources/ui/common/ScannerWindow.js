@@ -246,7 +246,12 @@ function parseResult(event) {
             msg = 'Telephone = ' + event.data.phonenumber;
             break;
         case Barcode.TEXT:
-            msg = 'Text = ' + event.result;
+        	msg = Titanium.UI.createButton({
+        		title: 'Text = ' + event.result,
+        		height:40,
+				width:200,
+				top:100
+        	});
             break;
         case Barcode.CALENDAR:
             msg = 'Calendar = ' + JSON.stringify(event.data);
@@ -270,14 +275,31 @@ function parseResult(event) {
             break;
     }
     return msg;
+    
+    msg.addEventListener('click', function()
+	{
+		// set properties on the window object, then open.  we will print them out in the new window
+		var W2 = require('ui/common/controls/custom_properties_2'),
+			w2 = new W2();
+		w2.title = 'Custom Prop Test';			
+		w2.stringProp1 = 'Foo';
+		w2.stringProp2 = 'Bar';
+		w2.numProp1 = 1;
+		w2.numProp2 = 2;
+		w2.objProp1 = {name:'Jane', age:30};
+		w2.myFunc = function()
+		{
+			return 'myFunc was called';
+		};
+		tab.open(w2,{animated:true});	
+	});
+	self.add(msg);
 }
+
+
  	
 self.add(scrollView);
  return self;
  };
 
 module.exports = ScannerWindow;
-
-// 
-//window.add(scrollView);
-// window.open();

@@ -210,7 +210,7 @@ var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowMany
 var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIRight, POIBehind, POIForward;
 	
 var temp = getdata();	
-alert(console.log("TEMP: " + temp)); //[object TiFilesystemFile]
+//alert(console.log("TEMP: " + temp)); //[object TiFilesystemFile]
 
 //var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, "data.txt");
  
@@ -221,8 +221,8 @@ var readText = temp.read();
 
 json = JSON.parse(readText);
 //alert(console.log("F: " +f)); //[object TiFilesystemFile]
-alert(console.log("JSON ALERT " + json)); // [object Object]
-alert(console.log("READTEXT ALERT " + readText)); //{"DataType":"...
+//alert(console.log("JSON ALERT " + json)); // [object Object]
+//alert(console.log("READTEXT ALERT " + readText)); //{"DataType":"...
 	
 	for (i = 0; i < json.HowManyBuildings; i++) {
 	    var building = json.Buildings[i];
