@@ -1,5 +1,7 @@
 function custom_props2() {
-	var win = Titanium.UI.createWindow();
+	var win = Titanium.UI.createWindow({
+		backgroundColor:'white'
+	});
 	
 	//This can't happen until the window is opened. Otherwise properties attached to the window wont exist yet. -AD
 	win.addEventListener('open', function() {
