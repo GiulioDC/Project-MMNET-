@@ -1,4 +1,4 @@
-function ScannerWindow(title) {
+function scanner(title) {
 	var self = Ti.UI.createWindow({
 		title:'QR Scan',
 		backgroundColor:'white'
@@ -189,8 +189,6 @@ var searchresult = Ti.UI.createButton({
     borderColor: 'white', borderRadius: 10, borderWidth: 1,
     opacity: 1
 });
-scrollView.add(searchresult);
-
 searchresult.addEventListener('click', function () {
 // set properties on the window object, then open.  we will print them out in the new window
 		var W2 = require('ui/common/controls/parseresult'),
@@ -202,6 +200,7 @@ searchresult.addEventListener('click', function () {
 		};
 		tab.open(w2,{animated:true});	
 });
+scrollView.add(searchresult);
 
 scrollView.add(Ti.UI.createLabel({
     text: 'Content Type: ',
@@ -306,4 +305,4 @@ self.add(scrollView);
  return self;
  };
 
-module.exports = ScannerWindow;
+module.exports = scanner;

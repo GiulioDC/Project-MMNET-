@@ -9,6 +9,8 @@
 	var Window;
 	
 	Window = require('ui/handheld/ios/ApplicationWindow');
+	
+	
 
 	var ApplicationTabGroup = require('ui/common/ApplicationTabGroup');
 	
