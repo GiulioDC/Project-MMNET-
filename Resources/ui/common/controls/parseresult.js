@@ -153,9 +153,12 @@ function parseresult() {
 
 
 	win.add(search);
+	search.focus();
 	
 	win.addEventListener('open', function() { //This can't happen until the window is opened. Otherwise properties attached to the window wont exist yet.
+		if(win.searchinput != undefined) {
 		search.value = win.searchinput();
+		};
 	});
 	
 	// SEARCH BAR EVENTS
@@ -163,6 +166,7 @@ function parseresult() {
 		
 		Ti.API.info('Search Bar'+ e.value);
 		search.blur();
+
 		
 		var json, i, j, k, row;
 		var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
