@@ -161,25 +161,27 @@ function parseresult() {
 		
 		Ti.API.info('Search Bar'+ e.value);
 		search.blur();
-
-		var json, i, j, k, row, NameLabel, floornumLabel;
+		
+		var json, i, j, k, row;
 		var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
 		var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIRight, POIBehind, POIForward, poicode;
+		var NameLabel, DescriptionLabel, LocationLabel, PoiLeftLabel, PoiRightLabel, PoiBehindLabel, PoiForwardLabel;
+		
 		var temp = getdata();	
 		var readText = temp.read();
 	
 		//var poisearched = e.value.substring(1);
-		var poisearched = e.value.replace(/\s+/g, '');
+		var poisearched = e.value.replace(/\s+/g, ''); //ignore spaces
 		json = JSON.parse(readText);
 		
-		var ritorna = getObjects(json, 'Code', poisearched);
-		Ti.API.info('ritorna: ' + ritorna[0].Name); 
-		
-		row = Ti.UI.createTableViewRow({
+		var searchresult = getObjects(json, 'Code', poisearched);
+		Ti.API.info('ritorna: ' + searchresult[0].Name); 
+			
+			row = Ti.UI.createTableViewRow({
 	       	height:'60dp'
 	    });
 	    NameLabel = Ti.UI.createLabel({
-	        text:'Name: ' + ritorna[0].Name,
+	        text:'Name: ' + searchresult[0].Name + '\nDescription: ' + searchresult[0].Description,
 	        font:{
 	            fontSize:'24dp',
 		    	fontWeight:'bold'
@@ -187,48 +189,12 @@ function parseresult() {
 			color:'#000',
 			touchEnabled:false
 	    });
-
+		//tableview.deleteRow(row);
 	    row.add(NameLabel);
-	    tabledata.push(row);
-		
-		// for (i = 0; i < json.HowManyBuildings; i++) {
-	    	// var building = json.Buildings[i];
-// 
-	    	// for (j = 0; j<json.Buildings[i].HowManyFloors; j++) {
-	    		// var floor = json.Buildings[i].Floors[j];
-// 	    	
-	      		// for (k = 0; k<json.Buildings[i].Floors[j].HowManyPOIs;k++) {
-	        		// var POI = json.Buildings[i].Floors[j].POIs[k];
-	        		// Ti.API.info('poisearched: ' + poisearched);
-	        		// var poicode = POI.Code;
-	        		// Ti.API.info("POI.Code: " + POI.Code);
-// 	        	
-	        		// if(POI.Code == search.value){
-// 
-	        				// row = Ti.UI.createTableViewRow({
-	       						// height:'60dp'
-	     					// });
-	     					// Ti.API.info('POI.Code DOPO: ' + poicode);
-	          				// NameLabel = Ti.UI.createLabel({
-	        					// text:'Number: ' + poicode,
-	        					// font:{
-	            					// fontSize:'24dp',
-		    						// fontWeight:'bold'
-								// },
-								// color:'#000',
-								// touchEnabled:false
-	    					// });
-// 
-	    					// row.add(NameLabel);
-	    					// tabledata.push(row);
-	        			// } //chiude if di uguaglianza valori
-					// } //chiude ciclo k
-				// } //chiude ciclo j
-// 	
-				tableview.setData(tabledata);
-				win.add(tableview);
-// // 	
-			// } //chiude ciclo i
+	    tabledata.push(row);	
+
+tableview.setData(tabledata);
+win.add(tableview);
 	
 		});	//searchbar event
 		
