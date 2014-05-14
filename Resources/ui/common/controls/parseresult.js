@@ -133,7 +133,7 @@ function parseresult() {
 	return Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, filename); // Return the file content
 	};
 		
-var tabledata = [];
+	var tabledata = [];
 	var tableview = Titanium.UI.createTableView({
 		data:tabledata,
 		search:search,
@@ -177,14 +177,16 @@ var tabledata = [];
 		json = JSON.parse(readText);
 		
 		var searchresult = getObjects(json, 'Code', poisearched);
-		Ti.API.info('ritorna: ' + searchresult[0].Name); 
+		//Ti.API.info('ritorna: ' + searchresult[0].Name); 
 			
 		row = Ti.UI.createTableViewRow({
 	       	height:'60dp'
 	   	});
+	   	
+	   	tableview.setData([]);
 	 
 	    NameLabel = Ti.UI.createLabel({
-	        text:'Name: ' + searchresult[0].Name,
+	        text: searchresult[0].Name,
 	        font:{
 	            fontSize:'24dp',
 		    	fontWeight:'bold'
@@ -192,8 +194,54 @@ var tabledata = [];
 			color:'#000',
 			touchEnabled:false
 	    });
-		tableview.setData([]);
 	    row.add(NameLabel);
+	    
+	    if(searchresult[0].Description != "No description") {
+	    	DescriptionLabel = Ti.UI.createLabel({
+	    		text: searchresult[0].Description,
+	    		top:40
+	    	});
+	    	row.add(DescriptionLabel);
+	    }
+	    
+	    LocationLabel = Ti.UI.createLabel({
+	    	text: 'Localization: ' + searchresult[0].Location,
+	    	top: 60
+	    });
+	    row.add(LocationLabel);
+	    
+	    if(searchresult[0].POILeft != "none") {
+	    	PoiLeftLabel = Ti.UI.createLabel({
+	    		text: 'On the left: ' + searchresult[0].POILeft, //restituisce codice e non stanza, sistemare
+	    		top: 80
+	    	});
+	    	row.add(PoiLeftLabel);
+	    }
+	    
+	    if(searchresult[0].POIRight != "none") {
+	    	PoiRightLabel = Ti.UI.createLabel({
+	    		text: 'On the right: ' + searchresult[0].POIRight, //restituisce codice e non stanza, sistemare
+	    		top: 100
+	    	});
+	    	row.add(PoiRightLabel);
+	    }
+	    
+	    if(searchresult[0].POIBehind != "none") {
+	    	PoiBehindLabel = Ti.UI.createLabel({
+	    		text: 'Behind :' + searchresult[0].POIBehind, //restituisce codice e non stanza, sistemare
+	    		top: 120
+	    	});
+	    	row.add(PoiBehindLabel);
+	    }
+	    
+	    if(searchresult[0].POIForward != "none") {
+	    	PoiForwardLabel = Ti.UI.createLabel({
+	    		text: 'In front of you : ' + searchresult[0].POIForward, //restituisce codice e non stanza, sistemare
+	    		top: 140
+	    	});
+	    	row.add(PoiForwardLabel);
+	    }
+	    
 	    tableview.appendRow(row);
 	    // tabledata.push(row);	
 		//tableview.setData(tabledata);
