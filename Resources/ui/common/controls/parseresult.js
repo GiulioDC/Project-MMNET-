@@ -5,6 +5,19 @@ function parseresult() {
 	
 	var url = "http://www.gstorm.eu/dc.txt";
 	
+	function toUnicode(theString) {
+ 		var unicodeString = '';
+  		for (var i=0; i < theString.length; i++) {
+    		var theUnicode = theString.charCodeAt(i).toString(16).toUpperCase();
+    		while (theUnicode.length < 4) {
+ 		    	theUnicode = '0' + theUnicode;
+    		}
+    		theUnicode = '\\u' + theUnicode;
+    		unicodeString += theUnicode;
+ 		}
+  		return unicodeString;
+	}
+	
 	//return an array of objects according to key, value, or key and value matching
 	function getObjects(obj, key, val) {
     	var objects = [];
@@ -135,15 +148,20 @@ function parseresult() {
 	var tabledata = [];
 	var tableview = Titanium.UI.createTableView({
 		data:tabledata,
+		//search:search,
+		//searchHidden:true,
+		//filterAttribute:'Name',
 		top:50
 	});
-	
+		
+		
 	var search = Titanium.UI.createSearchBar({
 		barColor:'#dddddd',
 		showCancel:true,
 		height:43,
 		top:0
 	});
+	
 	
 	win.add(search);
 	
@@ -157,61 +175,78 @@ function parseresult() {
 		Ti.API.info('Search Bar'+ e.value);
 		search.blur();
 
-		var json, i, j, k, row, nameLabel, floornumLabel;
+		var json, i, j, k, row, NameLabel, floornumLabel;
 		var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
 		var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIRight, POIBehind, POIForward, poicode;
 		var temp = getdata();	
 		var readText = temp.read();
 	
-		var poisearched = e.value;
+		//var poisearched = toUnicode(e.value);
+		var poisearched = ''+ search.value;
 		json = JSON.parse(readText);
 		
 		var ritorna = getObjects(json, 'Code', '0101');
-		Ti.API.info('ritorna: ' + ritorna.Name);
-	
-		for (i = 0; i < json.HowManyBuildings; i++) {
-	    	var building = json.Buildings[i];
+		Ti.API.info('ritorna: ' + ritorna[0].Name); 
+		
+		row = Ti.UI.createTableViewRow({
+	       	height:'60dp'
+	    });
+	    NameLabel = Ti.UI.createLabel({
+	        text:'Name: ' + ritorna[0].Name,
+	        font:{
+	            fontSize:'24dp',
+		    	fontWeight:'bold'
+			},
+			color:'#000',
+			touchEnabled:false
+	    });
 
-	    	for (j = 0; j<json.Buildings[i].HowManyFloors; j++) {
-	    		var floor = json.Buildings[i].Floors[j];
-	    	
-	      		for (k = 0; k<json.Buildings[i].Floors[j].HowManyPOIs;k++) {
-	        		var POI = json.Buildings[i].Floors[j].POIs[k];
-	        		Ti.API.info('poisearched: ' + poisearched);
-	        		var poicode = POI.Code;
-	        		Ti.API.info(POI.Code);
-	        	
-	        		//if(POI.Code == search.value){
-	        			Ti.API.info('typeof poisearched: ' + typeof poisearched);
-	        			Ti.API.info('typeof e.value: ' + typeof e.value);
-	        			Ti.API.info('typeof search.value: ' + typeof search.value);
-	        			Ti.API.info('typeof POI.Code: ' + typeof POI.Code);
-	        			Ti.API.info('typeof poicode: ' + typeof poicode);
-	        			if(POI.Code.hasOwnProperty(search.value)) {
-	        				row = Ti.UI.createTableViewRow({
-	       						height:'60dp'
-	     					});
-	     					Ti.API.info('POI.Code DOPO: ' + poicode);
-	          				NameLabel = Ti.UI.createLabel({
-	        					text:'Number: ' + poicode,
-	        					font:{
-	            					fontSize:'24dp',
-		    						fontWeight:'bold'
-								},
-								color:'#000',
-								touchEnabled:false
-	    					});
-
-	    					row.add(NameLabel);
-	    					tabledata.push(row);
-	        			} //chiude if di uguaglianza valori
-					} //chiude ciclo k
-				} //chiude ciclo j
-	
+	    row.add(NameLabel);
+	    tabledata.push(row);
+		
+		// for (i = 0; i < json.HowManyBuildings; i++) {
+	    	// var building = json.Buildings[i];
+// 
+	    	// for (j = 0; j<json.Buildings[i].HowManyFloors; j++) {
+	    		// var floor = json.Buildings[i].Floors[j];
+// 	    	
+	      		// for (k = 0; k<json.Buildings[i].Floors[j].HowManyPOIs;k++) {
+	        		// var POI = json.Buildings[i].Floors[j].POIs[k];
+	        		// Ti.API.info('poisearched: ' + poisearched);
+	        		// var poicode = POI.Code;
+	        		// Ti.API.info(POI.Code);
+// 	        	
+	        		// //if(POI.Code == search.value){
+	        			// Ti.API.info('typeof poisearched: ' + typeof poisearched);
+	        			// Ti.API.info('typeof e.value: ' + typeof e.value);
+	        			// Ti.API.info('typeof search.value: ' + typeof search.value);
+	        			// Ti.API.info('typeof POI.Code: ' + typeof POI.Code);
+	        			// Ti.API.info('typeof poicode: ' + typeof poicode);
+	        			// if(POI.Code.hasOwnProperty(search.value)) {
+	        				// row = Ti.UI.createTableViewRow({
+	       						// height:'60dp'
+	     					// });
+	     					// Ti.API.info('POI.Code DOPO: ' + poicode);
+	          				// NameLabel = Ti.UI.createLabel({
+	        					// text:'Number: ' + poicode,
+	        					// font:{
+	            					// fontSize:'24dp',
+		    						// fontWeight:'bold'
+								// },
+								// color:'#000',
+								// touchEnabled:false
+	    					// });
+// 
+	    					// row.add(NameLabel);
+	    					// tabledata.push(row);
+	        			// } //chiude if di uguaglianza valori
+					// } //chiude ciclo k
+				// } //chiude ciclo j
+// 	
 				tableview.setData(tabledata);
 				win.add(tableview);
-	
-			} //chiude ciclo i
+// 	
+			// } //chiude ciclo i
 	
 		});	//searchbar event
 		
