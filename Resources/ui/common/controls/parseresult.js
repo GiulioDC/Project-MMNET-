@@ -4,6 +4,56 @@ function parseresult() {
 	});
 	
 	var url = "http://www.gstorm.eu/dc.txt";
+	
+	//return an array of objects according to key, value, or key and value matching
+	function getObjects(obj, key, val) {
+    	var objects = [];
+    	for (var i in obj) {
+       		if (!obj.hasOwnProperty(i)) continue;
+        	if (typeof obj[i] == 'object') {
+            	objects = objects.concat(getObjects(obj[i], key, val));    
+        	} //if key matches and value matches or if key matches and value is not passed (eliminating the case where key matches but passed value does not)
+        	else if (i == key && obj[i] == val || i == key && val == '') { //
+            	objects.push(obj);
+        	}
+        	else if (obj[i] == val && key == ''){ //only add if the object is not already in the array
+            	if (objects.lastIndexOf(obj) == -1){
+                	objects.push(obj);
+            	}
+        	}
+    	}
+    	return objects;
+	}
+ 
+	//return an array of values that match on a certain key
+	function getValues(obj, key) {
+    	var objects = [];
+    	for (var i in obj) {
+        	if (!obj.hasOwnProperty(i)) continue;
+       		if (typeof obj[i] == 'object') {
+            	objects = objects.concat(getValues(obj[i], key));
+        	}
+        	else if (i == key) {
+            	objects.push(obj[i]);
+        	}
+    	}
+    	return objects;
+	}
+ 
+	//return an array of keys that match on a certain value
+	function getKeys(obj, val) {
+    	var objects = [];
+    	for (var i in obj) {
+        	if (!obj.hasOwnProperty(i)) continue;
+       		if (typeof obj[i] == 'object') {
+            	objects = objects.concat(getKeys(obj[i], val));
+        	} 
+        	else if (obj[i] == val) {
+            	objects.push(i);
+       		}
+    	}
+    	return objects;
+	}
 		
 	function getdata(){
 	
@@ -103,73 +153,67 @@ function parseresult() {
 	
 	// SEARCH BAR EVENTS
 	search.addEventListener('return', function(e) {
+		
 		Ti.API.info('Search Bar'+ e.value);
 		search.blur();
 
-	var json, i, j, k, row, nameLabel, floornumLabel;
-	var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
-	var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIRight, POIBehind, POIForward, poicode;
-	var temp = getdata();	
-	var readText = temp.read();
+		var json, i, j, k, row, nameLabel, floornumLabel;
+		var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
+		var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIRight, POIBehind, POIForward, poicode;
+		var temp = getdata();	
+		var readText = temp.read();
 	
-	var poisearched = e.value;
-	json = JSON.parse(readText);
+		var poisearched = e.value;
+		json = JSON.parse(readText);
+		
+		var ritorna = getObjects(json, 'Code', '0101');
+		Ti.API.info('ritorna: ' + ritorna.Name);
 	
-	for (i = 0; i < json.HowManyBuildings; i++) {
-	    var building = json.Buildings[i];
+		for (i = 0; i < json.HowManyBuildings; i++) {
+	    	var building = json.Buildings[i];
 
-	    for (j = 0; j<json.Buildings[i].HowManyFloors; j++){
-	    	var floor = json.Buildings[i].Floors[j];
+	    	for (j = 0; j<json.Buildings[i].HowManyFloors; j++) {
+	    		var floor = json.Buildings[i].Floors[j];
 	    	
-	    	// row = Ti.UI.createTableViewRow({
-	        	// height:'60dp'
-	    	// });
-	    	// var floornameLabel = Ti.UI.createLabel({
-	        	// text:'Name: ' + floor.FloorName,
-	        	// font:{
-		            // fontSize:'24dp',
-		    		// fontWeight:'bold'
-				// },
-				// color:'#000',
-				// touchEnabled:false
-	    	// });
-	    	// row.add(floornameLabel);
-	    	// tabledata.push(row);
-	    	
-	      	for (k = 0; k<json.Buildings[i].Floors[j].HowManyPOIs;k++){
-	        	var POI = json.Buildings[i].Floors[j].POIs[k];
-	        	Ti.API.info('poisearched: ' + search.value);
-	        	var poicode = POI.Code;
-	        	Ti.API.info(POI.Code);
+	      		for (k = 0; k<json.Buildings[i].Floors[j].HowManyPOIs;k++) {
+	        		var POI = json.Buildings[i].Floors[j].POIs[k];
+	        		Ti.API.info('poisearched: ' + poisearched);
+	        		var poicode = POI.Code;
+	        		Ti.API.info(POI.Code);
 	        	
-	        	//if(POI.Code == search.value){
-	        		if(poisearched.hasOwnProperty("POI.Code")) {
-	        		row = Ti.UI.createTableViewRow({
-	       				height:'60dp'
-	     			});
-	     			Ti.API.info('POI.Code DOPO: ' + poicode);
-	          		NameLabel = Ti.UI.createLabel({
-	        			text:'Number: ' + poicode,
-	        			font:{
-	            			fontSize:'24dp',
-		    				fontWeight:'bold'
-						},
-						color:'#000',
-						touchEnabled:false
-	    			});
+	        		//if(POI.Code == search.value){
+	        			Ti.API.info('typeof poisearched: ' + typeof poisearched);
+	        			Ti.API.info('typeof e.value: ' + typeof e.value);
+	        			Ti.API.info('typeof search.value: ' + typeof search.value);
+	        			Ti.API.info('typeof POI.Code: ' + typeof POI.Code);
+	        			Ti.API.info('typeof poicode: ' + typeof poicode);
+	        			if(POI.Code.hasOwnProperty(search.value)) {
+	        				row = Ti.UI.createTableViewRow({
+	       						height:'60dp'
+	     					});
+	     					Ti.API.info('POI.Code DOPO: ' + poicode);
+	          				NameLabel = Ti.UI.createLabel({
+	        					text:'Number: ' + poicode,
+	        					font:{
+	            					fontSize:'24dp',
+		    						fontWeight:'bold'
+								},
+								color:'#000',
+								touchEnabled:false
+	    					});
 
-	    		row.add(NameLabel);
-	    		tabledata.push(row);
-	        	}
-			}
-		}
+	    					row.add(NameLabel);
+	    					tabledata.push(row);
+	        			} //chiude if di uguaglianza valori
+					} //chiude ciclo k
+				} //chiude ciclo j
 	
-	tableview.setData(tabledata);
-	win.add(tableview);
+				tableview.setData(tabledata);
+				win.add(tableview);
 	
-	}
+			} //chiude ciclo i
 	
-	});	//searchbar event
+		});	//searchbar event
 		
 	
 
