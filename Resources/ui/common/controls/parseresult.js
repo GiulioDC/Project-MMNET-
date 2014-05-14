@@ -5,19 +5,6 @@ function parseresult() {
 	
 	var url = "http://www.gstorm.eu/dc.txt";
 	
-	function toUnicode(theString) {
- 		var unicodeString = '';
-  		for (var i=0; i < theString.length; i++) {
-    		var theUnicode = theString.charCodeAt(i).toString(16).toUpperCase();
-    		while (theUnicode.length < 4) {
- 		    	theUnicode = '0' + theUnicode;
-    		}
-    		theUnicode = '\\u' + theUnicode;
-    		unicodeString += theUnicode;
- 		}
-  		return unicodeString;
-	}
-	
 	//return an array of objects according to key, value, or key and value matching
 	function getObjects(obj, key, val) {
     	var objects = [];
@@ -181,11 +168,11 @@ function parseresult() {
 		var temp = getdata();	
 		var readText = temp.read();
 	
-		//var poisearched = toUnicode(e.value);
-		var poisearched = ''+ search.value;
+		//var poisearched = e.value.substring(1);
+		var poisearched = e.value.replace(/\s+/g, '');
 		json = JSON.parse(readText);
 		
-		var ritorna = getObjects(json, 'Code', '0101');
+		var ritorna = getObjects(json, 'Code', poisearched);
 		Ti.API.info('ritorna: ' + ritorna[0].Name); 
 		
 		row = Ti.UI.createTableViewRow({
@@ -214,15 +201,10 @@ function parseresult() {
 	        		// var POI = json.Buildings[i].Floors[j].POIs[k];
 	        		// Ti.API.info('poisearched: ' + poisearched);
 	        		// var poicode = POI.Code;
-	        		// Ti.API.info(POI.Code);
+	        		// Ti.API.info("POI.Code: " + POI.Code);
 // 	        	
-	        		// //if(POI.Code == search.value){
-	        			// Ti.API.info('typeof poisearched: ' + typeof poisearched);
-	        			// Ti.API.info('typeof e.value: ' + typeof e.value);
-	        			// Ti.API.info('typeof search.value: ' + typeof search.value);
-	        			// Ti.API.info('typeof POI.Code: ' + typeof POI.Code);
-	        			// Ti.API.info('typeof poicode: ' + typeof poicode);
-	        			// if(POI.Code.hasOwnProperty(search.value)) {
+	        		// if(POI.Code == search.value){
+// 
 	        				// row = Ti.UI.createTableViewRow({
 	       						// height:'60dp'
 	     					// });
@@ -245,7 +227,7 @@ function parseresult() {
 // 	
 				tableview.setData(tabledata);
 				win.add(tableview);
-// 	
+// // 	
 			// } //chiude ciclo i
 	
 		});	//searchbar event
