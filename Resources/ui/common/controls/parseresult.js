@@ -131,25 +131,26 @@ function parseresult() {
 	
 	return Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, filename); // Return the file content
 	};
-	
-	var tabledata = [];
+		
+var tabledata = [];
 	var tableview = Titanium.UI.createTableView({
 		data:tabledata,
-		//search:search,
+		search:search,
 		//searchHidden:true,
 		//filterAttribute:'Name',
 		top:50
 	});
-		
-		
+
+
 	var search = Titanium.UI.createSearchBar({
 		barColor:'#dddddd',
 		showCancel:true,
 		height:43,
-		top:0
+		top:0,
+		hint:'search POI'
 	});
-	
-	
+
+
 	win.add(search);
 	
 	win.addEventListener('open', function() { //This can't happen until the window is opened. Otherwise properties attached to the window wont exist yet.
@@ -177,11 +178,12 @@ function parseresult() {
 		var searchresult = getObjects(json, 'Code', poisearched);
 		Ti.API.info('ritorna: ' + searchresult[0].Name); 
 			
-			row = Ti.UI.createTableViewRow({
+		row = Ti.UI.createTableViewRow({
 	       	height:'60dp'
-	    });
+	   	});
+	 
 	    NameLabel = Ti.UI.createLabel({
-	        text:'Name: ' + searchresult[0].Name + '\nDescription: ' + searchresult[0].Description,
+	        text:'Name: ' + searchresult[0].Name,
 	        font:{
 	            fontSize:'24dp',
 		    	fontWeight:'bold'
@@ -189,12 +191,12 @@ function parseresult() {
 			color:'#000',
 			touchEnabled:false
 	    });
-		//tableview.deleteRow(row);
+tableview.setData([]);
 	    row.add(NameLabel);
-	    tabledata.push(row);	
-
-tableview.setData(tabledata);
-win.add(tableview);
+	    // tabledata.push(row);	
+	    tableview.appendRow(row);
+		//tableview.setData(tabledata);
+		win.add(tableview);
 	
 		});	//searchbar event
 		
