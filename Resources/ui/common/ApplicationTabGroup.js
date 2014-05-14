@@ -28,7 +28,6 @@ function ApplicationTabGroup() {
 	controlsWin.containingTab = controlsTab;
 	self.addTab(controlsTab);
 	
-	
 	self.setActiveTab(1);
 	
 	

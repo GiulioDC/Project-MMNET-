@@ -3,7 +3,7 @@ function ScannerWindow(title) {
 		title:'QR Scan',
 		backgroundColor:'white'
 	});
-var tab = title.containingTab;
+var tab = [];
 	
 var Barcode = require('ti.barcode');
 Barcode.allowRotation = true;
@@ -195,12 +195,12 @@ searchresult.addEventListener('click', function () {
 // set properties on the window object, then open.  we will print them out in the new window
 		var W2 = require('ui/common/controls/parseresult'),
 			w2 = new W2();
-			w2.title = 'Go To POI';			
+			// w2.title = 'Go To POI';			
 		w2.searchinput = function()
 		{
 			return scanResult.text;
 		};
-		tab.open(w2,{animated:true});	
+		self.containingTab.open(w2,{animated:true});	
 });
 
 scrollView.add(Ti.UI.createLabel({

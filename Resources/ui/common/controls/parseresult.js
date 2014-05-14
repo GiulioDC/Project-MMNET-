@@ -1,6 +1,7 @@
 function parseresult() {
 	var win = Titanium.UI.createWindow({
-		backgroundColor:'white'
+		backgroundColor:'white',
+		title: "Go To POI"
 	});
 	
 	var url = "http://www.gstorm.eu/dc.txt";
@@ -191,10 +192,10 @@ var tabledata = [];
 			color:'#000',
 			touchEnabled:false
 	    });
-tableview.setData([]);
+		tableview.setData([]);
 	    row.add(NameLabel);
-	    // tabledata.push(row);	
 	    tableview.appendRow(row);
+	    // tabledata.push(row);	
 		//tableview.setData(tabledata);
 		win.add(tableview);
 	
