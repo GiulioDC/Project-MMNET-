@@ -155,6 +155,15 @@ Barcode.addEventListener('success', function (e) {
         scanResult.text += e.result + ' ';
         scanContentType.text += parseContentType(e.contentType) + ' ';
         //scanParsed.text += parseResult(e) + ' ';
+        
+          	var W2 = require('ui/common/controls/parseresult'),
+			w2 = new W2();
+			w2.title = 'Go To POI';			
+		w2.searchinput = function()
+		{
+			return scanResult.text;
+		};
+		tab.open(w2,{animated:true});	
     }
 });
 

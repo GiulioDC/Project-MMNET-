@@ -138,8 +138,9 @@ function parseresult() {
 		data:tabledata,
 		search:search,
 		//searchHidden:true,
-		//filterAttribute:'Name',
-		top:50
+		filterAttribute:'Name',
+		top:50,
+		style: Titanium.UI.iPhone.TableViewStyle.PLAIN,
 	});
 
 
@@ -155,7 +156,7 @@ function parseresult() {
 	win.add(search);
 	search.focus();
 	
-	win.addEventListener('open', function() { //This can't happen until the window is opened. Otherwise properties attached to the window wont exist yet.
+	win.addEventListener('open', function() {
 		if(win.searchinput != undefined) {
 		search.value = win.searchinput();
 		};
@@ -182,50 +183,69 @@ function parseresult() {
 		
 		var searchresult = getObjects(json, 'Code', poisearched);
 		//Ti.API.info('ritorna: ' + searchresult[0].Name); 
-			
+		
+		tableview.setData([]);
+		
+		var sectionPoiName = Ti.UI.createTableViewSection({ headerTitle: 'Point Of Interest'});
 		row = Ti.UI.createTableViewRow({
-	       	height:'60dp'
+			className: 'POIs',
+			rowIndex:i,
+	       	height:Ti.UI.SIZE,
+	       	layout: 'vertical'
 	   	});
 	   	
-	   	tableview.setData([]);
-	 
 	    NameLabel = Ti.UI.createLabel({
 	        text: searchresult[0].Name,
-	        font:{
-	            fontSize:'24dp',
-		    	fontWeight:'bold'
-			},
+	        font:{ fontSize:'24dp',fontWeight:'bold'},
+	        top: 6, 
+	        // height:30,
+	        // textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 			color:'#000',
+			height : Ti.UI.SIZE,
 			touchEnabled:false
 	    });
-	    row.add(NameLabel);
+	    sectionPoiName.add(row);
+	    
+	    tabledata: [sectionPoiName];
 	    
 	    if(searchresult[0].Description != "No description") {
 	    	DescriptionLabel = Ti.UI.createLabel({
 	    		text: searchresult[0].Description,
-	    		top:40
+	    		// top:40,
+	    		// height : Ti.UI.SIZE,
+	    		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	    		wordWrap:true
 	    	});
 	    	row.add(DescriptionLabel);
 	    }
 	    
 	    LocationLabel = Ti.UI.createLabel({
 	    	text: 'Localization: ' + searchresult[0].Location,
-	    	top: 60
+	    	// height : Ti.UI.SIZE,
+	    	textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	    	wordWrap:true
+	    	// top: 80
 	    });
 	    row.add(LocationLabel);
 	    
 	    if(searchresult[0].POILeft != "none") {
 	    	PoiLeftLabel = Ti.UI.createLabel({
 	    		text: 'On the left: ' + searchresult[0].POILeft, //restituisce codice e non stanza, sistemare
-	    		top: 80
+	    		// top: 80,
+	    		// height : Ti.UI.SIZE,
+	    		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	    		wordWrap:true
 	    	});
 	    	row.add(PoiLeftLabel);
 	    }
 	    
 	    if(searchresult[0].POIRight != "none") {
 	    	PoiRightLabel = Ti.UI.createLabel({
-	    		text: 'On the right: ' + searchresult[0].POIRight, //restituisce codice e non stanza, sistemare
-	    		top: 100
+	    		text: 'On the right: ' + searchresult[0].POIRight,
+	    		// top: 100,
+	    		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	    		wordWrap:true,
+	    		// height : Ti.UI.SIZE
 	    	});
 	    	row.add(PoiRightLabel);
 	    }
@@ -233,7 +253,10 @@ function parseresult() {
 	    if(searchresult[0].POIBehind != "none") {
 	    	PoiBehindLabel = Ti.UI.createLabel({
 	    		text: 'Behind :' + searchresult[0].POIBehind, //restituisce codice e non stanza, sistemare
-	    		top: 120
+	    		// top: 120,
+	    		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	    		wordWrap:true
+	    		// height : Ti.UI.SIZE
 	    	});
 	    	row.add(PoiBehindLabel);
 	    }
@@ -241,7 +264,10 @@ function parseresult() {
 	    if(searchresult[0].POIForward != "none") {
 	    	PoiForwardLabel = Ti.UI.createLabel({
 	    		text: 'In front of you : ' + searchresult[0].POIForward, //restituisce codice e non stanza, sistemare
-	    		top: 140
+	    		// top: 140,
+	    		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	    		wordWrap:true
+	    		// height : Ti.UI.SIZE
 	    	});
 	    	row.add(PoiForwardLabel);
 	    }

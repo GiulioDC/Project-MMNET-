@@ -155,15 +155,26 @@ Barcode.addEventListener('success', function (e) {
         scanResult.text += e.result + ' ';
         scanContentType.text += parseContentType(e.contentType) + ' ';
         //scanParsed.text += parseResult(e) + ' ';
+        
+        var W2 = require('ui/common/controls/parseresult'),
+			w2 = new W2();
+			// w2.title = 'Go To POI';			
+		w2.searchinput = function()
+		{
+			return scanResult.text;
+		};
+		self.containingTab.open(w2,{animated:true});	
+        
     }
 });
+
 
 /**
  * Finally, we'll add a couple labels to the window. When the user scans a barcode, we'll stick information about it in
  * to these labels.
  */
 scrollView.add(Ti.UI.createLabel({
-    text: 'Click on the result for viewing info',
+    text: 'Scan results',
     top: 10,
     height: Ti.UI.SIZE || 'auto', width: Ti.UI.SIZE || 'auto'
 }));
@@ -182,26 +193,26 @@ var scanResult = Ti.UI.createLabel({
 });
 scrollView.add(scanResult);
 
-var searchresult = Ti.UI.createButton({
-    title: 'search',
-    width: 110, height: 30,
-    color: 'white', backgroundColor: 'navy', style: 0,
-    borderColor: 'white', borderRadius: 10, borderWidth: 1,
-    opacity: 1
-});
-scrollView.add(searchresult);
-
-searchresult.addEventListener('click', function () {
-// set properties on the window object, then open.  we will print them out in the new window
-		var W2 = require('ui/common/controls/parseresult'),
-			w2 = new W2();
-			// w2.title = 'Go To POI';			
-		w2.searchinput = function()
-		{
-			return scanResult.text;
-		};
-		self.containingTab.open(w2,{animated:true});	
-});
+// var searchresult = Ti.UI.createButton({
+    // title: 'search',
+    // width: 110, height: 30,
+    // color: 'white', backgroundColor: 'navy', style: 0,
+    // borderColor: 'white', borderRadius: 10, borderWidth: 1,
+    // opacity: 1
+// });
+// scrollView.add(searchresult);
+// 
+// searchresult.addEventListener('click', function () {
+// // set properties on the window object, then open.  we will print them out in the new window
+		// var W2 = require('ui/common/controls/parseresult'),
+			// w2 = new W2();
+			// // w2.title = 'Go To POI';			
+		// w2.searchinput = function()
+		// {
+			// return scanResult.text;
+		// };
+		// self.containingTab.open(w2,{animated:true});	
+// });
 
 scrollView.add(Ti.UI.createLabel({
     text: 'Content Type: ',
