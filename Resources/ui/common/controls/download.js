@@ -24,10 +24,6 @@ function download(_args) {
 
 	json = JSON.parse(readText);
 	
-	Ti.API.info("readtext = " +readText.text); //{"DataType":"...
-	//Ti.API.info("F: " +f); //[object TiFilesystemFile]
-	Ti.API.info("JSON: " + json);  // [object Object]
-	
 	for (i = 0; i < json.HowManyBuildings; i++) {
 	    var building = json.Buildings[i];
 	    row = Ti.UI.createTableViewRow({

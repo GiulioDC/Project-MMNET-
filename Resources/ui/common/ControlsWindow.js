@@ -9,7 +9,7 @@ function ControlsWindow(title) {
 		{title:'QR Scan', hasChild:true, test:'ui/common/controls/scanner'},
 		{title:'Search POI', hasChild:true, test:'ui/common/controls/parseresult'},
 		{title:'Go to POI', hasChild:true, test:'ui/common/controls/gotopoi'},
-		{title:'Map', hasChild:true, test:'ui/common/controls/map'},
+		{title:'Map', hasChild:true, test:'ui/common/controls/navigation'},
 		{title:'Download', hasChild:true, test:'ui/common/controls/download'},
 		{title: 'Help', hasChild:true, test:'ui/common/controls/help'}
 	];
