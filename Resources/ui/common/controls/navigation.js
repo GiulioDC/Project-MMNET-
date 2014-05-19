@@ -90,10 +90,12 @@ function navigation() {
   function POI_lookup(POIs, poi_code) {
     //The resultant POI: now it's NULL and will remain NULL if we can't find a 
     //POI corresponding to this one
-    var searched_POI=null;
+    
+    // var searched_POI=null;
+    var searched_POI = undefined;
     
     //NULL argument?
-    if ((poi_code == null) || (poi_code == "none")) {
+    if ((poi_code == undefined) || (poi_code == "none")) {
       return searched_POI;
     }
     
@@ -108,7 +110,8 @@ function navigation() {
   	Ti.API.info('POIs.code: ' + POIs[i].Code);
     	if(POIs[i].Code == poi_code) {
     		Ti.API.info('POIs[i].Code = ' + POIs[i].Code);
-    		searched_POI = POIs[i].Code;
+    		// searched_POI = POIs[i].Code;
+    		searched_POI = POIs[i];
   			break;
     	}
     }
@@ -136,19 +139,20 @@ function navigation() {
   
   function nav_reach(POIs, start_poi, dest_poi, direction){
     //If we don't succeed in finding a viable path, NULL is returned
-    var navpath = null;
+    // var navpath = null;
+    var navpath = {};
     var i = 0, j = 0;
     
     //Store the "walking" position
-    var walk_poi = null;
+    var walk_poi = undefined;
     //Temporarily store some values for testing: probably avoidable
-    var tmp_poi = null;
+    var tmp_poi = undefined;
     //And remember where we have been
-    var visited_places_codes;
+    var visited_places_codes = {};
 
     //Move on the start_poi, and check it's existence
     walk_poi = POI_lookup(POIs, start_poi);
-    if (walk_poi == null) {
+    if (walk_poi == undefined) {
       Ti.API.info(start_poi + ' non trovato o mancante');
       return navpath;
     }
@@ -227,13 +231,13 @@ function navigation() {
       //If we are where we started, stop here
       if (start_poi == walk_poi) {
         Ti.API.info("Uscita: siamo tornati al punto di partenza.");
-        return null;
+        return undefined;
         break;
       }
-      if(visited_places_codes.indexOf(walk_poi == -1)) {
+      if(visited_places_codes.indexOf(walk_poi) == -1) {
         Ti.API.info('Uscita: dipendenze circolari?');
         Ti.API.info('Infatti, ' + walk_poi.Code + ' presente');
-        return null;
+        return undefined;
       }
       else
       {
@@ -246,7 +250,7 @@ function navigation() {
 
     } //end of the walking loop
     
-    if (walk_poi == null) {
+    if (walk_poi == undefined) {
      Ti.API.info('walk_poi era nullo, quindi destinazione non raggiungibile');
       return walk_poi;
     }
