@@ -156,9 +156,9 @@ Barcode.addEventListener('success', function (e) {
         scanContentType.text += parseContentType(e.contentType) + ' ';
         //scanParsed.text += parseResult(e) + ' ';
         
-          	var W2 = require('ui/common/controls/parseresult'),
-			w2 = new W2();
-			w2.title = 'Go To POI';			
+        var W2 = require('ui/common/controls/parseresult'),
+		w2 = new W2();
+		w2.title = 'Go To POI';			
 		w2.searchinput = function()
 		{
 			return scanResult.text;
