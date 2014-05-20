@@ -78,14 +78,58 @@ function parseresult() {
 		}));
 		tableview.appendSection(sectionPoiLocation);
 		
+		var sectionPoiLeft = Ti.UI.createTableViewSection({headerTitle: 'POI on the left - distance'});
+		if(searchresult[0].POILeft != "none") {
+	    	var left = getObjects(json, 'Code', searchresult[0].POILeft);
+	    	sectionPoiLeft.add(Ti.UI.createTableViewRow({
+	    		title: left[0].Name +
+	    		', ' + searchresult[0].POILeftDistance + ' steps',
+	    	}));
+	    	if(left[0].Name == "Corner"){
+	    		sectionPoiLeft.add(Ti.UI.createTableViewRow({
+	    			title: 'Turn ' + searchresult[0].POILeftDoor + ' to go on',
+	    		}));
+	    	}
+	    	else {
+	    		sectionPoiLeft.add(Ti.UI.createTableViewRow({
+	    			title: 'The door will be ' + searchresult[0].POILeftDoor,
+	    		}));
+	    	}
+			tableview.appendSection(sectionPoiLeft);
+		}
 		
-		// var tableview = Ti.UI.createTableView({
-  		// data: [sectionPoiName, sectionPoiInfo, sectionPoiLocation],
-		// style: Titanium.UI.iPhone.TableViewStyle.PLAIN,
-		// search:search,
-		// layout:'vertical',
-		// });
-			
+		var sectionPoiRight = Ti.UI.createTableViewSection({headerTitle: 'POI on the right - distance'});
+		if(searchresult[0].POIRight != "none") {
+	    	var right = getObjects(json, 'Code', searchresult[0].POIRight);
+	    	sectionPoiRight.add(Ti.UI.createTableViewRow({
+	    		title: right[0].Name +
+	    		', ' + searchresult[0].POIRightDistance + ' steps',
+	    	}));
+			tableview.appendSection(sectionPoiRight);
+		}
+		
+		var sectionPoiBehind = Ti.UI.createTableViewSection({headerTitle: 'POI behind - distance'});
+		if(searchresult[0].POIBehind != "none") {
+	    	var behind = getObjects(json, 'Code', searchresult[0].POIBehind);
+	    	sectionPoiBehind.add(Ti.UI.createTableViewRow({
+	    		title: behind[0].Name +
+	    		', ' + searchresult[0].POIBehindDistance + ' steps',
+	    	}));
+			tableview.appendSection(sectionPoiBehind);
+		}
+		
+		var sectionPoiForward = Ti.UI.createTableViewSection({headerTitle: 'POI in front of you - distance'});
+		if(searchresult[0].POIForward != "none") {
+	    	var forward = getObjects(json, 'Code', searchresult[0].POIForward);
+	    	sectionPoiForward.add(Ti.UI.createTableViewRow({
+	    		title: farward[0].Name +
+	    		', ' + searchresult[0].POIForwardDistance + ' steps',
+	    	}));
+			tableview.appendSection(sectionPoiForward);
+		}
+		
+		
+		
 		win.add(tableview);
 		
 	
