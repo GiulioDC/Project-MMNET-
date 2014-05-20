@@ -46,20 +46,45 @@ function parseresult() {
 		
 		Ti.App.fireEvent('getobjects');
 		var searchresult = getObjects(json, 'Code', poisearched);
-		Ti.API.info('ritorna: ' + searchresult[0].Name); 
 		
-		
-		var sectionPoiName = Ti.UI.createTableViewSection({ headerTitle: 'Point Of Interest'});
-		sectionPoiName.add(Ti.UI.createTableViewRow({title: searchresult[0].Name}));
-	    if(searchresult[0].Info != "No description") {
-			sectionPoiName.add(Ti.UI.createTableViewRow({title: searchresult[0].Info}));
-		}		
-		
+		var data = [];
 		var tableview = Ti.UI.createTableView({
-  		data: [sectionPoiName],
+  		data:data,
 		style: Titanium.UI.iPhone.TableViewStyle.PLAIN,
-		search:search
+		search:search,
+		layout:'vertical',
 		});
+		
+		var sectionPoiName = Ti.UI.createTableViewSection({headerTitle: 'Point Of Interest'	});
+		sectionPoiName.add(Ti.UI.createTableViewRow({
+			title: searchresult[0].Name,
+			font:{ fontSize:'20dp', fontWeight:'bold'},
+		}));
+		tableview.appendSection(sectionPoiName);
+
+		var sectionPoiInfo = Ti.UI.createTableViewSection({headerTitle: 'Info'});
+			if(searchresult[0].Info != "No description") {
+				sectionPoiInfo.add(Ti.UI.createTableViewRow({
+					title: searchresult[0].Info,
+					font:{fontSize:10}
+				}));
+				tableview.appendSection(sectionPoiInfo);
+			}
+			
+		var sectionPoiLocation = Ti.UI.createTableViewSection({headerTitle: 'Location'});
+		sectionPoiLocation.add(Ti.UI.createTableViewRow({
+			title: searchresult[0].Location,
+			font:{fontSize:10}
+		}));
+		tableview.appendSection(sectionPoiLocation);
+		
+		
+		// var tableview = Ti.UI.createTableView({
+  		// data: [sectionPoiName, sectionPoiInfo, sectionPoiLocation],
+		// style: Titanium.UI.iPhone.TableViewStyle.PLAIN,
+		// search:search,
+		// layout:'vertical',
+		// });
 			
 		win.add(tableview);
 		
