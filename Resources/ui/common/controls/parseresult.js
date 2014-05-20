@@ -43,7 +43,7 @@ function parseresult() {
 		var json, i, j, k, row;
 		var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
 		var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIRight, POIBehind, POIForward, poicode;
-		var NameLabel, DescriptionLabel, LocationLabel, PoiLeftLabel, PoiRightLabel, PoiBehindLabel, PoiForwardLabel;
+		var NameLabel, InfoLabel, LocationLabel, PoiLeftLabel, PoiRightLabel, PoiBehindLabel, PoiForwardLabel;
 		
 		Ti.App.fireEvent('getdata');
 		var temp = getdata();	
@@ -72,26 +72,26 @@ function parseresult() {
 	    NameLabel = Ti.UI.createLabel({
 	        text: searchresult[0].Name,
 	        font:{ fontSize:'24dp',fontWeight:'bold'},
-	        top: 6, 
+	        // top: 50, 
 	        // height:30,
 	        // textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 			color:'#000',
 			height : Ti.UI.SIZE,
 			touchEnabled:false
 	    });
-	    sectionPoiName.add(row);
+	    row.add(NameLabel);
 	    
 	    tabledata: [sectionPoiName];
 	    
-	    if(searchresult[0].Description != "No description") {
-	    	DescriptionLabel = Ti.UI.createLabel({
-	    		text: searchresult[0].Description,
+	    if(searchresult[0].Info != "No description") {
+	    	InfoLabel = Ti.UI.createLabel({
+	    		text: searchresult[0].Info,
 	    		// top:40,
 	    		// height : Ti.UI.SIZE,
 	    		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
 	    		wordWrap:true
 	    	});
-	    	row.add(DescriptionLabel);
+	    	row.add(InfoLabel);
 	    }
 	    
 	    LocationLabel = Ti.UI.createLabel({
@@ -104,21 +104,20 @@ function parseresult() {
 	    row.add(LocationLabel);
 	    
 	    if(searchresult[0].POILeft != "none") {
+	    	var left = getObjects(json, 'Code', searchresult[0].POILeft);
 	    	PoiLeftLabel = Ti.UI.createLabel({
-	    		text: 'On the left: ' + searchresult[0].POILeft, //restituisce codice e non stanza, sistemare
-	    		// top: 80,
-	    		// height : Ti.UI.SIZE,
-	    		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	    		text: 'On the left: ' + left[0].Name +
+	    		'\nDistance: ' + searchresult[0].POILeftDistance + ' steps',
 	    		wordWrap:true
 	    	});
 	    	row.add(PoiLeftLabel);
 	    }
 	    
 	    if(searchresult[0].POIRight != "none") {
+	    	var right = getObjects(json, 'Code', searchresult[0].POIRight);
 	    	PoiRightLabel = Ti.UI.createLabel({
-	    		text: 'On the right: ' + searchresult[0].POIRight,
-	    		// top: 100,
-	    		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	    		text: 'On the right: ' + right[0].Name +
+	    		'\nDistance: ' + searchresult[0].POIRightDistance + ' steps',
 	    		wordWrap:true,
 	    		// height : Ti.UI.SIZE
 	    	});
@@ -126,9 +125,10 @@ function parseresult() {
 	    }
 	    
 	    if(searchresult[0].POIBehind != "none") {
+	    	var behind = getObjects(json, 'Code', searchresult[0].POIBehind);
 	    	PoiBehindLabel = Ti.UI.createLabel({
-	    		text: 'Behind: ' + searchresult[0].POIBehind, //restituisce codice e non stanza, sistemare
-	    		// top: 120,
+	    		text: 'Behind: ' + behind[0].Name +
+	    		'\nDistance: ' + searchresult[0].POIBehindDistance + ' steps',
 	    		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
 	    		wordWrap:true
 	    		// height : Ti.UI.SIZE
@@ -137,12 +137,11 @@ function parseresult() {
 	    }
 	    
 	    if(searchresult[0].POIForward != "none") {
+	    	var forward = getObjects(json, 'Code', searchresult[0].POIForward);
 	    	PoiForwardLabel = Ti.UI.createLabel({
-	    		text: 'In front of you : ' + searchresult[0].POIForward, //restituisce codice e non stanza, sistemare
-	    		// top: 140,
-	    		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+	    		text: 'In front of you : ' + forward[0].Name +
+	    		'\nDistance: ' + searchresult[0].POIForwardDistance + ' steps',
 	    		wordWrap:true
-	    		// height : Ti.UI.SIZE
 	    	});
 	    	row.add(PoiForwardLabel);
 	    }

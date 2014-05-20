@@ -158,7 +158,7 @@ function navigation() {
     }
 
     //We should be sure the destination POI exists
-    if (POI_lookup(POIs, dest_poi) == null){
+    if (POI_lookup(POIs, dest_poi) == undefined){
       Ti.API.info(dest_poi + ' non trovato o mancante');
       return navpath;
     }
@@ -190,15 +190,17 @@ function navigation() {
     start_poi = POI_lookup(POIs, start_poi);
     
     //Check if we can reach our destination going left
-    while ((dest_poi != walk_poi.Code) && (walk_poi != null)){
+    while ((dest_poi != walk_poi) && (walk_poi != undefined)){
       Ti.API.info('Entrata while: ' + walk_poi.Code);
       navpath[i] = walk_poi;
       i++;
 
       //Can we reach our desired POI considering what we have in front of us?
       tmp_poi = POI_lookup(POIs, walk_poi.POIForward);
-      Ti.API.info('Punto davanti: ' + tmp_poi.Code);
-      if (dest_poi == tmp_poi.Code) {
+      //Ti.API.info('Punto davanti: ' + tmp_poi.Code);
+      Ti.API.info('Punto davanti: ' + tmp_poi);
+      //if (dest_poi == tmp_poi.Code) {
+      if(dest_poi == tmp_poi) {
         Ti.API.Info('Era davanti');
         walk_poi = tmp_poi;
         navpath[i] = walk_poi;
@@ -212,8 +214,11 @@ function navigation() {
       
       //Or behind us?
       tmp_poi = POI_lookup(POIs, walk_poi.POIBehind);
-      Ti.API.info('Punto dietro: ' + tmp_poi.Code);
-      if (dest_poi == tmp_poi.Code) {
+      //Ti.API.info('Punto dietro: ' + tmp_poi.Code);
+      Ti.API.info('Punto dietro: ' + tmp_poi);
+      
+      //if (dest_poi == tmp_poi.Code) {
+      	if(dest_poi == tmp_poi) {
         Ti.API.info('era davanti');
         walk_poi = tmp_poi;
         navpath[i] = walk_poi;
@@ -227,6 +232,7 @@ function navigation() {
       
       //Go in the "direction" direction
       walk_poi = POI_lookup(POIs, walk_poi.direction);
+      Ti.API.info('walk_poi: ' + walk_poi);
 
       //If we are where we started, stop here
       if (start_poi == walk_poi) {
@@ -234,19 +240,20 @@ function navigation() {
         return undefined;
         break;
       }
-      if(visited_places_codes.indexOf(walk_poi) == -1) {
-        Ti.API.info('Uscita: dipendenze circolari?');
-        Ti.API.info('Infatti, ' + walk_poi.Code + ' presente');
-        return undefined;
-      }
-      else
-      {
-        if (walk_poi != start_poi) {
-         Ti.API.info('Aggiungo ' + walk_poi.Code + ' alla lista dei posti visitati.');
-          visited_places_codes[j] = walk_poi;
-          j++;
-        }
-      }
+      // if(visited_places_codes[j].indexOf(walk_poi) == -1) {
+        // Ti.API.info('Uscita: dipendenze circolari?');
+        // Ti.API.info('Infatti, ' + walk_poi.Code + ' presente');
+        // j++;
+        // return undefined;
+      // }
+      // else
+      // {
+        // if (walk_poi != start_poi) {
+         // Ti.API.info('Aggiungo ' + walk_poi.Code + ' alla lista dei posti visitati.');
+          // visited_places_codes[j] = walk_poi;
+          // j++;
+        // }
+      // }
 
     } //end of the walking loop
     
