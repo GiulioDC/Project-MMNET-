@@ -29,10 +29,10 @@ function floors() {
 	
 	tableview.setData([]);
 	
-	var row = Ti.UI.createTableViewRow({
-	    height:Ti.UI.SIZE,
-	    layout: 'vertical'
-	});
+	// var row = Ti.UI.createTableViewRow({
+	    // height:Ti.UI.SIZE,
+	    // layout: 'vertical'
+	// });
 
 	for (var i = 0; i < json.HowManyBuildings; i++) {
 		var building = json.Buildings[i];
@@ -97,9 +97,10 @@ function floors() {
 				sectionPoiName.add(Ti.UI.createTableViewRow({
 					title: poiname.Name
 				}));
-				tableview.appendSection(sectionPoiName);
+				
 				
 			} //k
+			tableview.appendSection(sectionPoiName);
 		}//chiusura for j
 	} //chiusura for i
 

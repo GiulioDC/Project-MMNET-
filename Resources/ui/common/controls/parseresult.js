@@ -132,7 +132,7 @@ function parseresult() {
 	    		title: right[0].Name +
 	    		', ' + searchresult[0].POIRightDistance + ' steps',
 	    	}));
-	    	if(right[0].Name == "Corner"){
+	    	if(right[0].Name == "corner"){
 	    		sectionPoiRight.add(Ti.UI.createTableViewRow({
 	    			title: 'Turn ' + searchresult[0].POIRightDoor + ' to go on',
 	    		}));
