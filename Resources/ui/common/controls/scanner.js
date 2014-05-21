@@ -158,7 +158,7 @@ Barcode.addEventListener('success', function (e) {
         
         var W2 = require('ui/common/controls/parseresult'),
 		w2 = new W2();
-		w2.title = 'Go To POI';			
+		w2.title = 'Search POI';			
 		w2.searchinput = function()
 		{
 			return scanResult.text;
@@ -202,7 +202,7 @@ searchresult.addEventListener('click', function () {
 // set properties on the window object, then open.  we will print them out in the new window
 		var W2 = require('ui/common/controls/parseresult'),
 			w2 = new W2();
-			w2.title = 'Go To POI';			
+			w2.title = 'Search POI';			
 		w2.searchinput = function()
 		{
 			return scanResult.text;

@@ -1,7 +1,7 @@
 function parseresult() {
 	var win = Titanium.UI.createWindow({
 		backgroundColor:'white',
-		title: "Go To POI"
+		title: "Search POI"
 	});
 
 	var search = Titanium.UI.createSearchBar({
@@ -41,11 +41,38 @@ function parseresult() {
 		//Ti.API.info('readText: ' + readText);
 	
 		//var poisearched = e.value.substring(1);
-		var poisearched = e.value.replace(/\s+/g, ''); //ignore spaces
+		var varsearch = e.value.replace(/\s+/g, ''); //ignore spaces
+		var poisearched = varsearch.toLowerCase();
 		json = JSON.parse(readText);
 		
 		Ti.App.fireEvent('getobjects');
-		var searchresult = getObjects(json, 'Code', poisearched);
+		Ti.App.fireEvent('getKeys');
+		
+		var key = getKeys(json, poisearched);
+		if(key == 'Name'){
+			var searchresult = getObjects(json, 'Name', poisearched);
+		}
+		else{
+			var searchresult = getObjects(json, 'Code', poisearched);
+		}
+		
+				// switch(key) {
+// 			
+			// case 'Name':
+				// var searchresult = getObjects(json, 'Name', poisearched);
+				// break;
+			// case 'Code':
+				// var searchresult = getObjects(json, 'Code', poisearched);
+				// break;
+			// case 'Info':
+				// var searchresult = getObjects(json, 'Info', poisearched);
+			// case 'ID':
+				// var searchresult = getObjects(json, 'ID', poisearched);
+				// break;
+			// default:
+				// alert('Input error');
+				// break;
+		// }
 		
 		var data = [];
 		var tableview = Ti.UI.createTableView({
@@ -66,7 +93,7 @@ function parseresult() {
 			if(searchresult[0].Info != "No description") {
 				sectionPoiInfo.add(Ti.UI.createTableViewRow({
 					title: searchresult[0].Info,
-					font:{fontSize:10}
+					font:{fontSize:12}
 				}));
 				tableview.appendSection(sectionPoiInfo);
 			}
@@ -85,7 +112,7 @@ function parseresult() {
 	    		title: left[0].Name +
 	    		', ' + searchresult[0].POILeftDistance + ' steps',
 	    	}));
-	    	if(left[0].Name == "Corner"){
+	    	if(left[0].Name == "corner"){
 	    		sectionPoiLeft.add(Ti.UI.createTableViewRow({
 	    			title: 'Turn ' + searchresult[0].POILeftDoor + ' to go on',
 	    		}));
@@ -105,6 +132,17 @@ function parseresult() {
 	    		title: right[0].Name +
 	    		', ' + searchresult[0].POIRightDistance + ' steps',
 	    	}));
+	    	if(right[0].Name == "Corner"){
+	    		sectionPoiRight.add(Ti.UI.createTableViewRow({
+	    			title: 'Turn ' + searchresult[0].POIRightDoor + ' to go on',
+	    		}));
+	    	}
+	    	else {
+	    		sectionPoiRight.add(Ti.UI.createTableViewRow({
+	    			title: 'The door will be ' + searchresult[0].POIRightDoor,
+	    		}));
+	    	}
+	    	
 			tableview.appendSection(sectionPoiRight);
 		}
 		
@@ -115,6 +153,9 @@ function parseresult() {
 	    		title: behind[0].Name +
 	    		', ' + searchresult[0].POIBehindDistance + ' steps',
 	    	}));
+	    	sectionPoiBehind.add(Ti.UI.createTableViewRow({
+	    			title: 'The door will be ' + searchresult[0].POIBehindDoor,
+	    	}));
 			tableview.appendSection(sectionPoiBehind);
 		}
 		
@@ -122,13 +163,14 @@ function parseresult() {
 		if(searchresult[0].POIForward != "none") {
 	    	var forward = getObjects(json, 'Code', searchresult[0].POIForward);
 	    	sectionPoiForward.add(Ti.UI.createTableViewRow({
-	    		title: farward[0].Name +
+	    		title: forward[0].Name +
 	    		', ' + searchresult[0].POIForwardDistance + ' steps',
+	    	}));
+	    	sectionPoiForward.add(Ti.UI.createTableViewRow({
+	    			title: 'The door will be ' + searchresult[0].POIForwardDoor,
 	    	}));
 			tableview.appendSection(sectionPoiForward);
 		}
-		
-		
 		
 		win.add(tableview);
 		

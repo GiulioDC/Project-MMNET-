@@ -3,78 +3,94 @@ function map(_args) {
 		title:_args.title,
 		backgroundColor:'#dddddd'
 	});
+var tab = _args.containingTab;
 
-var url = "http://www.gstorm.eu/dc.txt";
-
-var tabledata = [];
-var tableview = Titanium.UI.createTableView({
-		data:tabledata
+	var tabledata = [];
+	var tableview = Titanium.UI.createTableView({
+		data:tabledata,
+		search:search,
+		//searchHidden:true,
+		filterAttribute:'Name',
+		top:50,
+		style: Titanium.UI.iPhone.TableViewStyle.PLAIN,
 	});
-	
-var json, i, row, nameLabel, nickLabel;
-var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
-var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIRight, POIBehind, POIForward;
 
-var xhr = Ti.Network.createHTTPClient({
-    onload: function() {
-	//Ti.API.debug(this.responseText);
-	// alert(this.responseText);
+
+	var search = Titanium.UI.createSearchBar({
+		barColor:'#dddddd',
+		showCancel:true,
+		height:43,
+		top:0,
+		hint:'search POI'
+	});
+
+	win.add(search);
+	
+	var json, i, j, k, row;
+	var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
+	var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIRight, POIBehind, POIForward, poicode;
+	var NameLabel, InfoLabel, LocationLabel, PoiLeftLabel, PoiRightLabel, PoiBehindLabel, PoiForwardLabel;
 		
-	json = JSON.parse(this.responseText);
+	Ti.App.fireEvent('getdata');
+	var temp = getdata();	
+	//Ti.API.info('temp: ' + temp);
+	var readText = temp.read();
+	//Ti.API.info('readText: ' + readText);
 	
-//alert(console.log(json));
-
-	
+	json = JSON.parse(readText);
+		
 	for (i = 0; i < json.HowManyBuildings; i++) {
 	    var building = json.Buildings[i];
 	    row = Ti.UI.createTableViewRow({
 	        height:'60dp'
 	    });
+	    
 	    nameLabel = Ti.UI.createLabel({
-	        text: building.BuildingName,
+	        text:building.BuildingName,
 	        font:{
 	            fontSize:'24dp',
 		    	fontWeight:'bold'
 			},
-		// height:'auto',
-		// left:'20dp',
-		// top:'20dp',
-		color:'#000',
-		touchEnabled:false
 	    });
-	    nickLabel = Ti.UI.createLabel({
-		text:'Number of floors: ' + building.HowManyFloors,
-		font:{
-		    fontSize:'16dp'
-		},
-		// height:'auto',
-		// left:'15dp',
-		// bottom:'5dp',
-		top: '40dp',
-		color:'#000',
-		touchEnabled:false
+	    floornumLabel = Ti.UI.createLabel({
+			text:'Number of floors: ' + building.HowManyFloors,
+			font:{
+		    	fontSize:'16dp'
+			},
+			top: '40dp',
+			color:'#000',
+			touchEnabled:false
 	    });
-
 	    row.add(nameLabel);
-	    row.add(nickLabel);
+	    row.add(floornumLabel);
 	    tabledata.push(row);
-        }
+	    
+		nameLabel.addEventListener('click', function(e) {
+	    	var WinFloors = require('ui/common/controls/floors'),
+			winfloors = new WinFloors();
+			winfloors.title = 'Floors';	
+			
+			winfloors.passbuilding = function() {
+				return i;
+			};
+			
+			
+			tab.open(winfloors,{animated:true});
+		});
+		
+		
+
+		
+	}
 		
 	tableview.setData(tabledata);
-    },
-    onerror: function(e) {
-	Ti.API.debug("STATUS: " + this.status);
-	Ti.API.debug("TEXT:   " + this.responseText);
-	Ti.API.debug("ERROR:  " + e.error);
-	alert('There was an error retrieving the remote data. Try again.');
-    },
-    timeout:5000
-});
+	
+	win.add(tableview);
 
 
-xhr.open("GET", url);
-xhr.send();
-win.add(tableview);
+
+
+
 
 	return win;
 };

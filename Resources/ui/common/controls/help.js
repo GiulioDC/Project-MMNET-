@@ -10,7 +10,7 @@ var win = Ti.UI.createWindow({
 
 
 var label1 = Ti.UI.createLabel({
-  text: 'The QR codes are placed on the wall immediately next to the door handle, at the same height.',
+  text: 'The QR codes are placed on the wall immediately next to the door, on the room label',
   top: 30,
   width: 300, height: 200
 });

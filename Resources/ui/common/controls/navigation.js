@@ -92,11 +92,11 @@ function navigation() {
     //POI corresponding to this one
     
     // var searched_POI=null;
-    var searched_POI = undefined;
+    var searched_POI = -1;
     
     //NULL argument?
-    if ((poi_code == undefined) || (poi_code == "none")) {
-      return searched_POI;
+    if ((poi_code == null) || (poi_code == "none")) {
+      return searched_POI_ID;
     }
     
     // foreach (POIs as $actual_POI) {
@@ -111,12 +111,12 @@ function navigation() {
     	if(POIs[i].Code == poi_code) {
     		Ti.API.info('POIs[i].Code = ' + POIs[i].Code);
     		// searched_POI = POIs[i].Code;
-    		searched_POI = POIs[i];
+    		searched_POI_ID = POIs[i];
   			break;
     	}
     }
     
-    return searched_POI;
+    return searched_POI_ID;
   }
   
   var poicercato = POI_lookup(pippo, '0101');
