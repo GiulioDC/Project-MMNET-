@@ -1,10 +1,14 @@
-function floors() {
+function floors(title) {
 	var win = Titanium.UI.createWindow({
 		backgroundColor:'white',
 		title: "Floors"
 	});
-	var tab = [];
 
+
+	var tab = win.containingTab;
+
+	
+	
 	var data = [];
 	var tableview = Titanium.UI.createTableView({
 		data:data,
@@ -98,7 +102,26 @@ function floors() {
 					title: poiname.Name
 				}));
 				
-				
+				// var rightButton = Titanium.UI.createButton({
+            		// style:Titanium.UI.iPhone.SystemButton.INFO_DARK,
+            		// right:10
+        		// });
+//         		
+        		// rightButton.addEventListener('click',function(e)
+        		// {
+        			// var NW = require('ui/common/controls/parseresult'),
+            		// newWindow = new NW(); 
+        			// newWindow.title = 'Search POI',
+					// tab.open(newWindow,{animated:true });
+        		// });
+// 			    
+			    // var tmpView = Ti.UI.createView({height:40,width:40,right:0});
+//         		
+        		// var row = Ti.UI.createTableViewRow({height:'auto'});
+        		// tmpView.add(rightButton);
+        		// row.add(tmpView);
+        		// sectionPoiName.add(row);
+// 				
 			} //k
 			tableview.appendSection(sectionPoiName);
 		}//chiusura for j
