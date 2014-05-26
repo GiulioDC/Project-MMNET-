@@ -426,6 +426,14 @@
       	navpath[j] = walk_poi_id;
       	j++;
       }
+      else{
+      	if(direction[0] == "ascending"){
+      		walk_poi_id += -1;
+      	}
+      	else{
+      		walk_poi_id += 1;
+      	}
+      }
       
       //Move on the next place
       walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POILeft), direction[1]);
@@ -436,20 +444,15 @@
         walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POIRight), direction[1]);
         Ti.API.info('move to its right or stay in: ' + walk_poi_id);
       }
+ 
 
-	  // if(walk_poi_id == 0 && walk_poi_id != dest_poi_id) {
-      	// navpath[j] = 1;
-      // }
-      // else {
-      	// navpath[j] = walk_poi_id;
-      // }
-      
-      if(walk_poi_id != 0 || (walk_poi_id == 0 && walk_poi_id == dest_poi_id)) {
+      if(walk_poi_id != 0 || (walk_poi_id == 0 && walk_poi_id == dest_poi_id)) { //avoid passage through entrance
       	navpath[j] = walk_poi_id;
-      	Ti.API.info('447 right vs left is closest: ' + navpath[j]);
+      	Ti.API.info('451 right vs left is closest: ' + navpath[j]);
       	j++;  	
       }
-      
+     
+  
       
       
       
