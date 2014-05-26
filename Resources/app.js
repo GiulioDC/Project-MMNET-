@@ -317,12 +317,10 @@
     //Useful variables:
     var walk_poi_id = "unknown";         //the POI id where we are now
     var dest_poi_id  = "unknown";        //our destination id
-    var navpath = {} ;            		 //path to reach your destination
+    var navpath = [] ;            		 //path to reach your destination
     var direction="unknown";
     var pdistance = null;                //only for printing, pass distance
     var j = 0;
-
-    Ti.API.info('walkbegins: ' + walk_poi_id);
     
     //Fail if start and dest POIs are the same, or have the same code
     if (start_poi_code == dest_poi_code){
@@ -335,7 +333,9 @@
       return "fail";
     }
     
-    Ti.API.info('movetostart: ' + walk_poi_id);
+    Ti.API.info('startingpoi: ' + walk_poi_id);
+    navpath[j] = walk_poi_id;
+    j++;
     
     //Does destination POI exist?
     dest_poi_id = poi_lookup_id(POIs, dest_poi_code);
@@ -377,18 +377,19 @@
       }
       
       Ti.API.info('walk: ' + walk_poi_id);
+      navpath[j] = walk_poi_id;
+      j++;
           
       //The minus sign seems not removed by % operator, so we should handle them
       if (walk_poi_id < 0)
         walk_poi_id += POIs.length;
-        
-        var pdsistance;
       
       //Chek around us
       var templeft = poi_lookup_id(POIs, POIs[walk_poi_id].POILeft);
       if (templeft == dest_poi_id) {
         pdistance='POILeftDistance';
         navpath[j] = templeft;
+        Ti.API.info(j + ' verso sinistra ' + navpath[j]);
         j++;
         break;
       }
@@ -396,6 +397,7 @@
       if (tempright == dest_poi_id) {
         pdistance='POIRightDistance';
         navpath[j] = tempright;
+        Ti.API.info(j + ' verso destra ' + navpath[j]);
         j++;
         break;
       }
@@ -403,6 +405,7 @@
       if (tempforward == dest_poi_id) {
         pdistance='POIForwardDistance';
         navpath[j] = tempforward;
+        Ti.API.info(j + ' verso avanti ' + navpath[j]);
         j++;
         break;
       }
@@ -410,32 +413,35 @@
       if (tempbehind == dest_poi_id) {
         pdistance='POIBehindDistance';
         navpath[j] = tempbehind;
+        Ti.API.info(j + ' verso dietro ' + navpath[j]);
         j++;
         break;
       }
       
       //Move on the next place
-      walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POILeft), direction[1]);
+      walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POILeft), direction[1]); //???
+      Ti.API.info('move to the next place: ' + walk_poi_id);
       
       //If we arrived at the destination, stop
       if (walk_poi_id != dest_poi_id) {
         pdistance='POIRightDistance';
         walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POIRight), direction[1]);
+        Ti.API.info('if we arrived poirightdistance: ' + walk_poi_id);
       }
       else {
         pdistance='POILeftDistance';
+        Ti.API.info('if we arrived poileftdistance: ' + walk_poi_id);
       }
 
       //For now, add this id to the path
       navpath[j] = walk_poi_id;
+      Ti.API.info('for now add navpath: ' + navpath[j]);
       j++;
     }
 
-    navpath[j] = walk_poi_id;
-    j++;
-    Ti.API.info('Name: ' + POIs[walk_poi_id].Name + ' ID: ' + walk_poi_id);
-    Ti.API.info('Next POI reached: ' + POIs[dest_poi_id].Name);
-Ti.API.info('navpath: ' + navpath[0] + ' ' + navpath[1] + ' ' + navpath[navpath.length]);
+    // navpath[j] = walk_poi_id;
+    // Ti.API.info('fuori dal while: ' + navpath[j]);
+   
     return navpath;
   }
   Ti.App.addEventListener('navreach', nav_reach);
