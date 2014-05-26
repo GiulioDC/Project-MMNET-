@@ -338,7 +338,7 @@
     	walk_poi_id = 1;
     }
     
-    Ti.API.info('startingpoi: ' + walk_poi_id);
+    Ti.API.info('341 startingpoi: ' + walk_poi_id);
     navpath[j] = walk_poi_id;
     j++;
     
@@ -399,14 +399,16 @@
       
       if (direction[0] == "ascending") {
         Ti.API.info('going forward');
-        walk_poi_id = (walk_poi_id+1)%POIs.length; //+1
+        // walk_poi_id = (walk_poi_id+1)%POIs.length+1;
+        walk_poi_id = (walk_poi_id+1)%POIs.length;
       }
       else {
         Ti.API.info('going backwards');
+        // walk_poi_id = (walk_poi_id-1)%POIs.length;
         walk_poi_id = (walk_poi_id-1)%POIs.length;
       }
       
-      Ti.API.info('walk 384: ' + walk_poi_id);
+      Ti.API.info('409 walk : ' + walk_poi_id);
       // navpath[j] = walk_poi_id;
       // j++;
           
