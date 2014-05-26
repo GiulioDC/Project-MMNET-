@@ -377,6 +377,36 @@
     //Search our destination:
     while (walk_poi_id != dest_poi_id){
       
+      //Chek around us
+      var templeft = poi_lookup_id(POIs, POIs[walk_poi_id].POILeft);
+      if (templeft == dest_poi_id) {
+        navpath[j] = templeft;
+        Ti.API.info('destinazione a sinistra ' + navpath[j]);
+        j++;
+        break;
+      }
+      var tempright = poi_lookup_id(POIs, POIs[walk_poi_id].POIRight);
+      if (tempright == dest_poi_id) {
+        navpath[j] = tempright;
+        Ti.API.info('destinazione a destra ' + navpath[j]);
+        j++;
+        break;
+      }
+      var tempforward = poi_lookup_id(POIs, POIs[walk_poi_id].POIForward);
+      if (tempforward == dest_poi_id) {
+        navpath[j] = tempforward;
+        Ti.API.info('destinazione avanti ' + navpath[j]);
+        j++;
+        break;
+      }
+      var tempbehind = poi_lookup_id(POIs, POIs[walk_poi_id].POIBehind);
+      if (tempbehind == dest_poi_id) {
+        navpath[j] = tempbehind;
+        Ti.API.info('destinazione dietro ' + navpath[j]);
+        j++;
+        break;
+      }
+      
       if (direction[0] == "ascending") {
         Ti.API.info('going forward');
         // walk_poi_id = (walk_poi_id+1)%POIs.length+1;
@@ -384,66 +414,46 @@
       }
       else {
         Ti.API.info('going backwards');
-        // walk_poi_id = (walk_poi_id-1)%POIs.length;
         walk_poi_id = (walk_poi_id-1)%POIs.length;
       }
       
-      Ti.API.info('391 mi muovo verso : ' + walk_poi_id);
-      // navpath[j] = walk_poi_id;
-      // j++;
+      Ti.API.info('420 mi muovo verso : ' + walk_poi_id);
           
       //The minus sign seems not removed by % operator, so we should handle them
-      if (walk_poi_id < 0)
-        walk_poi_id += POIs.length;
-      
-      //Chek around us
-      var templeft = poi_lookup_id(POIs, POIs[walk_poi_id].POILeft);
-      if (templeft == dest_poi_id) {
-        navpath[j] = templeft;
-        Ti.API.info(j + ' è a sinistra ' + navpath[j]);
-        j++;
-        break;
-      }
-      var tempright = poi_lookup_id(POIs, POIs[walk_poi_id].POIRight);
-      if (tempright == dest_poi_id) {
-        navpath[j] = tempright;
-        Ti.API.info(j + ' è a destra ' + navpath[j]);
-        j++;
-        break;
-      }
-      var tempforward = poi_lookup_id(POIs, POIs[walk_poi_id].POIForward);
-      if (tempforward == dest_poi_id) {
-        navpath[j] = tempforward;
-        Ti.API.info(j + ' è avanti ' + navpath[j]);
-        j++;
-        break;
-      }
-      var tempbehind = poi_lookup_id(POIs, POIs[walk_poi_id].POIBehind);
-      if (tempbehind == dest_poi_id) {
-        navpath[j] = tempbehind;
-        Ti.API.info(j + ' è dietro ' + navpath[j]);
-        j++;
-        break;
+      if (walk_poi_id < 0) {
+      	walk_poi_id += POIs.length;
+      	Ti.API.info('riparto dalla fine: ' + walk_poi_id);
+      	navpath[j] = walk_poi_id;
+      	j++;
       }
       
       //Move on the next place
       walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POILeft), direction[1]);
-      Ti.API.info('move to the next place: ' + walk_poi_id);
+      Ti.API.info('move to its left or stay in: ' + walk_poi_id);
       
       //Until we have arrived to the destination
       if (walk_poi_id != dest_poi_id) {
         walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POIRight), direction[1]);
-        Ti.API.info('move to the right to: ' + walk_poi_id);
-      }
-      else {
-        Ti.API.info('move to the left to: ' + walk_poi_id);
+        Ti.API.info('move to its right or stay in: ' + walk_poi_id);
       }
 
-      //For now, add this id to the path
-      navpath[j] = walk_poi_id;
-      Ti.API.info('for now add navpath: ' + navpath[j]);
-      j++;
-    }
+	  // if(walk_poi_id == 0 && walk_poi_id != dest_poi_id) {
+      	// navpath[j] = 1;
+      // }
+      // else {
+      	// navpath[j] = walk_poi_id;
+      // }
+      
+      if(walk_poi_id != 0 || (walk_poi_id == 0 && walk_poi_id == dest_poi_id)) {
+      	navpath[j] = walk_poi_id;
+      	Ti.API.info('447 right vs left is closest: ' + navpath[j]);
+      	j++;  	
+      }
+      
+      
+      
+      
+    } //while
       
       // //Move on the next place
 //      	
@@ -463,7 +473,8 @@
       // navpath[j] = walk_poi_id;
       // Ti.API.info('for now add navpath: ' + navpath[j]);
       // j++;
-    // }
+      //
+    // } //while
 
     // navpath[j] = walk_poi_id;
     // Ti.API.info('fuori dal while: ' + navpath[j]);

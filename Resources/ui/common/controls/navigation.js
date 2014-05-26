@@ -49,7 +49,7 @@ function navigation() {
 	Ti.App.fireEvent('navreach');
 	var pois_temp = nav_get_POIs(json, 1, -1);
 	var path = [];
-  	path = nav_reach(pois_temp,"0101", "0002");
+  	path = nav_reach(pois_temp,"0001", "0005");
   	Ti.API.info('PATH: ' + path);
   
  	Ti.App.fireEvent('getobjects'); //call getObjects function from app.js
