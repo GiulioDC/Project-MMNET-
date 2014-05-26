@@ -5,15 +5,15 @@
 		version = Ti.Platform.version,
 		height = Ti.Platform.displayCaps.platformHeight,
 		width = Ti.Platform.displayCaps.platformWidth;
-	
+
 	var Window;
-	
+
 	Window = require('ui/handheld/ios/ApplicationWindow');
-	
-	
+
+
 
 	var ApplicationTabGroup = require('ui/common/ApplicationTabGroup');
-	
+
 	var theTabGroup = new ApplicationTabGroup();
 	if (osname === 'iphone' || osname === 'ipad') {
 		theTabGroup.open({transition: Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT});
@@ -21,12 +21,12 @@
 	else{
 		theTabGroup.open();
 	}
-	
-		
+
+
 })();
 
 	var url = "http://www.gstorm.eu/dc.txt";
-	
+
 	//return an array of objects according to key, value, or key and value matching
 	function getObjects(obj, key, val) {
     	var objects = [];
@@ -79,45 +79,45 @@
     	return objects;
 	}
 	Ti.App.addEventListener('getkeys', getKeys);
-		
+
 	function getdata(){
-	
+
 		var filename = "data.txt"; // Set the filename
 		var xhr = Titanium.Network.createHTTPClient(); // Start the connection
-	
+
 		xhr.open("GET",url); 	// Open the connection to the API
-	
+
 		// If all works fine
 		xhr.onload = function() {
-			
+
 			var output = JSON.parse(this.responseText);
 			var timestamp_json = output.unix; 		// Set the latest timestamp
 			var count_json = output.count; // Set the amount of posts returned
 			var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, filename); // Get cache file
-		
+
 			// If the cache file exists
 			if (file.exists()) {
-		
+
 				var timestamp_file = file.createTimestamp().getTime() / 1000.0; // Set file timestamp in the correct unix format
 				var file_content = file.read(); // Get the content of the file
 				var file_parse = JSON.parse(file_content); // Parse the content
-			
+
 				// Get the item count with a loop
 				for (var file_count = 0; file_count < file_parse.length; file_count++) { };
 
 				// If the file is newer than the JSON object and that the item count is the same
 				if (timestamp_file > timestamp_json && file_count == count_json) {
-			
+
 					Titanium.API.info("The file is already up to date"); // Log the call if the JSON object is newer than the file	
 				}
 				else {
 					var data = Titanium.Network.createHTTPClient();// Start the connection
-				
+
 					data.open("GET",url); // Open the connection to the API
-				
+
 					// If all works fine
 					data.onload = function() {
-				
+
 						// Log to console
 						// Titanium.API.info('Loaded! Status: ' + this.status);
     					// Titanium.API.info('Response Header: ' + this.getResponseHeader('Content-Type'));
@@ -131,42 +131,42 @@
  				}
 			} 
 			else { // If the cache file does not exist create the file		
-		
+
 				var create_file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, filename);
 				var create = Titanium.Network.createHTTPClient(); // Start the connection
-	
+
 				create.open("GET",url); // Open the connection to the API
-				
+
 				create.onload = function() { // If all works fine
-			
+
 					// Log to console
 					Titanium.API.info('Loaded! Status: ' + this.status);
     				// Titanium.API.info('Response Header: ' + this.getResponseHeader('Content-Type'));
     				// Titanium.API.info('Response Text: ' + this.responseText);
-	
+
 					create_file.write(this.responseText); // Fill the content of that file
 				};
-			
+
 				create.send(); // Make the API request
 				Titanium.API.info("Create the file and fill it with data");	// Log the call	
 			}
 		};
-	
+
 		xhr.send(); // Make the API request
-	
+
 		return Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory, filename); // Return the file content
-	
+
 	};
 	Ti.App.addEventListener('getdata', getdata);
-	
-	
+
+
 	/*Check in the variable is a number*/
 	function IsNumeric(n) {
   		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 	Ti.App.addEventListener('isnumeric', IsNumeric);
-	
-	
+
+
 	//  ========================
 	//  = Navigation functions = 
 	//  ========================
@@ -256,7 +256,7 @@
     return searched_POI_ID;
   }
   Ti.App.addEventListener('poilookupid', poi_lookup_id);
-	
+
   
   
   /*
@@ -372,27 +372,7 @@
         }
       }
       Ti.API.info('direction: ' + direction[0] + ' ' + direction[1]);
-      
-    // if ((dest_poi_id-walk_poi_id) < (walk_poi_id+POIs.length-dest_poi_id)){
-   		// if (dest_poi_id-walk_poi_id > 0){
-          // direction=["ascending", "major"];
-        // }
-        // else
-        // {
-          // direction=["descending", "minor"];
-        // }
-      // }
-      // else
-      // {
-        // if ((dest_poi_id-walk_poi_id) > 0) {
-          // direction = ["descending", "minor"];
-        // }
-        // else
-        // {
-          // direction=["ascending", "major"];
-        // }
-      // }
-      // Ti.API.info('direction: ' + direction[0] + ' ' + direction[1]);
+
     
     //Search our destination:
     while (walk_poi_id != dest_poi_id){
@@ -408,7 +388,7 @@
         walk_poi_id = (walk_poi_id-1)%POIs.length;
       }
       
-      Ti.API.info('409 walk : ' + walk_poi_id);
+      Ti.API.info('391 mi muovo verso : ' + walk_poi_id);
       // navpath[j] = walk_poi_id;
       // j++;
           
@@ -419,50 +399,44 @@
       //Chek around us
       var templeft = poi_lookup_id(POIs, POIs[walk_poi_id].POILeft);
       if (templeft == dest_poi_id) {
-        pdistance='POILeftDistance';
         navpath[j] = templeft;
-        Ti.API.info(j + ' verso sinistra ' + navpath[j]);
+        Ti.API.info(j + ' è a sinistra ' + navpath[j]);
         j++;
         break;
       }
       var tempright = poi_lookup_id(POIs, POIs[walk_poi_id].POIRight);
       if (tempright == dest_poi_id) {
-        pdistance='POIRightDistance';
         navpath[j] = tempright;
-        Ti.API.info(j + ' verso destra ' + navpath[j]);
+        Ti.API.info(j + ' è a destra ' + navpath[j]);
         j++;
         break;
       }
       var tempforward = poi_lookup_id(POIs, POIs[walk_poi_id].POIForward);
       if (tempforward == dest_poi_id) {
-        pdistance='POIForwardDistance';
         navpath[j] = tempforward;
-        Ti.API.info(j + ' verso avanti ' + navpath[j]);
+        Ti.API.info(j + ' è avanti ' + navpath[j]);
         j++;
         break;
       }
       var tempbehind = poi_lookup_id(POIs, POIs[walk_poi_id].POIBehind);
       if (tempbehind == dest_poi_id) {
-        pdistance='POIBehindDistance';
         navpath[j] = tempbehind;
-        Ti.API.info(j + ' verso dietro ' + navpath[j]);
+        Ti.API.info(j + ' è dietro ' + navpath[j]);
         j++;
         break;
       }
       
       //Move on the next place
-      walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POILeft), direction[1]); //???
+      walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POILeft), direction[1]);
       Ti.API.info('move to the next place: ' + walk_poi_id);
       
-      //If we arrived at the destination, stop
+      //Until we have arrived to the destination
       if (walk_poi_id != dest_poi_id) {
-        pdistance='POIRightDistance';
         walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POIRight), direction[1]);
-        Ti.API.info('if we arrived poirightdistance: ' + walk_poi_id);
+        Ti.API.info('move to the right to: ' + walk_poi_id);
       }
       else {
-        pdistance='POILeftDistance';
-        Ti.API.info('if we arrived poileftdistance: ' + walk_poi_id);
+        Ti.API.info('move to the left to: ' + walk_poi_id);
       }
 
       //For now, add this id to the path
@@ -497,5 +471,3 @@
     return navpath;
   }
   Ti.App.addEventListener('navreach', nav_reach);
-  
-	
