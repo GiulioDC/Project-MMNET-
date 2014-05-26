@@ -3,9 +3,9 @@ function navigation() {
 		backgroundColor:'white',
 		title: "Navigation"
 	});
-	
 
-	
+
+
 	var plainTemplate = {
     	childTemplates: [
         {
@@ -28,7 +28,7 @@ function navigation() {
         }
     	]
 	};
-	
+
 	function report(e) {
 		Ti.API.info(e.type);
 	}
@@ -44,12 +44,12 @@ function navigation() {
 	var navdata = getdata();	//navdata hold the entire json object
 	var readnavdata = navdata.read();
 	var json = JSON.parse(readnavdata);
-	
+
 	Ti.App.fireEvent('navgetpois');
 	Ti.App.fireEvent('navreach');
 	var pois_temp = nav_get_POIs(json, 1, -1);
 	var path = [];
-  	path = nav_reach(pois_temp,"0101", "0004");
+  	path = nav_reach(pois_temp,"0011", "0001");
   	Ti.API.info('PATH: ' + path);
   
  	Ti.App.fireEvent('getobjects'); //call getObjects function from app.js
@@ -95,4 +95,3 @@ function navigation() {
 };
 
 module.exports = navigation;
-

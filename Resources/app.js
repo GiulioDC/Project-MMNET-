@@ -332,6 +332,11 @@
     if (walk_poi_id == -1) {
       return "fail";
     }
+    else if (walk_poi_id == 0) {
+    	navpath[j] = walk_poi_id;
+    	j++;
+    	walk_poi_id = 1;
+    }
     
     Ti.API.info('startingpoi: ' + walk_poi_id);
     navpath[j] = walk_poi_id;
@@ -343,11 +348,12 @@
       return "fail";
     }
     
-    //Search our destination:
-    while (walk_poi_id != dest_poi_id){
-      
-      if ((dest_poi_id-walk_poi_id) < (walk_poi_id+POIs.length-dest_poi_id)){
-        if (dest_poi_id-walk_poi_id > 0){
+    var diff = dest_poi_id - walk_poi_id;
+    var absdiff = Math.abs(diff);
+    Ti.API.info('absdiff: ' + absdiff);
+    
+    if(absdiff < POIs.length/2) {
+   	if (dest_poi_id-walk_poi_id > 0){
           direction=["ascending", "major"];
         }
         else
@@ -367,18 +373,42 @@
       }
       Ti.API.info('direction: ' + direction[0] + ' ' + direction[1]);
       
+    // if ((dest_poi_id-walk_poi_id) < (walk_poi_id+POIs.length-dest_poi_id)){
+   		// if (dest_poi_id-walk_poi_id > 0){
+          // direction=["ascending", "major"];
+        // }
+        // else
+        // {
+          // direction=["descending", "minor"];
+        // }
+      // }
+      // else
+      // {
+        // if ((dest_poi_id-walk_poi_id) > 0) {
+          // direction = ["descending", "minor"];
+        // }
+        // else
+        // {
+          // direction=["ascending", "major"];
+        // }
+      // }
+      // Ti.API.info('direction: ' + direction[0] + ' ' + direction[1]);
+    
+    //Search our destination:
+    while (walk_poi_id != dest_poi_id){
+      
       if (direction[0] == "ascending") {
         Ti.API.info('going forward');
-        walk_poi_id = (walk_poi_id+1)%POIs.length+1;
+        walk_poi_id = (walk_poi_id+1)%POIs.length; //+1
       }
       else {
         Ti.API.info('going backwards');
         walk_poi_id = (walk_poi_id-1)%POIs.length;
       }
       
-      Ti.API.info('walk: ' + walk_poi_id);
-      navpath[j] = walk_poi_id;
-      j++;
+      Ti.API.info('walk 384: ' + walk_poi_id);
+      // navpath[j] = walk_poi_id;
+      // j++;
           
       //The minus sign seems not removed by % operator, so we should handle them
       if (walk_poi_id < 0)
@@ -438,6 +468,26 @@
       Ti.API.info('for now add navpath: ' + navpath[j]);
       j++;
     }
+      
+      // //Move on the next place
+//      	
+      // if (walk_poi_id != dest_poi_id) {
+      	// Ti.API.info('walk 424: ' + walk_poi_id);
+      	// var walktemp = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POILeft), direction[1]); //???
+      	// Ti.API.info('walk vs poileft: ' + walktemp);
+        // walktemp = nav_select_id(walktemp, poi_lookup_id(POIs, POIs[walk_poi_id].POIRight), direction[1]);
+        // Ti.API.info('walk vs poiright: ' + walktemp);
+        // walktemp = nav_select_id(walktemp, poi_lookup_id(POIs, POIs[walk_poi_id].POIBehind), direction[1]);
+        // Ti.API.info('walk vs poibehind: ' + walktemp);
+        // walk_poi_id = nav_select_id(walktemp, poi_lookup_id(POIs, POIs[walk_poi_id].POIForward), direction[1]);
+        // Ti.API.info('walk vs poiforward: ' + walk_poi_id);
+      // }
+// 
+      // //For now, add this id to the path
+      // navpath[j] = walk_poi_id;
+      // Ti.API.info('for now add navpath: ' + navpath[j]);
+      // j++;
+    // }
 
     // navpath[j] = walk_poi_id;
     // Ti.API.info('fuori dal while: ' + navpath[j]);
