@@ -1,8 +1,21 @@
 function poilist(_args) {
 	var win = Titanium.UI.createWindow({
 		backgroundColor:'white',
-		title: _args.title
+		title: _args.title,
+		f_number: _args.f_number_passed
 	});
+	
+	win.addEventListener('open', function(){
+		if(win.passfloornum != undefined) {
+			f_number_passed = win.passfloornum();
+			Ti.API.info('f_number dentro: '+ f_number_passed);
+			return f_number_passed;
+		};
+	});
+	
+	var ciccio = win.f_number;
+	Ti.API.info('ciccio: ' + win.f_number);
+
 	
 	var tabledata = [];
 	var tableview = Titanium.UI.createTableView({

@@ -37,7 +37,7 @@ function places(title) {
 			var floor = BuildObj[0].Floors[j];
 			sectionFloors.add(Ti.UI.createTableViewRow({
 				title: '[' + floor.FloorNumber + '] ' + floor.FloorName,
-				number: floor.FloorNumber,
+				f_number: floor.FloorNumber,
 				hasChild:true
 			}));
 		}
@@ -46,16 +46,23 @@ function places(title) {
 	tableview.appendSection(sectionFloors);
 
 	tableview.addEventListener('click', function(e) {
-		if(e.rowData.number) {
+		if(e.rowData.f_number) {
 			var Window = require('ui/common/controls/poilist'),
 			win1 = new Window({
 				title: e.rowData.title,
 				containingTab:win.containingTab,
-				tabGroup:win.tabGroup
+				tabGroup:win.tabGroup,
+				f_number_passed:e.rowData.f_number
 			});
+			win1.passfloornum = function() {
+				return e.rowData.f_number;
+			};
+
 			tab.open(win1,{animated:true});
 		}
 	});
+
+
 
 	
 	win.add(tableview);
