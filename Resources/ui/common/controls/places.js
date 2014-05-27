@@ -1,9 +1,9 @@
-function places(title) {
+function places(_args) {
 	var win = Ti.UI.createWindow({
-		title:'Places',
+		title:_args.title,
 		backgroundColor:'#dddddd'
 	});
-	var tab = title.containingTab;
+	//var tab = title.containingTab;
 	
 	Ti.App.fireEvent('getdata');
 	Ti.App.fireEvent('getvalues');
@@ -15,8 +15,8 @@ function places(title) {
 	var data = [];
 	var tableview = Ti.UI.createTableView({
   		data:data,
-		style: Titanium.UI.iPhone.TableViewStyle.PLAIN,
-		layout:'vertical',
+		style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
+		layout:'vertical'
 	});
 		
 	var sectionBuilding = Ti.UI.createTableViewSection({headerTitle: 'Building'	});
@@ -41,24 +41,23 @@ function places(title) {
 				hasChild:true
 			}));
 		}
+		tableview.appendSection(sectionBuilding);
+		tableview.appendSection(sectionFloors);
 	}
-	tableview.appendSection(sectionBuilding);
-	tableview.appendSection(sectionFloors);
+	
+	
 
 	tableview.addEventListener('click', function(e) {
 		if(e.rowData.f_number) {
-			var Window = require('ui/common/controls/poilist'),
+			var Window = require('ui/common/controls/Places/poilist'),
 			win1 = new Window({
 				title: e.rowData.title,
-				containingTab:win.containingTab,
-				tabGroup:win.tabGroup,
+				containingTab:_args.containingTab,
+				tabGroup:_args.tabGroup,
 				f_number_passed:e.rowData.f_number
 			});
-			win1.passfloornum = function() {
-				return e.rowData.f_number;
-			};
 
-			tab.open(win1,{animated:true});
+			_args.containingTab.open(win1,{animated:true});
 		}
 	});
 

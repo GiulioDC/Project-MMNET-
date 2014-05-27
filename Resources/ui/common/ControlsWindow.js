@@ -9,7 +9,7 @@ function ControlsWindow(title) {
 		{title:'QR Scan', hasChild:true, test:'ui/common/controls/scanner'},
 		{title:'Search POI', hasChild:true, test:'ui/common/controls/parseresult'},
 		{title:'Go to POI', hasChild:true, test:'ui/common/controls/startingpoi'},
-		{title:'Map', hasChild:true, test:'ui/common/controls/places'},
+		{title:'Places', hasChild:true, test:'ui/common/controls/places'},
 		{title: 'Help', hasChild:true, test:'ui/common/controls/help'}
 	];
 	
@@ -25,7 +25,7 @@ function ControlsWindow(title) {
 		if (e.rowData.test) {
 			var ExampleWindow = require(e.rowData.test),
 				win = new ExampleWindow({
-					title:e.rowData.title,
+					title:e.rowData.title, //passes the title of the row as title of next window
 					containingTab:self.containingTab,
 					tabGroup:self.tabGroup
 				});
