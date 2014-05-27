@@ -3,9 +3,7 @@ function poilist(_args) {
 		backgroundColor:'white',
 		title: _args.title,
 		f_number: _args.f_number_passed,
-		//containingTab:_args.containingTab
 	});
-	//var tab = _args.containingTab;
 	
 	var data = [];
 	var tableview = Titanium.UI.createTableView({
