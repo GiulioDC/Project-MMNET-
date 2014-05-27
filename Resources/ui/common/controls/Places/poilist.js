@@ -5,12 +5,23 @@ function poilist(_args) {
 		f_number: _args.f_number_passed,
 	});
 	
+	var search = Titanium.UI.createSearchBar({
+		barColor:'#dddddd',
+		showCancel:true,
+		height:43,
+		top:0,
+	});
+	// win.add(search);
+	
 	var data = [];
 	var tableview = Titanium.UI.createTableView({
 		data:data,
+		search:search,
 		style: Titanium.UI.iPhone.TableViewStyle.PLAIN,
-		layout:'vertical'
+		layout:'vertical',
+		top:43
 	});
+	
 
 	Ti.App.fireEvent('getdata');
 	Ti.App.fireEvent('getobjects');
@@ -53,8 +64,9 @@ function poilist(_args) {
 	
 	
 
-
+	win.add(search);
 	win.add(tableview);
+	
 
 	return win;
 };
