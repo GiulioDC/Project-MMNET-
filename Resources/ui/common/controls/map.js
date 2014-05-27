@@ -5,54 +5,34 @@ function map(_args) {
 	});
 var tab = _args.containingTab;
 
-	var tabledata = [];
+	var data = [];
+	
 	var tableview = Titanium.UI.createTableView({
-		data:tabledata,
-		search:search,
-		//searchHidden:true,
-		filterAttribute:'Name',
-		top:50,
+		data:data,
 		style: Titanium.UI.iPhone.TableViewStyle.PLAIN,
 	});
 
-
-	var search = Titanium.UI.createSearchBar({
-		barColor:'#dddddd',
-		showCancel:true,
-		height:43,
-		top:0,
-		hint:'search POI'
-	});
-
-	win.add(search);
-	
-	var json, i, j, k, row;
-	var DataType, EngineVersion, HowManyBuildings, Builndings, BuildingName, HowManyFloors, Floors, FloorName, FloorNumber;
-	var HowManyPois, POIs, Code, POIName, POIDescription, POILocation, POILeft, POIRight, POIBehind, POIForward, poicode;
-	var NameLabel, InfoLabel, LocationLabel, PoiLeftLabel, PoiRightLabel, PoiBehindLabel, PoiForwardLabel;
 		
 	Ti.App.fireEvent('getdata');
 	var temp = getdata();	
-	//Ti.API.info('temp: ' + temp);
 	var readText = temp.read();
-	//Ti.API.info('readText: ' + readText);
 	
-	json = JSON.parse(readText);
+	var json = JSON.parse(readText);
 		
-	for (i = 0; i < json.HowManyBuildings; i++) {
+	for (var i = 0; i < json.HowManyBuildings; i++) {
 	    var building = json.Buildings[i];
-	    row = Ti.UI.createTableViewRow({
+	    var row = Ti.UI.createTableViewRow({
 	        height:'60dp'
 	    });
 	    
-	    nameLabel = Ti.UI.createLabel({
+	    var nameLabel = Ti.UI.createLabel({
 	        text:building.BuildingName,
 	        font:{
 	            fontSize:'24dp',
 		    	fontWeight:'bold'
 			},
 	    });
-	    floornumLabel = Ti.UI.createLabel({
+	    var floornumLabel = Ti.UI.createLabel({
 			text:'Number of floors: ' + building.HowManyFloors,
 			font:{
 		    	fontSize:'16dp'
@@ -63,28 +43,31 @@ var tab = _args.containingTab;
 	    });
 	    row.add(nameLabel);
 	    row.add(floornumLabel);
-	    tabledata.push(row);
-	    
-		nameLabel.addEventListener('click', function(e) {
-	    	var WinFloors = require('ui/common/controls/floors'),
-			winfloors = new WinFloors();
-			winfloors.title = 'Floors';	
-			
-			winfloors.passbuilding = function() {
-				return i;
-			};
-			
-			
-			tab.open(winfloors,{animated:true});
-		});
+	    data.push(row);
 		
 		
 
 		
-	}
-		
-	tableview.setData(tabledata);
+	} //for
 	
+	tableview.addEventListener('click', function(e) {
+		if(e.rowData.test){
+			var WinFloors = require('ui/common/controls/floors'),
+			winfloors = new WinFloors({
+				title : 'Floors',
+				containingTab : win.containingTab,
+				tabGroup:win.tabGroup
+	   		});
+			winfloors.passbuilding = function() {
+				//e.row i;
+			};
+			win.containingTab.open(winfloors,{animated:true});
+		}
+	});
+		
+		
+		
+	tableview.setData(data);
 	win.add(tableview);
 
 

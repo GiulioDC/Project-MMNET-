@@ -36,9 +36,7 @@ function parseresult() {
 		
 		Ti.App.fireEvent('getdata');
 		var temp = getdata();	
-		//Ti.API.info('temp: ' + temp);
 		var readText = temp.read();
-		//Ti.API.info('readText: ' + readText);
 	
 		//var poisearched = e.value.substring(1);
 		var varsearch = e.value.replace(/\s+/g, ''); //ignore spaces

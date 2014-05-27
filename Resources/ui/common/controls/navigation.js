@@ -53,7 +53,7 @@ function navigation() {
   	Ti.API.info('PATH: ' + path);
   
  	Ti.App.fireEvent('getobjects'); //call getObjects function from app.js
- 	var poiID;
+ 	var poi;
  	
  	for(var i = 0; i < path.length; i++) {
  		poi = getObjects(json, 'ID', path[i]);

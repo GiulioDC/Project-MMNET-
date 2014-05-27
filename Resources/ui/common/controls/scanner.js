@@ -153,9 +153,7 @@ Barcode.addEventListener('success', function (e) {
         cancelButton.title = 'Finished (' + scannedBarcodesCount + ' Scanned)';
 
         scanResult.text += e.result + ' ';
-        scanContentType.text += parseContentType(e.contentType) + ' ';
-        //scanParsed.text += parseResult(e) + ' ';
-        
+
         var W2 = require('ui/common/controls/parseresult'),
 		w2 = new W2();
 		w2.title = 'Search POI';			
@@ -225,88 +223,6 @@ var scanContentType = Ti.UI.createLabel({
     height: Ti.UI.SIZE || 'auto'
 });
 scrollView.add(scanContentType);
-
-// scrollView.add(Ti.UI.createLabel({
-    // text: 'Parsed: ', textAlign: 'left',
-    // top: 10, left: 10,
-    // color: 'black',
-    // height: Ti.UI.SIZE || 'auto'
-// }));
-// var scanParsed = Titanium.UI.createLabel({
-    // text: ' ', textAlign: 'left',
-    // top: 10, left: 10,
-    // color: 'black',
-    // height: Ti.UI.SIZE || 'auto'
-// });
-	// scrollView.add(scanParsed);
-
-
-function parseContentType(contentType) {
-    switch (contentType) {
-        case Barcode.URL:
-            return 'URL';
-        case Barcode.SMS:
-            return 'SMS';
-        case Barcode.TELEPHONE:
-            return 'TELEPHONE';
-        case Barcode.TEXT:
-            return 'TEXT';
-        case Barcode.CALENDAR:
-            return 'CALENDAR';
-        case Barcode.GEOLOCATION:
-            return 'GEOLOCATION';
-        case Barcode.EMAIL:
-            return 'EMAIL';
-        case Barcode.CONTACT:
-            return 'CONTACT';
-        case Barcode.BOOKMARK:
-            return 'BOOKMARK';
-        case Barcode.WIFI:
-            return 'WIFI';
-        default:
-            return 'UNKNOWN';
-    }
-}
-
-// function parseResult(event) {
-    // var msg = '';
-    // switch (event.contentType) {
-        // case Barcode.URL:
-            // msg = 'URL = ' + event.result;
-            // break;
-        // case Barcode.SMS:
-            // msg = 'SMS = ' + JSON.stringify(event.data);
-            // break;
-        // case Barcode.TELEPHONE:
-            // msg = 'Telephone = ' + event.data.phonenumber;
-            // break;
-        // case Barcode.TEXT:
-        	// msg = 'Text = ' + event.result;
-            // break;
-        // case Barcode.CALENDAR:
-            // msg = 'Calendar = ' + JSON.stringify(event.data);
-            // break;
-        // case Barcode.GEOLOCATION:
-            // msg = 'Latitude = ' + event.data.latitude + '\nLongitude = ' + event.data.longitude;
-            // break;
-        // case Barcode.EMAIL:
-            // msg = 'Email = ' + event.data.email + '\nSubject = ' + event.data.subject + '\nMessage = ' + event.data.message;
-            // break;
-        // case Barcode.CONTACT:
-            // msg = 'Contact = ' + JSON.stringify(event.data);
-            // break;
-        // case Barcode.BOOKMARK:
-            // msg = 'Bookmark = ' + JSON.stringify(event.data);
-            // break;
-        // case Barcode.WIFI:
-            // return 'WIFI = ' + JSON.stringify(event.data);
-        // default:
-            // msg = 'unknown content type';
-            // break;
-    // }
-    // return msg;
-//    
-// }
 
 
  	

@@ -1,7 +1,7 @@
-function poilist() {
+function poilist(_args) {
 	var win = Titanium.UI.createWindow({
 		backgroundColor:'white',
-		title: "List of Points of Interest"
+		title: _args.title
 	});
 	
 	var tabledata = [];

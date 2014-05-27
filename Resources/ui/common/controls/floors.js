@@ -1,9 +1,8 @@
-function floors(title) {
+function floors(_args) {
 	var win = Titanium.UI.createWindow({
 		backgroundColor:'white',
-		title: "Floors"
+		title: _args.title
 	});
-
 
 	var tab = win.containingTab;
 
@@ -102,25 +101,25 @@ function floors(title) {
 					title: poiname.Name
 				}));
 				
-				// var rightButton = Titanium.UI.createButton({
-            		// style:Titanium.UI.iPhone.SystemButton.INFO_DARK,
-            		// right:10
-        		// });
-//         		
-        		// rightButton.addEventListener('click',function(e)
-        		// {
-        			// var NW = require('ui/common/controls/parseresult'),
-            		// newWindow = new NW(); 
-        			// newWindow.title = 'Search POI',
-					// tab.open(newWindow,{animated:true });
-        		// });
-// 			    
-			    // var tmpView = Ti.UI.createView({height:40,width:40,right:0});
-//         		
-        		// var row = Ti.UI.createTableViewRow({height:'auto'});
-        		// tmpView.add(rightButton);
-        		// row.add(tmpView);
-        		// sectionPoiName.add(row);
+				var rightButton = Titanium.UI.createButton({
+					style:2,
+            		right:10
+        		});
+        		
+        		rightButton.addEventListener('click',function(e)
+        		{
+        			var NW = require('ui/common/controls/parseresult'),
+            		newWindow = new NW(); 
+        			newWindow.title = 'Search POI',
+					tab.open(newWindow,{animated:true });
+        		});
+			    
+			    var tmpView = Ti.UI.createView({height:40,width:40,right:0});
+        		
+        		var row = Ti.UI.createTableViewRow({height:'auto'});
+        		tmpView.add(rightButton);
+        		row.add(tmpView);
+        		sectionPoiName.add(row);
 // 				
 			} //k
 			tableview.appendSection(sectionPoiName);

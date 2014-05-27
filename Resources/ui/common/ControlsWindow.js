@@ -8,9 +8,8 @@ function ControlsWindow(title) {
 	var data = [
 		{title:'QR Scan', hasChild:true, test:'ui/common/controls/scanner'},
 		{title:'Search POI', hasChild:true, test:'ui/common/controls/parseresult'},
-		{title:'Go to POI', hasChild:true, test:'ui/common/controls/navigation'},
-		{title:'Map', hasChild:true, test:'ui/common/controls/map'},
-		//{title:'Download', hasChild:true, test:'ui/common/controls/download'},
+		{title:'Go to POI', hasChild:true, test:'ui/common/controls/startingpoi'},
+		{title:'Map', hasChild:true, test:'ui/common/controls/places'},
 		{title: 'Help', hasChild:true, test:'ui/common/controls/help'}
 	];
 	
