@@ -132,14 +132,8 @@ function reset() {
     scannedBarcodes = {};
     scannedBarcodesCount = 0;
     cancelButton.title = 'Cancel';
-
-    scanResult.text = ' ';
-    scanContentType.text = ' ';
-    //scanParsed.text = ' ';
 }
 Barcode.addEventListener('error', function (e) {
-    scanContentType.text = ' ';
-    //scanParsed.text = ' ';
     scanResult.text = e.message;
 });
 Barcode.addEventListener('cancel', function (e) {
@@ -169,11 +163,6 @@ Barcode.addEventListener('success', function (e) {
  * Finally, we'll add a couple labels to the window. When the user scans a barcode, we'll stick information about it in
  * to these labels.
  */
-scrollView.add(Ti.UI.createLabel({
-    text: 'Click on the result for viewing info',
-    top: 10,
-    height: Ti.UI.SIZE || 'auto', width: Ti.UI.SIZE || 'auto'
-}));
 
 scrollView.add(Ti.UI.createLabel({
     text: 'Result: ', textAlign: 'left',
@@ -196,6 +185,7 @@ var searchresult = Ti.UI.createButton({
     borderColor: 'white', borderRadius: 10, borderWidth: 1,
     opacity: 1
 });
+
 searchresult.addEventListener('click', function () {
 // set properties on the window object, then open.  we will print them out in the new window
 		var W2 = require('ui/common/controls/parseresult'),
@@ -208,23 +198,6 @@ searchresult.addEventListener('click', function () {
 		tab.open(w2,{animated:true});	
 });
 scrollView.add(searchresult);
-
-scrollView.add(Ti.UI.createLabel({
-    text: 'Content Type: ',
-    top: 10, left: 10,
-    textAlign: 'left',
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-}));
-var scanContentType = Ti.UI.createLabel({
-    text: ' ', textAlign: 'left',
-    top: 10, left: 10,
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-});
-scrollView.add(scanContentType);
-
-
  	
 self.add(scrollView);
  return self;
