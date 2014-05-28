@@ -76,10 +76,11 @@ overlay.add(cancelButton);
  * Create a button that will trigger the barcode scanner.
  */
 var scanCode = Ti.UI.createButton({
-    title: 'Scan Code',
-    top: 20, width: 220, height: 40,
-    color: 'white', backgroundColor: 'black', style: 0,
-    borderColor: 'white', borderRadius: 10, borderWidth: 1,
+    title: 'SCAN',
+    font: { fontWeight: 'bold', fontSize: 50 },
+    top: 50, width: 220, height: 220,
+    color: 'white', backgroundColor: 'navy', style: 1,
+    borderColor: 'blue', borderRadius: 10, borderWidth: 1,
     opacity: 1
 });
 scanCode.addEventListener('click', function () {
@@ -104,7 +105,7 @@ scrollView.add(scanCode);
  */
 var scanImage = Ti.UI.createButton({
     title: 'Scan Image from Gallery',
-    width: 220, height: 40, top: 20,
+    width: 220, height: 40, top: 30,
     color: 'white', backgroundColor: 'black', style: 0,
     borderColor: 'white', borderRadius: 10, borderWidth: 1,
     opacity: 1
@@ -158,46 +159,6 @@ Barcode.addEventListener('success', function (e) {
 		self.containingTab.open(w2,{animated:true});	
     }
 });
-
-/**
- * Finally, we'll add a couple labels to the window. When the user scans a barcode, we'll stick information about it in
- * to these labels.
- */
-
-scrollView.add(Ti.UI.createLabel({
-    text: 'Result: ', textAlign: 'left',
-    top: 10, left: 10,
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-}));
-var scanResult = Ti.UI.createLabel({
-    text: ' ', textAlign: 'left',
-    top: 10, left: 10,
-    color: 'black',
-    height: Ti.UI.SIZE || 'auto'
-});
-scrollView.add(scanResult);
-
-var searchresult = Ti.UI.createButton({
-    title: 'search',
-    width: 110, height: 30,
-    color: 'white', backgroundColor: 'navy', style: 0,
-    borderColor: 'white', borderRadius: 10, borderWidth: 1,
-    opacity: 1
-});
-
-searchresult.addEventListener('click', function () {
-// set properties on the window object, then open.  we will print them out in the new window
-		var W2 = require('ui/common/controls/parseresult'),
-			w2 = new W2();
-			// w2.title = 'Go To POI';			
-		w2.searchinput = function()
-		{
-			return scanResult.text;
-		};
-		self.containingTab.open(w2,{animated:true});	
-});
-scrollView.add(searchresult);
 
  	
 self.add(scrollView);
