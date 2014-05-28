@@ -11,7 +11,6 @@ function poilist(_args) {
 		height:43,
 		top:0,
 	});
-	// win.add(search);
 	
 	var data = [];
 	var tableview = Titanium.UI.createTableView({

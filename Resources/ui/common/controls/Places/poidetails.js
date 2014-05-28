@@ -51,6 +51,9 @@ function poidetails(_args) {
 	    	sectionPoiLeft.add(Ti.UI.createTableViewRow({
 	    		title: left[0].Name +
 	    		', ' + poi[0].POILeftDistance + ' steps',
+	    		poiname: left[0].Name,
+	    		poi_id: left[0].ID,
+	    		hasChild:true
 	    	}));
 	    	if(left[0].Name == "corner"){
 	    		sectionPoiLeft.add(Ti.UI.createTableViewRow({
@@ -71,6 +74,9 @@ function poidetails(_args) {
 	    	sectionPoiRight.add(Ti.UI.createTableViewRow({
 	    		title: right[0].Name +
 	    		', ' + poi[0].POIRightDistance + ' steps',
+	    		poiname: right[0].Name,
+	    		poi_id: right[0].ID,
+	    		hasChild:true
 	    	}));
 	    	if(right[0].Name == "corner"){
 	    		sectionPoiRight.add(Ti.UI.createTableViewRow({
@@ -92,6 +98,9 @@ function poidetails(_args) {
 	    	sectionPoiBehind.add(Ti.UI.createTableViewRow({
 	    		title: behind[0].Name +
 	    		', ' + poi[0].POIBehindDistance + ' steps',
+	    		poiname: behind[0].Name,
+	    		poi_id: behind[0].ID,
+	    		hasChild:true
 	    	}));
 	    	sectionPoiBehind.add(Ti.UI.createTableViewRow({
 	    			title: 'The door will be ' + poi[0].POIBehindDoor,
@@ -105,12 +114,29 @@ function poidetails(_args) {
 	    	sectionPoiForward.add(Ti.UI.createTableViewRow({
 	    		title: forward[0].Name +
 	    		', ' + poi[0].POIForwardDistance + ' steps',
+	    		poiname: forward[0].Name,
+	    		poi_id: forward[0].ID,
+	    		hasChild:true
 	    	}));
 	    	sectionPoiForward.add(Ti.UI.createTableViewRow({
 	    			title: 'The door will be ' + poi[0].POIForwardDoor,
 	    	}));
 			tableview.appendSection(sectionPoiForward);
 		}
+	
+	tableview.addEventListener('click', function(e) {
+		if(e.rowData) {
+			var Window = require('ui/common/controls/Places/poidetails'),
+			win1 = new Window({
+				title: e.rowData.poiname,
+				containingTab:_args.containingTab,
+				tabGroup:_args.tabGroup,
+				poi_id_passed:e.rowData.poi_id
+			});
+			_args.containingTab.open(win1,{animated:true});
+			//win.close(); //if you want to close the parent window after switching to the new one...
+		}
+	});
 	
 	
 	win.add(tableview);
