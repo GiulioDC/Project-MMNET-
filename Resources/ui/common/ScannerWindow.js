@@ -4,6 +4,13 @@ function ScannerWindow(title) {
 		backgroundColor:'white'
 	});
 var tab = [];
+
+Ti.App.fireEvent('getdata');
+Ti.App.fireEvent('getobjects');
+Ti.App.fireEvent('getvalues');
+var temp = getdata();	
+var readText = temp.read();
+json = JSON.parse(readText);
 	
 var Barcode = require('ti.barcode');
 Barcode.allowRotation = true;
@@ -146,17 +153,17 @@ Barcode.addEventListener('success', function (e) {
         scannedBarcodes[e.result] = true;
         scannedBarcodesCount += 1;
         cancelButton.title = 'Finished (' + scannedBarcodesCount + ' Scanned)';
-
-        scanResult.text += e.result + ' ';
-        
-        var W2 = require('ui/common/controls/parseresult'),
-			w2 = new W2();
-			// w2.title = 'Go To POI';			
-		w2.searchinput = function()
-		{
-			return scanResult.text;
-		};
-		self.containingTab.open(w2,{animated:true});	
+		
+		var poiobj = getObjects(json, "Code", e.result);
+		
+		var Window = require('ui/common/controls/Places/poidetails'),
+			win1 = new Window({
+				title: poiobj[0].Name,
+				containingTab:self.containingTab,
+				tabGroup:self.tabGroup,
+				poi_id_passed:poiobj[0].ID
+			});
+		self.containingTab.open(win1,{animated:true});
     }
 });
 
