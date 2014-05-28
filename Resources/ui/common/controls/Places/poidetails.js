@@ -33,7 +33,7 @@ function poidetails(_args) {
 			if(poi[0].Info != "No description") {
 				sectionPoiInfo.add(Ti.UI.createTableViewRow({
 					title: poi[0].Info,
-					font:{fontSize:12}
+					//font:{fontSize:12}
 				}));
 				tableview.appendSection(sectionPoiInfo);
 			}
@@ -41,7 +41,7 @@ function poidetails(_args) {
 		var sectionPoiLocation = Ti.UI.createTableViewSection({headerTitle: 'Location'});
 		sectionPoiLocation.add(Ti.UI.createTableViewRow({
 			title: poi[0].Location,
-			font:{fontSize:10}
+			font:{fontSize:13}
 		}));
 		tableview.appendSection(sectionPoiLocation);
 		
