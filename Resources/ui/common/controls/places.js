@@ -1,9 +1,13 @@
 function places(_args) {
 	var win = Ti.UI.createWindow({
 		title:_args.title,
-		backgroundColor:'#dddddd'
+		backgroundColor:'#dddddd',
+		start_id: _args.start_id_passed,
+		end_id:_args.end_id_passed
 	});
-	//var tab = title.containingTab;
+	
+	Ti.API.info('startid: ' + win.start_id);
+	Ti.API.info('endid: ' + win.end_id);
 	
 	Ti.App.fireEvent('getdata');
 	Ti.App.fireEvent('getvalues');
@@ -23,7 +27,7 @@ function places(_args) {
 	var sectionFloors = Ti.UI.createTableViewSection({headerTitle: 'Floors'});
 	
 	var BuildName = getValues(json, 'BuildingName');
-	Ti.API.info(BuildName);
+	
 	for (var i = 0; i < BuildName.length; i++) {
 		
 		sectionBuilding.add(Ti.UI.createTableViewRow({
@@ -37,6 +41,7 @@ function places(_args) {
 			var floor = BuildObj[0].Floors[j];
 			sectionFloors.add(Ti.UI.createTableViewRow({
 				title: '[' + floor.FloorNumber + '] ' + floor.FloorName,
+				b_id: BuildObj[0].BuildingId,
 				f_number: floor.FloorNumber,
 				hasChild:true
 			}));
@@ -54,7 +59,10 @@ function places(_args) {
 				title: e.rowData.title,
 				containingTab:_args.containingTab,
 				tabGroup:_args.tabGroup,
-				f_number_passed:e.rowData.f_number
+				b_id_passed:e.rowData.b_id,
+				f_number_passed:e.rowData.f_number,
+				start_id_passed:win.start_id,
+				end_id_passed:win.end_id
 			});
 
 			_args.containingTab.open(win1,{animated:true});

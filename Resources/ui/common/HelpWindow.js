@@ -60,7 +60,7 @@ function HelpWindow(title) {
 		},
 		{
 			title: 'HOW TO SCAN?', 
-			text: 'To scan, go to "QR Scan" Tab, click on "Scan Code" and face the phone towards the wall, at middle height. When a QR code is found, the app will automatically redirect you to the result window.'
+			text: 'To scan, go to "QR Scan" Tab, click on "Scan Code" and face the phone towards the wall, at middle height. When a QR code is found, the app will automatically take you to the result window.'
 		},
 		{
 			title: 'NAVIGATION',

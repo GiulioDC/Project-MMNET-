@@ -1,10 +1,18 @@
-function navigation() {
+function navigation(_args) {
 	var win = Titanium.UI.createWindow({
 		backgroundColor:'white',
-		title: "Navigation"
+		title: "Navigation",
+		f_number: _args.f_number_passed,
+		b_id: _args.b_id_passed,
+		start_id:_args.start_id_passed,
+		end_id:_args.end_id_passed
 	});
 
-
+	Ti.API.info('startid nav: ' + win.start_id);
+	Ti.API.info('endid nav: ' + win.end_id);
+	Ti.API.info('buildingID: ' + win.b_id);
+	Ti.API.info('floornum: ' + win.f_number);
+	
 
 	var plainTemplate = {
     	childTemplates: [
@@ -41,18 +49,22 @@ function navigation() {
 	});
 
 	Ti.App.fireEvent('getdata'); //calls getdata function from app.js
-	var navdata = getdata();	//navdata hold the entire json object
+	var navdata = getdata();	//navdata holds the entire json object
 	var readnavdata = navdata.read();
 	var json = JSON.parse(readnavdata);
 
 	Ti.App.fireEvent('navgetpois');
 	Ti.App.fireEvent('navreach');
-	var pois_temp = nav_get_POIs(json, 1, -1);
+	Ti.App.fireEvent('getobjects'); //call getObjects function from app.js
+	
+	var startObj = getObjects(json, 'ID', win.start_id);
+	var endObj = getObjects(json, 'ID', win.end_id);
+	var pois_temp = nav_get_POIs(json, win.b_id, win.f_number);
 	var path = [];
-  	path = nav_reach(pois_temp,"0102", "0021");
+  	path = nav_reach(pois_temp,startObj[0].Code, endObj[0].Code);
   	Ti.API.info('PATH: ' + path);
   
- 	Ti.App.fireEvent('getobjects'); //call getObjects function from app.js
+ 	
  	var poi;
  	
  	for(var i = 0; i < path.length; i++) {

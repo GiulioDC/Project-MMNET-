@@ -3,7 +3,12 @@ function poilist(_args) {
 		backgroundColor:'white',
 		title: _args.title,
 		f_number: _args.f_number_passed,
+		b_id: _args.b_id_passed,
+		start_id: _args.start_id_passed,
+		end_id:_args.end_id_passed
 	});
+	Ti.API.info('startid: ' + win.start_id);
+	Ti.API.info('endid: ' + win.end_id);
 	
 	var search = Titanium.UI.createSearchBar({
 		barColor:'#dddddd',
@@ -63,8 +68,8 @@ function poilist(_args) {
 				hasChild:true
 			}));
 		}
-		if(poi.Info == 'bathrooms'){
-			sectionCBathrooms.add(Ti.UI.createTableViewRow({
+		if(poi.Info == 'bathroom'){
+			sectionBathrooms.add(Ti.UI.createTableViewRow({
 				title: poi.Name,
 				poi_id: poi.ID,
 				hasChild:true
@@ -102,13 +107,39 @@ function poilist(_args) {
 	
 	
 	tableview.addEventListener('click', function(e) {
-		if(e.rowData) {
+		if(win.start_id == undefined && win.end_id == undefined && e.rowData) {
 			var Window = require('ui/common/controls/Places/poidetails'),
 			win1 = new Window({
 				title: e.rowData.title,
 				containingTab:_args.containingTab,
 				tabGroup:_args.tabGroup,
 				poi_id_passed:e.rowData.poi_id
+			});
+
+			_args.containingTab.open(win1,{animated:true});
+		}
+		if(win.start_id != undefined && e.rowData) {
+			var Window = require('ui/common/controls/navigation'),
+			win1 = new Window({
+				containingTab:_args.containingTab,
+				tabGroup:_args.tabGroup,
+				b_id_passed:win.b_id,
+				f_number_passed:win.f_number,
+				end_id_passed:e.rowData.poi_id,
+				start_id_passed:win.start_id
+			});
+
+			_args.containingTab.open(win1,{animated:true});
+		}
+		if(win.end_id != undefined && e.rowData) {
+			var Window = require('ui/common/controls/navigation'),
+			win1 = new Window({
+				containingTab:_args.containingTab,
+				tabGroup:_args.tabGroup,
+				b_id_passed:win.b_id,
+				f_number_passed:win.f_number,
+				start_id_passed:e.rowData.poi_id,
+				end_id_passed:win.end_id
 			});
 
 			_args.containingTab.open(win1,{animated:true});
