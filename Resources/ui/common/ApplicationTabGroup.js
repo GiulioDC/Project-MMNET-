@@ -27,7 +27,7 @@ function ApplicationTabGroup() {
 	
 	//controls tab
 	var controlsTab = Ti.UI.createTab({
-		title: L('Controls'),
+		title: L('Places'),
 		icon: '/images/places.png',
 		window: controlsWin
 	});
