@@ -13,41 +13,6 @@ function navigation(_args) {
 	Ti.API.info('buildingID: ' + win.b_id);
 	Ti.API.info('floornum: ' + win.f_number);
 	
-
-	var plainTemplate = {
-    	childTemplates: [
-        {
-            type: 'Ti.UI.Label', // Use a label
-            bindId: 'rowtitle',  // Bind ID for this label
-            properties: {        // Sets the Label.left property
-                left: '10dp'
-            }
-        },             
-        {
-            type: 'Ti.UI.Button',   // Use a button
-            bindId: 'button',       // Bind ID for this button
-            properties: {           // Sets several button properties
-                width: '80dp',
-                height: '30dp',                        	
-                right: '10dp',
-                title: 'info'
-            },
-            events: { click : report }  // Binds a callback to the button's click event
-        }
-    	]
-	};
-
-	function report(e) {
-		Ti.API.info(e.type);
-	}
-
-	var data = [];
-	var listview = Ti.UI.createListView({
-		//data:data,
-		templates: { 'plain': plainTemplate }, // Maps the plainTemplate object to the 'plain' style name
-		defaultItemTemplate: 'plain'  // Use the plain template, that is, the plainTemplate object defined earlier for all data list items in this list view
-	});
-
 	Ti.App.fireEvent('getdata'); //calls getdata function from app.js
 	var navdata = getdata();	//navdata holds the entire json object
 	var readnavdata = navdata.read();
@@ -57,54 +22,49 @@ function navigation(_args) {
 	Ti.App.fireEvent('navreach');
 	Ti.App.fireEvent('getobjects'); //call getObjects function from app.js
 	
+	var data;
+	var tableview = Titanium.UI.createTableView({
+		data:data,
+		style: Titanium.UI.iPhone.TableViewStyle.PLAIN,
+		layout:'vertical',
+	});	
+	
 	var startObj = getObjects(json, 'ID', win.start_id);
 	var endObj = getObjects(json, 'ID', win.end_id);
 	var pois_temp = nav_get_POIs(json, win.b_id, win.f_number);
 	var path = [];
-  	path = nav_reach(pois_temp,startObj[0].Code, endObj[0].Code);
+  	path = nav_reach(pois_temp,startObj[0].Code,endObj[0].Code);
   	Ti.API.info('PATH: ' + path);
-  
- 	
- 	var poi;
- 	// if(path[0] = "nothingtodo") {
- 		// alert("Starting and ending point are the same");
- 	// }
- 	// else {
- 		for(var i = 0; i < path.length; i++) {
- 			poi = getObjects(json, 'ID', path[i]);
- 			Ti.API.info('poi[' + i + '] ' + poi[0].Name);
- 			data.push({
- 				rowtitle: {
- 					text: poi[0].Name
- 				},
- 				properties : {
-     				accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
-        		}
- 	 		});
- 		}
- 	// }//else
- 	
- 	var section = Ti.UI.createListSection({items: data});
-	listview.sections = [section];
-	listview.addEventListener('itemclick', function(e){
-    // Only respond to clicks on the label (rowtitle) or image (pic)
-    if (e.bindId == 'rowtitle') {
-        var item = e.section.getItemAt(e.itemIndex);
-        if (item.properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_NONE) {
-            item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK;
-        }
-        else {
-            item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_NONE;
-        }
-        e.section.updateItemAt(e.itemIndex, item);
-    }
-        
-});
-  
-  
-  
-  	win.add(listview);
+  	
+  	
+  	var i;
+  	var poi, sectionPoiName;
+  	
+  	var sectionNavigation = Ti.UI.createTableViewSection({headerTitle: 'Navigation'});
+		sectionNavigation.add(Ti.UI.createTableViewRow({
+			title: 'From ' + startObj[0].Name + ' to ' + endObj[0].Name,
+			color: 'white', backgroundColor: 'teal',
+		}));
+	tableview.appendSection(sectionNavigation);
 
+
+	for(i = 0; i < path.length; i++) {
+		poi = getObjects(json, 'ID', path[i]);
+		sectionPoiName = Ti.UI.createTableViewSection({headerTitle: 'Point Of Interest'	});
+		sectionPoiName.add(Ti.UI.createTableViewRow({
+			title: poi[0].Name,
+			font:{ fontSize:'20dp', fontWeight:'bold'}
+		}));
+		tableview.appendSection(sectionPoiName);
+		
+		
+		
+		
+	}//for
+ 	
+ 	
+ 	
+ 	win.add(tableview);
 	return win;
 };
 

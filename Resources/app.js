@@ -463,7 +463,7 @@
   
       //If we aren't arrived at destination, check other pois around
       if (walk_poi_id != dest_poi_id) {
-      	if(direction[0] == "descending" && poi_lookup_id(POIs, POIs[walk_poi_id].POIRight) != poi_lookup_id(POIs, POIs[1].Code)){
+      	if(direction[0] == "descending" && walk_poi_id != poi_lookup_id(POIs, POIs[POIs.length-1])){
         	walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POIRight), direction[1]);
         	Ti.API.info('is right nearer?: ' + walk_poi_id);
         }
@@ -483,11 +483,12 @@
  		
  		
 
-      // if(walk_poi_id != 0 || (walk_poi_id == 0 && walk_poi_id == dest_poi_id)) { //avoid passage through entrance
-      if(navpath[j-1] != walk_poi_id){ //avoid doubles
-      	navpath[j] = walk_poi_id;
-      	Ti.API.info('451 right vs left closest and SAVED: ' + navpath[j]);
-      	j++;  	
+      if(walk_poi_id != 0 || (walk_poi_id == 0 && walk_poi_id == dest_poi_id)) { //avoid passage through entrance
+      	if(navpath[j-1] != walk_poi_id){ //avoid doubles
+      		navpath[j] = walk_poi_id;
+      		Ti.API.info('451 right vs left closest and SAVED: ' + navpath[j]);
+      		j++;
+      	}  	
       }
      
   
@@ -496,29 +497,6 @@
       
     } //while
       
-      // //Move on the next place
-//      	
-      // if (walk_poi_id != dest_poi_id) {
-      	// Ti.API.info('walk 424: ' + walk_poi_id);
-      	// var walktemp = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POILeft), direction[1]); //???
-      	// Ti.API.info('walk vs poileft: ' + walktemp);
-        // walktemp = nav_select_id(walktemp, poi_lookup_id(POIs, POIs[walk_poi_id].POIRight), direction[1]);
-        // Ti.API.info('walk vs poiright: ' + walktemp);
-        // walktemp = nav_select_id(walktemp, poi_lookup_id(POIs, POIs[walk_poi_id].POIBehind), direction[1]);
-        // Ti.API.info('walk vs poibehind: ' + walktemp);
-        // walk_poi_id = nav_select_id(walktemp, poi_lookup_id(POIs, POIs[walk_poi_id].POIForward), direction[1]);
-        // Ti.API.info('walk vs poiforward: ' + walk_poi_id);
-      // }
-// 
-      // //For now, add this id to the path
-      // navpath[j] = walk_poi_id;
-      // Ti.API.info('for now add navpath: ' + navpath[j]);
-      // j++;
-      //
-    // } //while
-
-    // navpath[j] = walk_poi_id;
-    // Ti.API.info('fuori dal while: ' + navpath[j]);
    
     return navpath;
   }

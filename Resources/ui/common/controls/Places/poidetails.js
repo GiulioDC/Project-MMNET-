@@ -53,8 +53,8 @@ function poidetails(_args) {
 		
 	var sectionPoiLocation = Ti.UI.createTableViewSection({headerTitle: 'Location'});
 	sectionPoiLocation.add(Ti.UI.createTableViewRow({
-		title: poi[0].Location,
-		font:{fontSize:13}
+		title: poi[0].Location
+		// font:{fontSize:13}
 	}));
 	tableview.appendSection(sectionPoiLocation);
 		
