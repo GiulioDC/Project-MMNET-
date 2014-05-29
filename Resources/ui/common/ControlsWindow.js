@@ -7,7 +7,6 @@ function ControlsWindow(title) {
 	// create table view data object
 	var data = [
 		{title:'Search place', hasChild:true, test:'ui/common/controls/places'},
-		{title: 'prove', hasChild:true, test:'ui/common/prove'}
 	];
 	
 	

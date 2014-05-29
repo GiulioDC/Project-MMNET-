@@ -47,6 +47,8 @@ function poilist(_args) {
 	for(var i = 0; i < FloorObj[0].POIs.length; i++) {
 		var poi = FloorObj[0].POIs[i];
 		
+		if(win.stard_id != poi.ID || win.end_id != poi.ID){
+		
 		if(poi.Info == 'classroom'){
 			sectionClassrooms.add(Ti.UI.createTableViewRow({
 				title: poi.Name,
@@ -96,6 +98,7 @@ function poilist(_args) {
 				hasChild:true
 			}));
 		}
+		}
 	}
 	tableview.appendSection(sectionClassrooms);
 	tableview.appendSection(sectionEntrance);
@@ -119,30 +122,40 @@ function poilist(_args) {
 			_args.containingTab.open(win1,{animated:true});
 		}
 		if(win.start_id != undefined && e.rowData) {
-			var Window = require('ui/common/controls/navigation'),
-			win1 = new Window({
-				containingTab:_args.containingTab,
-				tabGroup:_args.tabGroup,
-				b_id_passed:win.b_id,
-				f_number_passed:win.f_number,
-				end_id_passed:e.rowData.poi_id,
-				start_id_passed:win.start_id
-			});
-
-			_args.containingTab.open(win1,{animated:true});
+			var Window = require('ui/common/controls/navigation');
+			if(win.start_id == e.rowData.poi_id){
+				alert("Starting and ending points are the same, please pick a different arrival point");
+				win.close();
+			}
+			else{
+				win1 = new Window({
+					containingTab:_args.containingTab,
+					tabGroup:_args.tabGroup,
+					b_id_passed:win.b_id,
+					f_number_passed:win.f_number,
+					end_id_passed:e.rowData.poi_id,
+					start_id_passed:win.start_id
+				});
+				_args.containingTab.open(win1,{animated:true});
+			}
 		}
 		if(win.end_id != undefined && e.rowData) {
-			var Window = require('ui/common/controls/navigation'),
-			win1 = new Window({
-				containingTab:_args.containingTab,
-				tabGroup:_args.tabGroup,
-				b_id_passed:win.b_id,
-				f_number_passed:win.f_number,
-				start_id_passed:e.rowData.poi_id,
-				end_id_passed:win.end_id
-			});
-
-			_args.containingTab.open(win1,{animated:true});
+			var Window = require('ui/common/controls/navigation');
+			if(win.end_id == e.rowData.poi_id){
+				alert("Starting and ending points are the same, please pick a different starting point");
+				win.close();
+			}
+			else{
+				win1 = new Window({
+					containingTab:_args.containingTab,
+					tabGroup:_args.tabGroup,
+					b_id_passed:win.b_id,
+					f_number_passed:win.f_number,
+					start_id_passed:e.rowData.poi_id,
+					end_id_passed:win.end_id
+				});
+				_args.containingTab.open(win1,{animated:true});
+			}
 		}
 	});
 	

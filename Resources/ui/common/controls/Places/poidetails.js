@@ -68,7 +68,7 @@ function poidetails(_args) {
 	   		poi_id: left[0].ID,
 	   		hasChild:true
 	   	}));
-	   	if(left[0].Name == "corner"){
+	   	if(left[0].Info == "corner"){
     		sectionPoiLeft.add(Ti.UI.createTableViewRow({
     			title: 'Turn ' + poi[0].POILeftDoor + ' to go on',
 	    	}));
@@ -91,7 +91,7 @@ function poidetails(_args) {
 	   		poi_id: right[0].ID,
 	   		hasChild:true
 	   	}));
-	   	if(right[0].Name == "corner"){
+	   	if(right[0].Info == "corner"){
 	   		sectionPoiRight.add(Ti.UI.createTableViewRow({
 	   			title: 'Turn ' + poi[0].POIRightDoor + ' to go on',
 	   		}));

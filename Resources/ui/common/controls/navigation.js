@@ -66,10 +66,10 @@ function navigation(_args) {
   
  	
  	var poi;
- 	if(path[0] = "nothingtodo") {
- 		alert("Starting and ending point are the same");
- 	}
- 	else {
+ 	// if(path[0] = "nothingtodo") {
+ 		// alert("Starting and ending point are the same");
+ 	// }
+ 	// else {
  		for(var i = 0; i < path.length; i++) {
  			poi = getObjects(json, 'ID', path[i]);
  			Ti.API.info('poi[' + i + '] ' + poi[0].Name);
@@ -82,7 +82,7 @@ function navigation(_args) {
         		}
  	 		});
  		}
- 	}//else
+ 	// }//else
  	
  	var section = Ti.UI.createListSection({items: data});
 	listview.sections = [section];

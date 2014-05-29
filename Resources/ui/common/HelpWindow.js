@@ -52,7 +52,7 @@ function HelpWindow(title) {
 			text: 'To identify a place, we use the term "POI", or "Point Of Interest". Each of this elements has different properties: \n'
 				+ ' - Info: what is it? A classroom, a bathroom, a office or some other place? \n'
 				+ ' - Location: in order to help you creating a mental map of the environment, every POI has a hint about its general position: if it is in the North, East, South or West side of the building, in which corridor, and if it is on the wall facing the outer or the inner part of the building. \n'
-				+ ' - Near POIs: basically, what you will find on your right or left, behind or in front of you, once you are in front of a QR code, and how many steps far they are.'
+				+ ' - Near POIs: basically, what you will find on your right or left, behind or in front of you, once you are in front of a QR code, and how many steps far they are. If you click on them, you will be taken on their page.'
 		},
 		{
 			title: 'QR CODES DISPOSITION', 
