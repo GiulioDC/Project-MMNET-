@@ -57,32 +57,30 @@ function navigation(_args) {
 	Ti.App.fireEvent('navreach');
 	Ti.App.fireEvent('getobjects'); //call getObjects function from app.js
 	
-	var startObj = getObjects(json, 'ID', win.start_id);
-	var endObj = getObjects(json, 'ID', win.end_id);
-	var pois_temp = nav_get_POIs(json, win.b_id, win.f_number);
+	// var startObj = getObjects(json, 'ID', win.start_id);
+	// var endObj = getObjects(json, 'ID', win.end_id);
+	var pois_temp = nav_get_POIs(json, 1, -1);
 	var path = [];
-  	path = nav_reach(pois_temp,startObj[0].Code, endObj[0].Code);
+  	path = nav_reach(pois_temp,"0001","0014");
   	Ti.API.info('PATH: ' + path);
   
  	
  	var poi;
- 	if(path[0] = "nothingtodo") {
- 		alert("Starting and ending point are the same");
+ 	
+ 	for(var i = 0; i < path.length; i++) {
+ 		poi = getObjects(json, 'ID', path[i]);
+ 		Ti.API.info('poi[' + i + '] ' + poi[0].Name);
+ 		data.push({
+ 			rowtitle: {
+ 				text: poi[0].Name
+ 			},
+ 			properties : {
+     			accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+        	}
+ 			
+ 		});
+ 		
  	}
- 	else {
- 		for(var i = 0; i < path.length; i++) {
- 			poi = getObjects(json, 'ID', path[i]);
- 			Ti.API.info('poi[' + i + '] ' + poi[0].Name);
- 			data.push({
- 				rowtitle: {
- 					text: poi[0].Name
- 				},
- 				properties : {
-     				accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
-        		}
- 	 		});
- 		}
- 	}//else
  	
  	var section = Ti.UI.createListSection({items: data});
 	listview.sections = [section];

@@ -247,8 +247,8 @@
     
     for(i = 0; i < POIs.length; i++) {
     	actual_POI = POIs[i];
-    	if (actual_POI['Code'] == poi_code) {
-    		searched_POI_ID = actual_POI['ID'];
+    	if (actual_POI.Code == poi_code) {
+    		searched_POI_ID = actual_POI.ID;
     		break;
     	}
     }
@@ -336,9 +336,10 @@
     	navpath[j] = walk_poi_id;
     	j++;
     	walk_poi_id = 1;
+    	Ti.API.info('339 walk_poi_id spostato a 1');
     }
     
-    Ti.API.info('341 startingpoi: ' + walk_poi_id);
+    Ti.API.info('342 startingpoi: ' + walk_poi_id);
     navpath[j] = walk_poi_id;
     j++;
     
@@ -347,10 +348,11 @@
     if (dest_poi_id == -1){
       return "fail";
     }
+    Ti.API.info('dest_poi_id: ' + dest_poi_id);
     
-    var diff = dest_poi_id - walk_poi_id;
+	var diff = dest_poi_id - walk_poi_id;
     var absdiff = Math.abs(diff);
-    Ti.API.info('absdiff: ' + absdiff);
+	Ti.API.info('absdiff: ' + absdiff);
     
     if(absdiff < POIs.length/2) {
    	if (dest_poi_id-walk_poi_id > 0){
@@ -371,14 +373,15 @@
           direction=["ascending", "major"];
         }
       }
-      Ti.API.info('direction: ' + direction[0] + ' ' + direction[1]);
-
+      Ti.API.info('376 direction: ' + direction[0] + ' ' + direction[1]);
     
     //Search our destination:
     while (walk_poi_id != dest_poi_id){
+    	Ti.API.info('INIZIO WHILE');
       
-      //Chek around us
+      //Chek around us      
       var templeft = poi_lookup_id(POIs, POIs[walk_poi_id].POILeft);
+      Ti.API.info('384 controllo templeft: ' + templeft);
       if (templeft == dest_poi_id) {
         navpath[j] = templeft;
         Ti.API.info('destinazione a sinistra ' + navpath[j]);
@@ -386,6 +389,7 @@
         break;
       }
       var tempright = poi_lookup_id(POIs, POIs[walk_poi_id].POIRight);
+      Ti.API.info('392 controllo tempright: ' + tempright);
       if (tempright == dest_poi_id) {
         navpath[j] = tempright;
         Ti.API.info('destinazione a destra ' + navpath[j]);
@@ -393,6 +397,7 @@
         break;
       }
       var tempforward = poi_lookup_id(POIs, POIs[walk_poi_id].POIForward);
+      Ti.API.info('400 controllo tempforward: ' + tempforward);
       if (tempforward == dest_poi_id) {
         navpath[j] = tempforward;
         Ti.API.info('destinazione avanti ' + navpath[j]);
@@ -400,6 +405,7 @@
         break;
       }
       var tempbehind = poi_lookup_id(POIs, POIs[walk_poi_id].POIBehind);
+      Ti.API.info('408 controllo tempbehind: ' + tempbehind);
       if (tempbehind == dest_poi_id) {
         navpath[j] = tempbehind;
         Ti.API.info('destinazione dietro ' + navpath[j]);
@@ -408,47 +414,79 @@
       }
       
       if (direction[0] == "ascending") {
-        Ti.API.info('going forward');
-        // walk_poi_id = (walk_poi_id+1)%POIs.length+1;
+      	Ti.API.info('417 if direction ASCENDING walkpoi prima: ' + walk_poi_id);
+        //walk_poi_id = (walk_poi_id+1)%POIs.length+1;
         walk_poi_id = (walk_poi_id+1)%POIs.length;
+        Ti.API.info('420 if direction ASCENDING walkpoi dopo: ' + walk_poi_id);
       }
       else {
-        Ti.API.info('going backwards');
+      	Ti.API.info('423 if direction DESCENDING walkpoi prima: ' + walk_poi_id);
         walk_poi_id = (walk_poi_id-1)%POIs.length;
+        Ti.API.info('425 if direction DESCENDING walkpoi dopo: ' + walk_poi_id);
       }
       
-      Ti.API.info('420 mi muovo verso : ' + walk_poi_id);
-          
+                
       //The minus sign seems not removed by % operator, so we should handle them
       if (walk_poi_id < 0) {
       	walk_poi_id += POIs.length;
       	Ti.API.info('riparto dalla fine: ' + walk_poi_id);
-      	navpath[j] = walk_poi_id;
-      	j++;
+      	if(navpath[j-1] != walk_poi_id){
+      		navpath[j] = walk_poi_id;
+      		j++;
+      	}
       }
-      else{
-      	if(direction[0] == "ascending"){
+      else {
+      	if(direction[0] == "ascending" && walk_poi_id != 0){
       		walk_poi_id += -1;
+      		Ti.API.info('un passo indietro: ' + walk_poi_id);
       	}
       	else{
       		walk_poi_id += 1;
+      		Ti.API.info('un passo in avanti' + walk_poi_id);
+      		if(navpath[j-1] != walk_poi_id){
+      			navpath[j] = walk_poi_id;
+      			j++;
+      		}
       	}
       }
       
-      //Move on the next place
-      walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POILeft), direction[1]);
-      Ti.API.info('move to its left or stay in: ' + walk_poi_id);
-      
-      //Until we have arrived to the destination
-      if (walk_poi_id != dest_poi_id) {
-        walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POIRight), direction[1]);
-        Ti.API.info('move to its right or stay in: ' + walk_poi_id);
+      //Move on the next place... First check to the left, but not if you are at the beginning of the array and increasing
+      var idbefore = walk_poi_id;
+      if(direction[0] == "ascending" && poi_lookup_id(POIs, POIs[walk_poi_id].POILeft) != poi_lookup_id(POIs, POIs[POIs.length-1].Code)) {
+      	walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POILeft), direction[1]);
+      	Ti.API.info('is left nearer? : ' + walk_poi_id);
       }
- 
+      else if(direction[0] == "descending") {
+      	walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POILeft), direction[1]);
+      	Ti.API.info('is left nearer? : ' + walk_poi_id);
+      }
+  
+      //If we aren't arrived at destination, check other pois around
+      if (walk_poi_id != dest_poi_id) {
+      	if(direction[0] == "descending" && poi_lookup_id(POIs, POIs[walk_poi_id].POIRight) != poi_lookup_id(POIs, POIs[1].Code)){
+        	walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POIRight), direction[1]);
+        	Ti.API.info('is right nearer?: ' + walk_poi_id);
+        }
+        else if(direction[0] == "ascending") {
+        	walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POIRight), direction[1]);
+        	Ti.API.info('is right nearer?: ' + walk_poi_id);
+        }
+        if(idbefore == walk_poi_id || poi_lookup_id(POIs, POIs[idbefore].POIBehind) == dest_poi_id){ //if it isn't successful, check behind
+        	walk_poi_id = nav_select_id(idbefore, poi_lookup_id(POIs, POIs[idbefore].POIBehind), direction[1]);
+        	Ti.API.info('is behind nearer? ' + walk_poi_id);
+        }
+        if (walk_poi_id == idbefore){ //are we stuck? Check forward
+        	walk_poi_id = nav_select_id(walk_poi_id, poi_lookup_id(POIs, POIs[walk_poi_id].POIForward), direction[1]);
+        	Ti.API.info('is forward nearer? ' + walk_poi_id);
+        }
+      }
+ 		
+ 		
 
-      if(walk_poi_id != 0 || (walk_poi_id == 0 && walk_poi_id == dest_poi_id)) { //avoid passage through entrance
+      // if(walk_poi_id != 0 || (walk_poi_id == 0 && walk_poi_id == dest_poi_id)) { //avoid passage through entrance
+      if(navpath[j-1] != walk_poi_id){ //avoid doubles
       	navpath[j] = walk_poi_id;
-      	Ti.API.info('451 right vs left is closest: ' + navpath[j]);
+      	Ti.API.info('451 right vs left closest and SAVED: ' + navpath[j]);
       	j++;  	
       }
      
