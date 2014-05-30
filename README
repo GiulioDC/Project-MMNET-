@@ -16,4 +16,28 @@ Noi abbiamo seguito questa guida:
 http://code.tutsplus.com/tutorials/how-to-test-your-apps-on-physical-ios-devices--mobile-13861
 Non è aggiornata all'ultima interfaccia del sito di Apple, ma è la migliore che abbiamo trovato.
 
+Il lancio dell'applicazione si può fare in due modi:
+1. Simulatore: click destro su "idea" nel Project Explorer a destra -> Run As -> iPhone Retina (3.5inch)
+2. iPhone: terminata la procedura di certificazione, comparirà sotto "Run As" anche il device, in cui verrà installata l'app.
+
+Struttura del package:
+1) Sebbene il setup dovrebbe essere fatto in automatico, controllare in tiapp.xml la presenza di "ti.barcode" sotto "modules", e che in "Deployment Targets" siano selezionati "iPhone" e "iPad".
+2) La cartella "modules" contiene il modulo del barcode scanner e non è stata utilizzata da noi (se non per prelevare il codice base).
+3) La cartella "Resources" contiene:
+3a) "images", le varie immagini usate dall'app (e qualcuna in più lasciata per possibile utilizzo). All'interno vi trovate la cartella "QcodeExamples", che possono essere usati per testare l'app (vds dopo).
+3b) "iphone", contine altre immagini usate dall'app
+3c) "app.js", il file che dà l'avvio all'applicazione, e contiene le principali funzioni richiamate da tutta l'applicazione.
+In Resources/UI/handled/ios c'è ApplicationWIndow.js, che è usato per la gestione delle finestre.
+In Resources/UI/common trovate altre cartelle, elencheremo qui solo i file .js:
+a. ApplicationTabGroub: gestisce le tre tab Scan Code, Places e Help
+b. ControlsWindow: contiene la tab padre di "Search Place", è nominata così perché permette di aggiungere altre eventuali opzioni.
+c. HelpWindow: contiene la tab di Help
+d. ScannerWindow: contiene la tab con il QR Code scanner
+e. navigation: contiene la schermata con le indicazioni step-by-step di navigazione, generata alla fine del processo di scelta
+f. places.js: contiene l'elenco degli edifici e dei piani
+g. poilist: contiene l'elenco dei points of interest di un piano
+h. poidetails: contiene la schermata di dettaglio di un determinato POI
+
+Simulazione QR Code Scanner: si può fare ovviamente con un iPhone con l'app installata, altrimenti è sufficiente trascinare l'immagine sul simulatore aperto.
+Verrà aperto il browser e da lì si può salvare nella galleria virtuale del telefono, dove rimarrà anche dopo la chiusura del simulatore.
 
