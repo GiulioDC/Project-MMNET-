@@ -1,18 +1,19 @@
-Welcome to your Appcelerator Titanium Mobile Project
+Welcome to your Appcelerator Titanium Mobile Project.
+Guida per il setup del programma.
 
-This is a blank project.  Start by editing your application's app.js to 
-make your first mobile project using Titanium.
+Prerequisiti: MacOS X con xCode installato.
 
+Installare Titanium Studio:
+1. Andare su http://www.appcelerator.com/titanium/
+2. Effettuare il login con i dati inviati via email
+3. Andare su "My Resources"
+4. Download Titanium Studio for Mac
+5. Cliccare su File -> Import -> Git Repository as New Project 
+6. Sotto "URL" inserire https://github.com/Laevus/idea
 
+Procedura di certificazione Apple Developer:
+Noi abbiamo seguito questa guida:
+http://code.tutsplus.com/tutorials/how-to-test-your-apps-on-physical-ios-devices--mobile-13861
+Non è aggiornata all'ultima interfaccia del sito di Apple, ma è la migliore che abbiamo trovato.
 
-----------------------------------
-Stuff our legal folk make us say:
-
-Appcelerator, Appcelerator Titanium and associated marks and logos are 
-trademarks of Appcelerator, Inc. 
-
-Titanium is Copyright (c) 2008-2013 by Appcelerator, Inc. All Rights Reserved.
-
-Titanium is licensed under the Apache Public License (Version 2). Please
-see the LICENSE file for the full license.
 

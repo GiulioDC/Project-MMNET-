@@ -81,7 +81,7 @@
 
 	function getdata(){
 
-		var filename = "prova20.txt"; // Set the filename
+		var filename = "data.txt"; // Set the filename
 		var xhr = Titanium.Network.createHTTPClient(); // Start the connection
 		var url = "http://www.gstorm.eu/dc.txt";
 
