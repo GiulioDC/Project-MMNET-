@@ -36,8 +36,8 @@ function navigation(_args) {
 	
 	// var startObj = getObjects(json, 'ID', win.start_id);
 	// var endObj = getObjects(json, 'ID', win.end_id);
-	var startObj = getObjects(json, 'Code', "0008");
-	var endObj = getObjects(json, 'Code', "0016");
+	var startObj = getObjects(json, 'Code', "0001");
+	var endObj = getObjects(json, 'Code', "0101");
 	var pois_temp = nav_get_POIs(json, 1, -1);
 	var path = [];
   	path = nav_reach(pois_temp,startObj[0].Code,endObj[0].Code);
@@ -56,7 +56,10 @@ function navigation(_args) {
 	for(i = 0; i < path.length-1; i++) {
 		poi = getObjects(json, 'ID', path[i]);
 		poinext = getObjects(json, 'ID', path[i+1]);
+		
 		key = getKeys(poi[0], poinext[0].Code);
+	
+		
 		Ti.API.info('key [' + i + '] : ' + key);
 		
 		sectionPoiName = Ti.UI.createTableViewSection({headerTitle: 'You are now in front of'	});
@@ -66,7 +69,7 @@ function navigation(_args) {
 		tableview.appendSection(sectionPoiName);
 		 
 		sectionDirection = Ti.UI.createTableViewSection({headerTitle: 'To reach the next POI...'});
-		if(key == 'POILeft') {
+		if(key[0] == 'POILeft' || key[1] == 'POILeft') {
 	   		sectionDirection.add(Ti.UI.createTableViewRow({
 	   			title: 'Turn left and walk ' + poi[0].POILeftDistance + ' steps,',
 	   		}));
@@ -83,7 +86,7 @@ function navigation(_args) {
 			tableview.appendSection(sectionDirection);
 		}//key==POILeft
 		
-		if(key == 'POIRight') {
+		if(key[0] == 'POIRight' || key[1] == 'POIRight') {
 	   		sectionDirection.add(Ti.UI.createTableViewRow({
 	   			title: 'Turn right and walk ' + poi[0].POIRightDistance + ' steps,',
 	   		}));
@@ -100,17 +103,24 @@ function navigation(_args) {
 			tableview.appendSection(sectionDirection);
 		}//key==POIRight
 		
-		if(key == 'POIBehind') {
-	   		sectionDirection.add(Ti.UI.createTableViewRow({
-	   			title: 'Turn back and walk ' + poi[0].POIBehindDistance + ' steps,',
-	   		}));
+		if(key[0] == 'POIBehind' || key[1] == 'POIBehind') {
+			if(poi[0].POIBehindDistance != 0){
+	   			sectionDirection.add(Ti.UI.createTableViewRow({
+	   				title: 'Turn back and walk ' + poi[0].POIBehindDistance + ' steps,',
+	   			}));
+	   		}
+	   		else{
+	   			sectionDirection.add(Ti.UI.createTableViewRow({
+	   				title: 'Turn back and walk ' + poi[0].POIBehindDistance + ' steps,',
+	   			}));
+	   		}
 	   		sectionDirection.add(Ti.UI.createTableViewRow({
 	   			title: 'you will find the POI ' + poi[0].POIBehindDoor + '.',
 	    	}));
 			tableview.appendSection(sectionDirection);
 		}//key==POIBehind
 		
-		if(key == 'POIForward') {
+		if(key[0] == 'POIForward' || key[1] == 'POIForward') {
 	   		sectionDirection.add(Ti.UI.createTableViewRow({
 	   			title: 'Go on and walk ' + poi[0].POIForwardDistance + ' steps,',
 	   		}));
@@ -120,13 +130,13 @@ function navigation(_args) {
 			tableview.appendSection(sectionDirection);
 		}//key==POIForward
 		
-		if(key == 'ID' || key != 'POILeft' && key != 'POIRight' && key != 'POIForward' && key != 'POIBehind'){
+		if(key != 'POILeft' && key != 'POIRight' && key != 'POIForward' && key != 'POIBehind'){
 			keyvalue = getValues(poi[0], 'ID');
 			Ti.API.info('keyvalue: ' + keyvalue);
 			if(poinext[0].ID > poi[0].ID) {
 				keyvaluenext = keyvalue[0]+1;
 			}
-			else{
+			else if (poinext[0].ID < poi[0].ID){
 				keyvaluenext = keyvalue[0]-1;
 			}
 			Ti.API.info('Keyvaluenext: ' + keyvaluenext);
