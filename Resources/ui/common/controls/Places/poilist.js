@@ -15,6 +15,7 @@ function poilist(_args) {
 		showCancel:true,
 		height:43,
 		top:0,
+		touchEnabled:true
 	});
 	
 	var data = [];
@@ -23,8 +24,10 @@ function poilist(_args) {
 		search:search,
 		style: Titanium.UI.iPhone.TableViewStyle.PLAIN,
 		layout:'vertical',
-		top:43
-	});
+		top:43,
+		// hideSearchOnSelection:true,
+		searchAsChild:false
+		});
 	
 
 	Ti.App.fireEvent('getdata');
