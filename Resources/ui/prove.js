@@ -36,8 +36,8 @@ function navigation(_args) {
 	
 	// var startObj = getObjects(json, 'ID', win.start_id);
 	// var endObj = getObjects(json, 'ID', win.end_id);
-	var startObj = getObjects(json, 'Code', "0106");
-	var endObj = getObjects(json, 'Code', "0021");
+	var startObj = getObjects(json, 'Code', "0008");
+	var endObj = getObjects(json, 'Code', "0016");
 	var pois_temp = nav_get_POIs(json, 1, -1);
 	var path = [];
   	path = nav_reach(pois_temp,startObj[0].Code,endObj[0].Code);
@@ -102,7 +102,7 @@ function navigation(_args) {
 		
 		if(key == 'POIBehind') {
 	   		sectionDirection.add(Ti.UI.createTableViewRow({
-	   			title: 'Turn back and walk ' + poi[0].POIBehindDistance + 'steps,',
+	   			title: 'Turn back and walk ' + poi[0].POIBehindDistance + ' steps,',
 	   		}));
 	   		sectionDirection.add(Ti.UI.createTableViewRow({
 	   			title: 'you will find the POI ' + poi[0].POIBehindDoor + '.',
@@ -112,7 +112,7 @@ function navigation(_args) {
 		
 		if(key == 'POIForward') {
 	   		sectionDirection.add(Ti.UI.createTableViewRow({
-	   			title: 'Go on and walk ' + poi[0].POIForwardDistance + 'steps,',
+	   			title: 'Go on and walk ' + poi[0].POIForwardDistance + ' steps,',
 	   		}));
 	   		sectionDirection.add(Ti.UI.createTableViewRow({
 	   			title: 'you will find the POI ' + poi[0].POIForwardDoor + '.',
@@ -120,8 +120,8 @@ function navigation(_args) {
 			tableview.appendSection(sectionDirection);
 		}//key==POIForward
 		
-		if(key == 'ID'){
-			keyvalue = getValues(poi[0], key);
+		if(key == 'ID' || key != 'POILeft' && key != 'POIRight' && key != 'POIForward' && key != 'POIBehind'){
+			keyvalue = getValues(poi[0], 'ID');
 			Ti.API.info('keyvalue: ' + keyvalue);
 			if(poinext[0].ID > poi[0].ID) {
 				keyvaluenext = keyvalue[0]+1;
@@ -140,7 +140,7 @@ function navigation(_args) {
 				Ti.API.info('poibetween[0].POIRightDistance: ' + poibetween[0].POIRightDistance);
 				Ti.API.info('sumsteps: ' + sumsteps);
 				sectionDirection.add(Ti.UI.createTableViewRow({
-	   				title: 'Turn left and walk ' + poi[0].POILeftDistance + ' plus ' + poibetween[0].POIRightDistance + ' steps,',
+	   				title: 'Turn left and walk ' + sumsteps + ' steps,',
 	   			}));
 	   			sectionDirection.add(Ti.UI.createTableViewRow({
 	   				title: 'you will find the POI ' + poibetween[0].POIRightDoor + '.',
