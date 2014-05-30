@@ -5,12 +5,16 @@ function ScannerWindow(title) {
 	});
 var tab = [];
 
+var url = "http://www.gstorm.eu/dc.txt";
+
 Ti.App.fireEvent('getdata');
 Ti.App.fireEvent('getobjects');
 Ti.App.fireEvent('getvalues');
 var temp = getdata();	
 var readText = temp.read();
-json = JSON.parse(readText);
+Ti.API.info(readText);
+// var json = JSON.parse(readText);
+
 	
 var Barcode = require('ti.barcode');
 Barcode.allowRotation = true;
@@ -107,12 +111,9 @@ scanCode.addEventListener('click', function () {
 });
 scrollView.add(scanCode);
 
-/**
- * Create a button that will show the gallery picker.
- */
 var scanImage = Ti.UI.createButton({
     title: 'Scan Image from Gallery',
-    width: 220, height: 40, top: 30,
+    width: 220, height: 40, bottom: 20,
     color: 'white', backgroundColor: 'black', style: 0,
     borderColor: 'white', borderRadius: 10, borderWidth: 1,
     opacity: 1
@@ -141,9 +142,6 @@ function reset() {
     scannedBarcodesCount = 0;
     cancelButton.title = 'Cancel';
 }
-Barcode.addEventListener('error', function (e) {
-    scanResult.text = e.message;
-});
 Barcode.addEventListener('cancel', function (e) {
     Ti.API.info('Cancel received');
 });
@@ -153,7 +151,7 @@ Barcode.addEventListener('success', function (e) {
         scannedBarcodes[e.result] = true;
         scannedBarcodesCount += 1;
         cancelButton.title = 'Finished (' + scannedBarcodesCount + ' Scanned)';
-		
+		var json = JSON.parse(readText);
 		var poiobj = getObjects(json, "Code", e.result);
 		
 		var Window = require('ui/common/controls/Places/poidetails'),

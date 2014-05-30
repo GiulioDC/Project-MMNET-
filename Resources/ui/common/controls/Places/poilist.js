@@ -25,8 +25,6 @@ function poilist(_args) {
 		style: Titanium.UI.iPhone.TableViewStyle.PLAIN,
 		layout:'vertical',
 		top:43,
-		// hideSearchOnSelection:true,
-		searchAsChild:false
 		});
 	
 

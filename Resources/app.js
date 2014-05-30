@@ -25,7 +25,6 @@
 
 })();
 
-	var url = "http://www.gstorm.eu/dc.txt";
 
 	//return an array of objects according to key, value, or key and value matching
 	function getObjects(obj, key, val) {
@@ -82,8 +81,9 @@
 
 	function getdata(){
 
-		var filename = "data.txt"; // Set the filename
+		var filename = "prova2.txt"; // Set the filename
 		var xhr = Titanium.Network.createHTTPClient(); // Start the connection
+		var url = "http://www.gstorm.eu/dc.txt";
 
 		xhr.open("GET",url); 	// Open the connection to the API
 
@@ -119,7 +119,7 @@
 					data.onload = function() {
 
 						// Log to console
-						// Titanium.API.info('Loaded! Status: ' + this.status);
+						Titanium.API.info('Loaded! Status: ' + this.status);
     					// Titanium.API.info('Response Header: ' + this.getResponseHeader('Content-Type'));
     					// Titanium.API.info('Response Text: ' + this.responseText);
     	
@@ -140,7 +140,7 @@
 				create.onload = function() { // If all works fine
 
 					// Log to console
-					Titanium.API.info('Loaded! Status: ' + this.status);
+					Titanium.API.info('Cached! Status: ' + this.status);
     				// Titanium.API.info('Response Header: ' + this.getResponseHeader('Content-Type'));
     				// Titanium.API.info('Response Text: ' + this.responseText);
 
@@ -490,10 +490,7 @@
       		j++;
       	}  	
       }
-     
-  
-      
-      
+    
       
     } //while
       
