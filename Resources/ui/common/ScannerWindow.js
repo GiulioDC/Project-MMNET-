@@ -5,15 +5,11 @@ function ScannerWindow(title) {
 	});
 var tab = [];
 
-var url = "http://www.gstorm.eu/dc.txt";
 
 Ti.App.fireEvent('getdata');
 Ti.App.fireEvent('getobjects');
 Ti.App.fireEvent('getvalues');
 var temp = getdata();	
-var readText = temp.read();
-Ti.API.info(readText);
-// var json = JSON.parse(readText);
 
 	
 var Barcode = require('ti.barcode');
@@ -137,11 +133,13 @@ scrollView.add(scanImage);
  * Now listen for various events from the Barcode module. This is the module's way of communicating with us.
  */
 var scannedBarcodes = {}, scannedBarcodesCount = 0;
+
 function reset() {
     scannedBarcodes = {};
     scannedBarcodesCount = 0;
     cancelButton.title = 'Cancel';
 }
+
 Barcode.addEventListener('cancel', function (e) {
     Ti.API.info('Cancel received');
 });
@@ -151,7 +149,10 @@ Barcode.addEventListener('success', function (e) {
         scannedBarcodes[e.result] = true;
         scannedBarcodesCount += 1;
         cancelButton.title = 'Finished (' + scannedBarcodesCount + ' Scanned)';
-		var json = JSON.parse(readText);
+        
+        var readText = temp.read();
+		Ti.API.info(readText);
+        var json = JSON.parse(readText);
 		var poiobj = getObjects(json, "Code", e.result);
 		
 		var Window = require('ui/common/controls/Places/poidetails'),
