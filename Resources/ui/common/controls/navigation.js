@@ -109,7 +109,7 @@ function navigation(_args) {
 	   		}
 	   		else{
 	   			sectionDirection.add(Ti.UI.createTableViewRow({
-	   				title: 'Turn back and walk ' + poi[0].POIBehindDistance + ' steps,',
+	   				title: 'Turn back, '
 	   			}));
 	   		}
 	   		sectionDirection.add(Ti.UI.createTableViewRow({
@@ -143,7 +143,7 @@ function navigation(_args) {
 			Ti.API.info('keybetween : ' + keybetween);
 			
 			if(keybetween == 'POILeft') {
-				sumsteps = poi[0].POILeftDistance + poibetween[0].POIRightDistance; //fuck
+				sumsteps = poi[0].POILeftDistance + poibetween[0].POIRightDistance;
 				Ti.API.info('poi[0].POILeftDistance : ' + poi[0].POILeftDistance);
 				Ti.API.info('poibetween[0].POIRightDistance: ' + poibetween[0].POIRightDistance);
 				Ti.API.info('sumsteps: ' + sumsteps);
